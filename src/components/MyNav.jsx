@@ -6,7 +6,7 @@ const navigation = [
   { name: 'HomePage', href: '/', current: true },
   { name: 'Characters', href: '#', current: false },
   { name: 'Blog', href: '#', current: false },
-  { name: 'Area Riservata', href: '/reserved', current: false },
+  { name: 'Area Riservata', href: '/login', current: false },
 ]
 
 function classNames(...classes) {
