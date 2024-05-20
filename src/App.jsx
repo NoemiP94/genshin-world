@@ -1,12 +1,17 @@
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import MyNav from './components/MyNav'
+import AreaRiservata from './components/AreaRiservata'
+import Region from './components/Region'
 
 function App() {
   return (
     <BrowserRouter>
       <MyNav />
-      <Routes></Routes>
+      <Routes>
+        <Route path="/reserved" element={<AreaRiservata />} />
+        <Route path="/region" element={<Region />} />
+      </Routes>
     </BrowserRouter>
   )
 }
