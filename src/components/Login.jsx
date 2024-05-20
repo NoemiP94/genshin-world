@@ -1,4 +1,33 @@
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { postLogin } from '../redux/action'
+
 const Login = () => {
+  const [login, setLogin] = useState({
+    email: '',
+    password: '',
+  })
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  //gestione login
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await dispatch(postLogin(login))
+      console.log('Login response', response)
+      if (response.token) {
+        navigate('/reserved', { replace: true })
+      } else {
+        alert('Credenziali errate!')
+      }
+    } catch (error) {
+      console.error('Errore durante il login:', error)
+      alert('Errore durante il login!')
+    }
+  }
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -15,16 +44,21 @@ const Login = () => {
                 htmlFor="email"
                 className="block text-sm font-medium leading-6 "
               >
-                Email address
+                Email*
               </label>
               <div className="mt-2">
                 <input
                   id="email"
                   name="email"
                   type="email"
-                  autoComplete="email"
                   required
                   className="block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  onChange={(e) => {
+                    setLogin({
+                      ...login,
+                      email: e.target.value,
+                    })
+                  }}
                 />
               </div>
             </div>
@@ -35,7 +69,7 @@ const Login = () => {
                   htmlFor="password"
                   className="block text-sm font-medium leading-6 "
                 >
-                  Password
+                  Password*
                 </label>
               </div>
               <div className="mt-2">
@@ -43,9 +77,14 @@ const Login = () => {
                   id="password"
                   name="password"
                   type="password"
-                  autoComplete="current-password"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  onClick={(e) => {
+                    setLogin({
+                      ...login,
+                      password: e.target.value,
+                    })
+                  }}
                 />
               </div>
             </div>
@@ -54,6 +93,7 @@ const Login = () => {
               <button
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                onClick={handleLogin}
               >
                 Sign in
               </button>
