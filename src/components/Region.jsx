@@ -1,4 +1,19 @@
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+
 const Region = () => {
+  const [region, setRegion] = useState({
+    name: '',
+    vision: '',
+    description: '',
+    archon: '',
+  })
+
+  const token = localStorage.getItem('token')
+  const role = localStorage.getItem('role')
+
+  const dispatch = useDispatch()
+
   return (
     <>
       {/* create region */}
@@ -27,6 +42,12 @@ const Region = () => {
                   id="first-name"
                   autoComplete="given-name"
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  onChange={(e) => {
+                    setRegion({
+                      ...region,
+                      name: e.target.value,
+                    })
+                  }}
                 />
               </div>
             </div>
@@ -45,7 +66,14 @@ const Region = () => {
                 name="country"
                 autoComplete="country-name"
                 className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                onChange={(e) => {
+                  setRegion({
+                    ...region,
+                    vision: e.target.value,
+                  })
+                }}
               >
+                <option>Seleziona una visione</option>
                 <option>Anemo</option>
                 <option>Geo</option>
                 <option>Electro</option>
@@ -68,6 +96,12 @@ const Region = () => {
                 rows={3}
                 className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300  "
                 defaultValue={''}
+                onChange={(e) => {
+                  setRegion({
+                    ...region,
+                    description: e.target.value,
+                  })
+                }}
               />
             </div>
           </div>
@@ -83,6 +117,12 @@ const Region = () => {
                 id="last-name"
                 autoComplete="family-name"
                 className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 "
+                onChange={(e) => {
+                  setRegion({
+                    ...region,
+                    archon: e.target.value,
+                  })
+                }}
               />
             </div>
           </div>
