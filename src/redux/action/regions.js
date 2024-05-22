@@ -1,4 +1,5 @@
 export const POST_REGION = 'POST_REGION'
+export const GET_REGION = 'GET_REGION'
 
 export const postRegion = (region, token) => {
   return async (dispatch) => {
@@ -24,6 +25,28 @@ export const postRegion = (region, token) => {
       }
     } catch (error) {
       console.log(error)
+    }
+  }
+}
+
+export const getRegion = () => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/region/getall')
+
+      if (res.ok) {
+        const data = await res.json()
+        console.log('fetch', data)
+        dispatch({
+          type: GET_REGION,
+          payload: data,
+        })
+        console.log('List loaded')
+      } else {
+        throw new Error('Loading of list is failed')
+      }
+    } catch (error) {
+      console.log('Error', error)
     }
   }
 }
