@@ -1,4 +1,5 @@
 export const POST_LOGIN = 'POST_LOGIN'
+export const GET_USERS = 'GET_USERS'
 
 export const postLogin = (login) => {
   return async (dispatch) => {
@@ -30,6 +31,32 @@ export const postLogin = (login) => {
     } catch (error) {
       console.log('Error', error)
       alert('Errore durante il login! Controlla le credenziali e riprova.')
+      throw error
+    }
+  }
+}
+
+export const getAllUsers = (token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/user/getall', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        dispatch({
+          type: GET_USERS,
+          payload: data,
+        })
+        console.log('lista caricata')
+      } else {
+        throw new Error('errore nel caricamento')
+      }
+    } catch (error) {
+      console.log('Error', error)
+      alert('Errore durante il caricamento')
       throw error
     }
   }

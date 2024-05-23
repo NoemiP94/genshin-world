@@ -33,7 +33,7 @@ export const getRegion = () => {
   return async (dispatch) => {
     try {
       const res = await fetch('http://localhost:3001/region/getall')
-
+      console.log('res', res)
       if (res.ok) {
         const data = await res.json()
         console.log('fetch', data)
@@ -47,6 +47,7 @@ export const getRegion = () => {
       }
     } catch (error) {
       console.log('Error', error)
+      throw error
     }
   }
 }
