@@ -23,7 +23,7 @@ const CreateRegion = () => {
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-3">
               <label
-                htmlFor="first-name"
+                htmlFor="name"
                 className="block text-sm font-medium leading-6"
               >
                 Nome
@@ -31,9 +31,9 @@ const CreateRegion = () => {
               <div className="mt-2">
                 <input
                   type="text"
-                  name="first-name"
-                  id="first-name"
-                  autoComplete="given-name"
+                  name="name"
+                  id="name"
+                  autoComplete="name"
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   onChange={(e) => {
                     setRegion({
@@ -48,16 +48,16 @@ const CreateRegion = () => {
 
           <div className="sm:col-span-3 pt-2">
             <label
-              htmlFor="country"
+              htmlFor="vision"
               className="block text-sm font-medium leading-6"
             >
               Visione
             </label>
             <div className="mt-2">
               <select
-                id="country"
-                name="country"
-                autoComplete="country-name"
+                id="vision"
+                name="vision"
+                autoComplete="vision-name"
                 className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                 onChange={(e) => {
                   setRegion({
@@ -86,7 +86,7 @@ const CreateRegion = () => {
               <textarea
                 id="about"
                 name="about"
-                rows={3}
+                rows={5}
                 className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300  "
                 defaultValue={''}
                 onChange={(e) => {
@@ -100,15 +100,15 @@ const CreateRegion = () => {
           </div>
 
           <div className="sm:col-span-3 pt-2">
-            <label htmlFor="last-name" className="block text-sm font-medium">
+            <label htmlFor="archon" className="block text-sm font-medium">
               Archon
             </label>
             <div className="mt-2">
               <input
                 type="text"
-                name="last-name"
-                id="last-name"
-                autoComplete="family-name"
+                name="archon"
+                id="archon"
+                autoComplete="archon"
                 className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 "
                 onChange={(e) => {
                   setRegion({
