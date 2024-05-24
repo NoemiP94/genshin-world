@@ -1,5 +1,6 @@
 export const POST_REGION = 'POST_REGION'
 export const GET_REGION = 'GET_REGION'
+export const PUT_REGION = 'PUT_REGION'
 
 export const postRegion = (region, token) => {
   return async (dispatch) => {
@@ -48,6 +49,34 @@ export const getRegion = () => {
     } catch (error) {
       console.log('Error', error)
       throw error
+    }
+  }
+}
+
+export const updateRegion = (id, updateRegion, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/region/' + id, {
+        method: 'PUT',
+        body: JSON.stringify(updateRegion),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        console.log(data.content)
+        dispatch({
+          type: PUT_REGION,
+          payload: data.content,
+        })
+        alert('Modifica effettuata con successo!')
+      } else {
+        throw new Error('Errore durante la modifica')
+      }
+    } catch (error) {
+      console.log('Error', error)
     }
   }
 }

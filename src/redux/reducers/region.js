@@ -1,8 +1,9 @@
-import { GET_REGION, POST_REGION } from '../action/regions'
+import { GET_REGION, POST_REGION, PUT_REGION } from '../action/regions'
 
 const initialState = {
   region: null,
   list: [],
+  update: '',
 }
 
 const regionReducer = (state = initialState, action) => {
@@ -16,6 +17,11 @@ const regionReducer = (state = initialState, action) => {
       return {
         ...state,
         list: action.payload,
+      }
+    case PUT_REGION:
+      return {
+        ...state,
+        update: action.payload,
       }
     default:
       return state
