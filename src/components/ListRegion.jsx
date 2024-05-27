@@ -23,6 +23,9 @@ const ListRegion = () => {
     console.log('Matita cliccata')
   }
 
+  //provare a fare la fetch di getId
+  //e mandare al modale quello da modificare con la PUT
+
   return (
     <>
       <ul role="list" className="divide-y divide-gray-100 ms-5">
@@ -58,8 +61,10 @@ const ListRegion = () => {
                   </div>
                   <div className="flex my-1">
                     <div
-                      data-modal-target="crud-modal"
-                      data-modal-toggle="crud-modal"
+                      data-twe-toggle="modal"
+                      data-twe-target={<ModalRegion />}
+                      // data-modal-target="crud-modal"
+                      // data-modal-toggle="crud-modal"
                       className="block text-white"
                       onClick={() => handleShowUpdate(region.id)}
                     >
