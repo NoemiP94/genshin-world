@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-const ModalRegion = (setShowModal, regionId, region) => {
+const ModalRegion = (setShow, regionId, region) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
   const [updtRegion, setUpdtRegion] = useState({
     name: regionId,
-    vision: region.vision,
-    description: region.description,
-    archon: region.archon,
+    //vision: region.vision,
+    // description: region.description,
+    // archon: region.archon,
   })
 
   const handleClose = () => {
-    setShowModal(false)
+    setShow(false)
   }
 
   return (
@@ -21,6 +21,8 @@ const ModalRegion = (setShowModal, regionId, region) => {
       tabIndex="-1"
       aria-hidden="true"
       className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+      //show={true}
+      //onHide={handleClose}
     >
       <div className="relative p-4 w-full max-w-md max-h-full">
         {/* <!-- Modal content --> */}

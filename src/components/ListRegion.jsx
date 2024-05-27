@@ -7,17 +7,21 @@ const ListRegion = () => {
   const data = useSelector((state) => state.region.list)
 
   const dispatch = useDispatch()
-  const [showModal, setShowModal] = useState(false)
-
-  const handlePencilUpdate = () => {
-    setShowModal(true)
-    console.log('Matita cliccata')
-  }
 
   useEffect(() => {
     console.log('dati', data)
     dispatch(getRegion())
   }, [dispatch])
+
+  //modal
+  const [show, setShow] = useState(false)
+  const [selected, setSelected] = useState(null)
+
+  const handleShowUpdate = (id) => {
+    setSelected(id), setShow(true)
+    console.log(id)
+    console.log('Matita cliccata')
+  }
 
   return (
     <>
@@ -57,15 +61,13 @@ const ListRegion = () => {
                       data-modal-target="crud-modal"
                       data-modal-toggle="crud-modal"
                       className="block text-white"
+                      onClick={() => handleShowUpdate(region.id)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         fill="currentColor"
                         className="size-6 me-1"
-                        onClick={() => {
-                          handlePencilUpdate()
-                        }}
                       >
                         <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
                       </svg>
@@ -95,9 +97,9 @@ const ListRegion = () => {
                   </div>
                 </div>
               </div>
-              {showModal && (
+              {show && (
                 <ModalRegion
-                  setShowModal={setShowModal}
+                  setShow={setShow}
                   regionId={region.id}
                   region={region}
                 />
