@@ -7,18 +7,18 @@ const ListRegion = () => {
   const data = useSelector((state) => state.region.list)
 
   const dispatch = useDispatch()
-
+  const [showModal, setShowModal] = useState(false)
   useEffect(() => {
     console.log('dati', data)
     dispatch(getRegion())
   }, [dispatch])
 
   //modal
-  const [show, setShow] = useState(false)
+
   const [selected, setSelected] = useState(null)
 
   const handleShowUpdate = (id) => {
-    setSelected(id), setShow(true)
+    setSelected(id), setShowModal(true)
     console.log(id)
     console.log('Matita cliccata')
   }
@@ -60,12 +60,11 @@ const ListRegion = () => {
                     </div>
                   </div>
                   <div className="flex my-1">
-                    <div
-                      data-twe-toggle="modal"
-                      data-twe-target={<ModalRegion />}
-                      // data-modal-target="crud-modal"
-                      // data-modal-toggle="crud-modal"
-                      className="block text-white"
+                    <button
+                      //className="block text-white"
+                      className="bg-blue-200 text-black active:bg-blue-500
+                      //font-bold px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                      type="button"
                       onClick={() => handleShowUpdate(region.id)}
                     >
                       <svg
@@ -76,10 +75,8 @@ const ListRegion = () => {
                       >
                         <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
                       </svg>
-                    </div>
-                    <div>
-                      <p>Modifica regione</p>
-                    </div>
+                      Modifica Regione
+                    </button>
                   </div>
                   <div className="flex my-1">
                     <div>
@@ -102,9 +99,10 @@ const ListRegion = () => {
                   </div>
                 </div>
               </div>
-              {show && (
+              {showModal && (
                 <ModalRegion
-                  setShow={setShow}
+                  showModal={showModal}
+                  setShowModal={setShowModal}
                   regionId={region.id}
                   region={region}
                 />
