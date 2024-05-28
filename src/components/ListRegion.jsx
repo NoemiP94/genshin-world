@@ -5,7 +5,12 @@ import ModalRegion from './ModalRegion'
 
 const ListRegion = () => {
   const data = useSelector((state) => state.region.list)
-
+  const [region, setRegion] = useState({
+    name: '',
+    vision: '',
+    description: '',
+    archon: '',
+  })
   const dispatch = useDispatch()
   const [showModal, setShowModal] = useState(false)
   useEffect(() => {
@@ -16,10 +21,19 @@ const ListRegion = () => {
   //modal
 
   const [selected, setSelected] = useState(null)
+  const [idRegion, setIdRegion] = useState('')
 
-  const handleShowUpdate = (id) => {
-    setSelected(id), setShowModal(true)
-    console.log(id)
+  const handleShowUpdate = (region) => {
+    setSelected(region.id), setShowModal(true)
+    setIdRegion(region.id)
+    setRegion({
+      name: region.name,
+      vision: region.vision,
+      description: region.description,
+      archon: region.archon,
+    })
+    console.log('regione passata', region)
+    console.log('id regione selezionato', region.id)
     console.log('Matita cliccata')
   }
 
@@ -61,11 +75,9 @@ const ListRegion = () => {
                   </div>
                   <div className="flex my-1">
                     <button
-                      //className="block text-white"
-                      className="bg-blue-200 text-black active:bg-blue-500
-                      //font-bold px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                      className="block text-white"
                       type="button"
-                      onClick={() => handleShowUpdate(region.id)}
+                      onClick={() => handleShowUpdate(region)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -103,8 +115,8 @@ const ListRegion = () => {
                 <ModalRegion
                   showModal={showModal}
                   setShowModal={setShowModal}
-                  regionId={region.id}
-                  region={region}
+                  regionId={idRegion}
+                  region={region.id}
                 />
               )}
             </li>

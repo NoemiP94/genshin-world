@@ -1,13 +1,22 @@
 import { useState } from 'react'
 
-const ModalRegion = ({ showModal, setShowModal, region }) => {
-  const [updtRegion, setUpdtRegion] = useState({
+const ModalRegion = ({ showModal, setShowModal, region, regionId }) => {
+  const [newRegion, setNewRegion] = useState({
     id: region.id,
     name: region.name,
     vision: region.vision,
     description: region.description,
     archon: region.archon,
   })
+
+  const handleSending = async (e) => {
+    e.preventDefault()
+    console.log('regionId', regionId)
+    console.log('region', region)
+    console.log('newRegion', newRegion)
+    setShowModal(false)
+  }
+
   return (
     <>
       {showModal ? (
@@ -31,11 +40,12 @@ const ModalRegion = ({ showModal, setShowModal, region }) => {
                     Nome
                   </label>
                   <input
+                    type="text"
                     className="shadow appearance-none border rounded w-full py-2 px-1 text-white"
-                    value={updtRegion.name}
+                    value={newRegion.name}
                     onChange={(e) => {
-                      setUpdtRegion({
-                        ...updtRegion,
+                      setNewRegion({
+                        ...newRegion,
                         name: e.target.value,
                       })
                     }}
@@ -46,10 +56,10 @@ const ModalRegion = ({ showModal, setShowModal, region }) => {
                   <select
                     id="vision"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    value={updtRegion.vision}
+                    value={newRegion.vision}
                     onChange={(e) => {
-                      setUpdtRegion({
-                        ...updtRegion,
+                      setNewRegion({
+                        ...newRegion,
                         vision: e.target.value,
                       })
                     }}
@@ -69,10 +79,10 @@ const ModalRegion = ({ showModal, setShowModal, region }) => {
                     id="description"
                     rows={5}
                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value={updtRegion.description}
+                    value={newRegion.description}
                     onChange={(e) => {
-                      setUpdtRegion({
-                        ...updtRegion,
+                      setNewRegion({
+                        ...newRegion,
                         description: e.target.value,
                       })
                     }}
@@ -82,10 +92,10 @@ const ModalRegion = ({ showModal, setShowModal, region }) => {
                   </label>
                   <input
                     className="shadow appearance-none border rounded w-full py-2 px-1 text-white"
-                    value={updtRegion.archon}
+                    value={newRegion.archon}
                     onChange={(e) => {
-                      setUpdtRegion({
-                        ...updtRegion,
+                      setNewRegion({
+                        ...newRegion,
                         archon: e.target.value,
                       })
                     }}
@@ -96,7 +106,7 @@ const ModalRegion = ({ showModal, setShowModal, region }) => {
                 <button
                   className="text-white bg-yellow-500 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                   type="button"
-                  onClick={() => setShowModal(false)}
+                  onClick={handleSending}
                 >
                   Salva
                 </button>
