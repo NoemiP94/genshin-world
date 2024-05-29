@@ -1,4 +1,9 @@
-import { GET_REGION, POST_REGION, PUT_REGION } from '../action/regions'
+import {
+  DELETE_REGION,
+  GET_REGION,
+  POST_REGION,
+  PUT_REGION,
+} from '../action/regions'
 
 const initialState = {
   region: null,
@@ -22,6 +27,11 @@ const regionReducer = (state = initialState, action) => {
       return {
         ...state,
         update: action.payload,
+      }
+    case DELETE_REGION:
+      return {
+        ...state,
+        list: state.list.filter((region) => region.id !== action.payload),
       }
     default:
       return state

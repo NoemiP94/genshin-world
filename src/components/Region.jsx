@@ -1,8 +1,11 @@
-// import CreateRegion from './CreateRegion'
-// import ListRegion from './ListRegion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getRegion, postRegion, updateRegion } from '../redux/action/regions'
+import {
+  deleteRegion,
+  getRegion,
+  postRegion,
+  updateRegion,
+} from '../redux/action/regions'
 
 const Region = () => {
   const dispatch = useDispatch()
@@ -12,6 +15,10 @@ const Region = () => {
     description: '',
     archon: '',
   })
+
+  useEffect(() => {
+    dispatch(getRegion())
+  }, [dispatch])
 
   const data = useSelector((state) => state.region.list)
   const [updtRegion, setUpdtRegion] = useState(null)
@@ -40,6 +47,16 @@ const Region = () => {
       console.log('Modificato con successo!')
     } catch (error) {
       console.log('Errore nella modifica', error)
+    }
+  }
+
+  const handleDelete = async (region) => {
+    try {
+      await dispatch(deleteRegion(region.id, token))
+      dispatch(getRegion())
+      console.log('Eliminato con successo')
+    } catch (error) {
+      console.log("Errore nell'eliminazione", error)
     }
   }
 
@@ -122,7 +139,6 @@ const Region = () => {
                     name="about"
                     rows={5}
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300  "
-                    defaultValue={''}
                     value={region.description}
                     onChange={(e) => {
                       setRegion({
@@ -239,6 +255,9 @@ const Region = () => {
                             viewBox="0 0 24 24"
                             fill="currentColor"
                             className="size-6 me-1"
+                            onClick={() => {
+                              handleDelete(region)
+                            }}
                           >
                             <path
                               fillRule="evenodd"

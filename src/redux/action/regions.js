@@ -1,6 +1,7 @@
 export const POST_REGION = 'POST_REGION'
 export const GET_REGION = 'GET_REGION'
 export const PUT_REGION = 'PUT_REGION'
+export const DELETE_REGION = 'DELETE_REGION'
 
 export const postRegion = (region, token) => {
   return async (dispatch) => {
@@ -74,6 +75,29 @@ export const updateRegion = (id, updateRegion, token) => {
         alert('Modifica effettuata con successo!')
       } else {
         throw new Error('Errore durante la modifica')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const deleteRegion = (id, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/region/' + id, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      if (res.ok) {
+        dispatch({
+          type: DELETE_REGION,
+          payload: id,
+        })
+      } else {
+        throw new Error("Errore durante l'eliminazione")
       }
     } catch (error) {
       console.log('Error', error)
