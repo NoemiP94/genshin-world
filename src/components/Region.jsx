@@ -6,6 +6,7 @@ import {
   postRegion,
   updateRegion,
 } from '../redux/action/regions'
+import PlaceModal from './PlaceModal'
 
 const Region = () => {
   const dispatch = useDispatch()
@@ -20,6 +21,7 @@ const Region = () => {
     dispatch(getRegion())
   }, [dispatch])
 
+  const [showModal, setShowModal] = useState(false)
   const data = useSelector((state) => state.region.list)
   const [updtRegion, setUpdtRegion] = useState(null)
   const [idRegion, setIdRegion] = useState('')
@@ -58,6 +60,15 @@ const Region = () => {
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
     }
+  }
+
+  const [selected, setSelected] = useState(null)
+  const showCreateModal = (id) => {
+    setSelected(id)
+    setShowModal(true)
+    console.log('Id regione: ', id)
+    console.log('Cliccato')
+    console.log('selezionato', selected)
   }
 
   return (
@@ -180,6 +191,7 @@ const Region = () => {
                   className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   onClick={(e) => {
                     e.preventDefault()
+
                     dispatch(postRegion(region, token))
                   }}
                 >
@@ -213,12 +225,13 @@ const Region = () => {
                     </div>
                     <div className="m-2 ">
                       <div className="flex my-1">
-                        <div>
+                        <button>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="currentColor"
                             className="size-6 me-1"
+                            onClick={() => showCreateModal(region.id)}
                           >
                             <path
                               fillRule="evenodd"
@@ -226,10 +239,8 @@ const Region = () => {
                               clipRule="evenodd"
                             />
                           </svg>
-                        </div>
-                        <div>
-                          <p>Aggiungi località</p>
-                        </div>
+                          Aggiungi località
+                        </button>
                       </div>
                       <div className="flex my-1">
                         <button
@@ -272,6 +283,13 @@ const Region = () => {
                       </div>
                     </div>
                   </div>
+                  {showModal && selected && (
+                    <PlaceModal
+                      showModal={showModal}
+                      setShowModal={setShowModal}
+                      regionId={selected}
+                    />
+                  )}
                 </li>
               ))}
           </ul>
