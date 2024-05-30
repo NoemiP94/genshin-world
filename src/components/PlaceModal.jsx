@@ -12,12 +12,7 @@ const PlaceModal = ({ showModal, setShowModal, regionId }) => {
   })
 
   const token = localStorage.getItem('token')
-  const savePlace = (e) => {
-    e.preventDefault()
-    dispatch(postRegion(place, token))
-    console.log(place)
-    setShowModal(false)
-  }
+
   const handleSending = async (e) => {
     e.preventDefault()
     try {
