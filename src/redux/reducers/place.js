@@ -1,7 +1,8 @@
-import { POST_PLACE } from '../action/places'
+import { GET_POST_PLACE_IMG, POST_PLACE } from '../action/places'
 
 const initialState = {
   place: null,
+  postImage: null,
 }
 
 const placeReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const placeReducer = (state = initialState, action) => {
       return {
         ...state,
         place: action.payload,
+      }
+    case GET_POST_PLACE_IMG:
+      return {
+        ...state,
+        postImage: action.payload,
       }
     default:
       return state
