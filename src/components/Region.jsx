@@ -243,34 +243,33 @@ const Region = () => {
                             aria-hidden="true"
                           />
                         </MenuButton>
-                        {placeData.content &&
-                          placeData.content.map((place) => (
-                            <Transition
-                              enter="transition ease-out duration-100"
-                              enterFrom="transform opacity-0 scale-95"
-                              enterTo="transform opacity-100 scale-100"
-                              leave="transition ease-in duration-75"
-                              leaveFrom="transform opacity-100 scale-100"
-                              leaveTo="transform opacity-0 scale-95"
-                              key={place.id}
-                            >
-                              <MenuItem>
-                                {({ focus }) => (
-                                  <a
-                                    href="#"
-                                    className={classNames(
-                                      focus
-                                        ? 'bg-gray-100 text-white-900'
-                                        : 'text-white-700',
-                                      'block px-4 py-2 text-sm'
-                                    )}
-                                  >
-                                    {place.name}
-                                  </a>
-                                )}
-                              </MenuItem>
-                            </Transition>
-                          ))}
+                        {region.placeList.forEach((place) => (
+                          <Transition
+                            enter="transition ease-out duration-100"
+                            enterFrom="transform opacity-0 scale-95"
+                            enterTo="transform opacity-100 scale-100"
+                            leave="transition ease-in duration-75"
+                            leaveFrom="transform opacity-100 scale-100"
+                            leaveTo="transform opacity-0 scale-95"
+                            key={region.id}
+                          >
+                            <MenuItem>
+                              {({ focus }) => (
+                                <a
+                                  href="#"
+                                  className={classNames(
+                                    focus
+                                      ? 'bg-gray-100 text-white-900'
+                                      : 'text-white-700',
+                                    'block px-4 py-2 text-sm'
+                                  )}
+                                >
+                                  {place.name}
+                                </a>
+                              )}
+                            </MenuItem>
+                          </Transition>
+                        ))}
                       </Menu>
                     </div>
                     <div className="m-2 ">
