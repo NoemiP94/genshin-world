@@ -1,5 +1,6 @@
 export const POST_PLACE = 'POST_PLACE'
 export const GET_POST_PLACE_IMG = 'GET_POST_PLACE_IMG'
+export const GET_PLACE = 'GET_PLACE'
 
 export const postPlace = (place, token) => {
   return async (dispatch) => {
@@ -51,3 +52,23 @@ export const getImage = (image) => ({
   type: GET_POST_PLACE_IMG,
   payload: image,
 })
+
+export const getPlace = () => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/place/getall')
+      if (res.ok) {
+        const data = await res.json()
+        dispatch({
+          type: GET_PLACE,
+          payload: data,
+        })
+        console.log('Lista caricata con successo')
+      } else {
+        throw new Error('List failed')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
