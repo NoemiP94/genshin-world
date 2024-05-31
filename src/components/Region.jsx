@@ -9,6 +9,7 @@ import {
 import PlaceModal from './PlaceModal'
 import { Menu, MenuButton, MenuItem, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
+import { getPlace } from '../redux/action/places'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -16,6 +17,10 @@ function classNames(...classes) {
 
 const Region = () => {
   const dispatch = useDispatch()
+  const placeData = useSelector((state) => state.place.list)
+  useEffect(() => {
+    dispatch(getPlace())
+  }, [dispatch])
   const [region, setRegion] = useState({
     name: '',
     vision: '',
@@ -238,31 +243,34 @@ const Region = () => {
                             aria-hidden="true"
                           />
                         </MenuButton>
-
-                        <Transition
-                          enter="transition ease-out duration-100"
-                          enterFrom="transform opacity-0 scale-95"
-                          enterTo="transform opacity-100 scale-100"
-                          leave="transition ease-in duration-75"
-                          leaveFrom="transform opacity-100 scale-100"
-                          leaveTo="transform opacity-0 scale-95"
-                        >
-                          <MenuItem>
-                            {({ focus }) => (
-                              <a
-                                href="#"
-                                className={classNames(
-                                  focus
-                                    ? 'bg-gray-100 text-gray-900'
-                                    : 'text-gray-700',
-                                  'block px-4 py-2 text-sm'
+                        {placeData.content &&
+                          placeData.content.map((place) => (
+                            <Transition
+                              enter="transition ease-out duration-100"
+                              enterFrom="transform opacity-0 scale-95"
+                              enterTo="transform opacity-100 scale-100"
+                              leave="transition ease-in duration-75"
+                              leaveFrom="transform opacity-100 scale-100"
+                              leaveTo="transform opacity-0 scale-95"
+                              key={place.id}
+                            >
+                              <MenuItem>
+                                {({ focus }) => (
+                                  <a
+                                    href="#"
+                                    className={classNames(
+                                      focus
+                                        ? 'bg-gray-100 text-white-900'
+                                        : 'text-white-700',
+                                      'block px-4 py-2 text-sm'
+                                    )}
+                                  >
+                                    {place.name}
+                                  </a>
                                 )}
-                              >
-                                Account settings
-                              </a>
-                            )}
-                          </MenuItem>
-                        </Transition>
+                              </MenuItem>
+                            </Transition>
+                          ))}
                       </Menu>
                     </div>
                     <div className="m-2 ">
