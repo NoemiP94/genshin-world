@@ -7,9 +7,16 @@ import {
   updateRegion,
 } from '../redux/action/regions'
 import PlaceModal from './PlaceModal'
-import { Menu, MenuButton, MenuItem, Transition } from '@headlessui/react'
+import {
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  Transition,
+} from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
-import { getPlace } from '../redux/action/places'
+import { GET_POST_PLACE_IMG, getPlace, postImage } from '../redux/action/places'
+import ModalImg from './ModalImg'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -81,6 +88,19 @@ const Region = () => {
     console.log('Cliccato')
     console.log('selezionato', selected)
   }
+  const [showImgModal, setShowImgModal] = useState(false)
+  const [selectedPlace, setSelectedPlace] = useState(null)
+  const showModalImg = (placeId) => {
+    setSelectedPlace(placeId)
+    setShowImgModal(true)
+    console.log('Id place:', placeId)
+    console.log('cliccato img modal')
+    console.log('selezionato', selectedPlace)
+  }
+
+  useEffect(() => {
+    console.log('Valore di selectedPlace aggiornato:', selectedPlace)
+  }, [selectedPlace])
 
   return (
     <div>
@@ -256,23 +276,39 @@ const Region = () => {
                                 key={place.id}
                               >
                                 <MenuItem>
-                                  {({ focus }) => (
-                                    <a
-                                      href="#"
-                                      className={classNames(
-                                        focus
-                                          ? 'bg-gray-100 text-white-900'
-                                          : 'text-white-700',
-                                        'block px-4 py-2 text-sm'
-                                      )}
+                                  {/* {({ focus }) => ( */}
+                                  <a
+                                  // href="#"
+                                  // className={classNames(
+                                  //   focus
+                                  //     ? 'bg-gray-100 text-white-900'
+                                  //     : 'text-white-700',
+                                  //   'block px-4 py-2 text-sm'
+                                  // )}
+                                  >
+                                    {place.name}
+                                    <button
+                                      type="button"
+                                      className="inline-flex w-full justify-center bg-yellow-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 sm:ml-3 sm:w-auto"
+                                      onClick={() => showModalImg(place.id)}
                                     >
-                                      {place.name}
-                                    </a>
-                                  )}
+                                      img
+                                    </button>
+                                    <div>mod</div>
+                                    <div>elim</div>
+                                  </a>
+                                  {/* )} */}
                                 </MenuItem>
                               </Transition>
                             ))
                           : null}
+                        {showImgModal && selectedPlace && (
+                          <ModalImg
+                            showImgModal={showImgModal}
+                            setShowImgModal={setShowImgModal}
+                            placeId={selectedPlace}
+                          />
+                        )}
                       </Menu>
                     </div>
                     <div className="m-2 ">
