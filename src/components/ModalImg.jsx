@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux'
 import { GET_POST_PLACE_IMG, getPlace, postImage } from '../redux/action/places'
 import { useState } from 'react'
 
-const ModalImg = (showImgModal, setShowImgModal, placeId) => {
+const ModalImg = ({ showImgModal, setShowImgModal, placeId }) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
   const [formImg, setFormImg] = useState(null)
@@ -12,6 +12,7 @@ const ModalImg = (showImgModal, setShowImgModal, placeId) => {
       console.log('cliccato'), console.log('id luogo', placeId)
       if (formImg) {
         const id_place = placeId ? placeId.toString() : null
+        console.log('id_place: ', id_place)
         if (id_place) {
           const response = await postImage(id_place, formImg, token)
           if (response !== null) {
@@ -23,8 +24,8 @@ const ModalImg = (showImgModal, setShowImgModal, placeId) => {
               payload: response.url,
             })
             alert('immagine caricata')
-            setShowImgModal(false)
             dispatch(getPlace())
+            setShowImgModal(false)
           } else {
             console.log('Image upload successful, but no URL returned')
           }

@@ -40,6 +40,7 @@ export const postImage = async (id_place, formImg, token) => {
     })
     if (res.ok) {
       alert('Immagine salvata correttamente!')
+      // return null
     } else {
       throw new Error('Failed to upload image')
     }

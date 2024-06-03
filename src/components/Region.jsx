@@ -85,23 +85,23 @@ const Region = () => {
     setSelected(id)
     setShowModal(true)
     console.log('Id regione: ', id)
-    console.log('Cliccato')
-    console.log('selezionato', selected)
+    console.log('Regione cliccata')
+    console.log('Regione selezionata', selected)
   }
   const [showImgModal, setShowImgModal] = useState(false)
   const [selectedPlace, setSelectedPlace] = useState(null)
-  const showModalImg = (placeId) => {
-    setSelectedPlace(placeId)
-    setShowImgModal(true)
-    console.log('Id place:', placeId)
-    console.log('cliccato img modal')
-    console.log('selezionato', selectedPlace)
-  }
 
+  const showModalImg = (idPlace) => {
+    console.log('Id place ricevuto :', idPlace)
+    setSelectedPlace(idPlace)
+    setShowImgModal(true)
+
+    console.log('Luogo cliccato')
+    console.log('Luogo selezionato', selectedPlace)
+  }
   useEffect(() => {
     console.log('Valore di selectedPlace aggiornato:', selectedPlace)
   }, [selectedPlace])
-
   return (
     <div>
       <h2 className="mt-5">Gestione Regioni di Teyvat</h2>
