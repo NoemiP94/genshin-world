@@ -15,7 +15,12 @@ import {
   Transition,
 } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
-import { GET_POST_PLACE_IMG, getPlace, postImage } from '../redux/action/places'
+import {
+  GET_POST_PLACE_IMG,
+  deletePlace,
+  getPlace,
+  postImage,
+} from '../redux/action/places'
 import ModalImg from './ModalImg'
 
 function classNames(...classes) {
@@ -60,6 +65,8 @@ const Region = () => {
     console.log('Matita cliccata')
   }
 
+  //UPDATE REGION
+
   const handleUpdate = async () => {
     try {
       await dispatch(updateRegion(idRegion, region, token))
@@ -69,6 +76,8 @@ const Region = () => {
       console.log('Errore nella modifica', error)
     }
   }
+
+  //DELETE REGION
 
   const handleDelete = async (region) => {
     try {
@@ -80,6 +89,7 @@ const Region = () => {
     }
   }
 
+  //MODALE PLACE
   const [selected, setSelected] = useState(null)
   const showCreateModal = (id) => {
     setSelected(id)
@@ -88,6 +98,8 @@ const Region = () => {
     console.log('Regione cliccata')
     console.log('Regione selezionata', selected)
   }
+
+  //MODALE IMG
   const [showImgModal, setShowImgModal] = useState(false)
   const [selectedPlace, setSelectedPlace] = useState(null)
 
@@ -99,9 +111,20 @@ const Region = () => {
     console.log('Luogo cliccato')
     console.log('Luogo selezionato', selectedPlace)
   }
-  // useEffect(() => {
-  //   console.log('Valore di selectedPlace aggiornato:', selectedPlace)
-  // }, [selectedPlace])
+
+  //DELETE PLACE
+  const handleDeletePlace = async (placeId) => {
+    console.log('place id delete', placeId)
+    try {
+      console.log(placeId)
+      await dispatch(deletePlace(placeId, token))
+      dispatch(getPlace())
+      alert('Eliminato con successo!')
+    } catch (error) {
+      console.log("Errore nell'eliminazione", error)
+    }
+  }
+
   return (
     <div>
       <h2 className="mt-5">Gestione Regioni di Teyvat</h2>
@@ -275,8 +298,9 @@ const Region = () => {
                                 leaveTo="transform opacity-0 scale-95"
                                 key={place.id}
                               >
-                                <MenuItem>
+                                <MenuItem className="flex">
                                   {/* {({ focus }) => ( */}
+
                                   <a
                                   // href="#"
                                   // className={classNames(
@@ -287,16 +311,30 @@ const Region = () => {
                                   // )}
                                   >
                                     {place.name}
-                                    {/* id: {place.id} */}
+                                    id: {place.id}
                                     <button
                                       type="button"
-                                      className="inline-flex w-full justify-center bg-yellow-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 sm:ml-3 sm:w-auto"
+                                      className="inline-flex w-full justify-center bg-green-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 sm:ml-3 sm:w-auto"
                                       onClick={() => showModalImg(place.id)}
                                     >
                                       img
                                     </button>
-                                    <div>mod</div>
-                                    <div>elim</div>
+                                    <button
+                                      type="button"
+                                      className="inline-flex w-full justify-center bg-yellow-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 sm:ml-3 sm:w-auto"
+                                      //onClick={() => showModalImg(place.id)}
+                                    >
+                                      modifica
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="inline-flex w-full justify-center bg-red-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 sm:ml-3 sm:w-auto"
+                                      onClick={() =>
+                                        handleDeletePlace(place.id)
+                                      }
+                                    >
+                                      elimina
+                                    </button>
                                   </a>
                                   {/* )} */}
                                 </MenuItem>

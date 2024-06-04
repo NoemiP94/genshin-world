@@ -77,6 +77,7 @@ export const getPlace = () => {
 
 export const deletePlace = (id, token) => {
   return async (dispatch) => {
+    console.log('id ricevuto:', id)
     try {
       const res = await fetch('http://localhost:3001/place/' + id, {
         method: 'DELETE',
