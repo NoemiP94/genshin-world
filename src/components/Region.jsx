@@ -287,7 +287,7 @@ const Region = () => {
                                   // )}
                                   >
                                     {place.name}
-                                    id: {place.id}
+                                    {/* id: {place.id} */}
                                     <button
                                       type="button"
                                       className="inline-flex w-full justify-center bg-yellow-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 sm:ml-3 sm:w-auto"

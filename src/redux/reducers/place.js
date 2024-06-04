@@ -1,4 +1,9 @@
-import { GET_PLACE, GET_POST_PLACE_IMG, POST_PLACE } from '../action/places'
+import {
+  DELETE_PLACE,
+  GET_PLACE,
+  GET_POST_PLACE_IMG,
+  POST_PLACE,
+} from '../action/places'
 
 const initialState = {
   place: null,
@@ -22,6 +27,11 @@ const placeReducer = (state = initialState, action) => {
       return {
         ...state,
         list: action.payload,
+      }
+    case DELETE_PLACE:
+      return {
+        ...state,
+        list: state.list.filter((place) => place.id !== action.payload),
       }
     default:
       return state

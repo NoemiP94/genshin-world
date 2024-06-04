@@ -1,6 +1,7 @@
 export const POST_PLACE = 'POST_PLACE'
 export const GET_POST_PLACE_IMG = 'GET_POST_PLACE_IMG'
 export const GET_PLACE = 'GET_PLACE'
+export const DELETE_PLACE = 'DELETE_PLACE'
 
 export const postPlace = (place, token) => {
   return async (dispatch) => {
@@ -67,6 +68,29 @@ export const getPlace = () => {
         console.log('Lista caricata con successo')
       } else {
         throw new Error('List failed')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const deletePlace = (id, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/place/' + id, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      if (res.ok) {
+        dispatch({
+          type: DELETE_PLACE,
+          payload: id,
+        })
+      } else {
+        throw new Error('Error deleting place')
       }
     } catch (error) {
       console.log('Error', error)
