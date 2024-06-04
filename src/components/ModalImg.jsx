@@ -7,25 +7,30 @@ const ModalImg = ({ showImgModal, setShowImgModal, placeId }) => {
   const dispatch = useDispatch()
   const [formImg, setFormImg] = useState(null)
 
-  const handleUploadImage = async (placeId) => {
+  const handleUploadImage = async (id) => {
     try {
-      console.log('cliccato'), console.log('id luogo', placeId)
+      console.log('cliccato'), console.log('id luogo', id)
+      console.log(placeId)
+
       if (formImg) {
-        const id_place = placeId ? placeId.toString() : null
+        console.log('formImg', formImg)
+        const id_place = id ? id.toString() : null
         console.log('id_place: ', id_place)
         if (id_place) {
           const response = await postImage(id_place, formImg, token)
+          console.log('response', response)
           if (response !== null) {
             console.log('Immagine caricata correttamente', response)
-            console.log('id luogo', placeId)
+            console.log('id luogo', id)
             console.log('altro id luogo', id_place)
             dispatch({
               type: GET_POST_PLACE_IMG,
               payload: response.url,
             })
+
             alert('immagine caricata')
-            dispatch(getPlace())
-            setShowImgModal(false)
+
+            //dispatch(getPlace())
           } else {
             console.log('Image upload successful, but no URL returned')
           }
@@ -38,6 +43,10 @@ const ModalImg = ({ showImgModal, setShowImgModal, placeId }) => {
     }
   }
 
+  const handleSave = (id) => {
+    handleUploadImage(id)
+    setShowImgModal(false)
+  }
   return (
     <>
       <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-51 outline-none focus:outline-none">
@@ -59,6 +68,14 @@ const ModalImg = ({ showImgModal, setShowImgModal, placeId }) => {
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-1 "
                   type="file"
+                  onChange={(e) => {
+                    const file = e.target.files[0]
+                    if (file) {
+                      const formData = new FormData()
+                      formData.append('image', file)
+                      setFormImg(formData)
+                    }
+                  }}
                 />
               </form>
             </div>
@@ -66,7 +83,7 @@ const ModalImg = ({ showImgModal, setShowImgModal, placeId }) => {
               <button
                 className="text-white bg-yellow-500 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                 type="button"
-                onClick={() => handleUploadImage(placeId)}
+                onClick={() => handleSave(placeId)}
               >
                 Salva
               </button>

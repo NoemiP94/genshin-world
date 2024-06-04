@@ -99,9 +99,9 @@ const Region = () => {
     console.log('Luogo cliccato')
     console.log('Luogo selezionato', selectedPlace)
   }
-  useEffect(() => {
-    console.log('Valore di selectedPlace aggiornato:', selectedPlace)
-  }, [selectedPlace])
+  // useEffect(() => {
+  //   console.log('Valore di selectedPlace aggiornato:', selectedPlace)
+  // }, [selectedPlace])
   return (
     <div>
       <h2 className="mt-5">Gestione Regioni di Teyvat</h2>
@@ -287,6 +287,7 @@ const Region = () => {
                                   // )}
                                   >
                                     {place.name}
+                                    id: {place.id}
                                     <button
                                       type="button"
                                       className="inline-flex w-full justify-center bg-yellow-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 sm:ml-3 sm:w-auto"
