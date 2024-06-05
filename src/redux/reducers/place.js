@@ -3,12 +3,14 @@ import {
   GET_PLACE,
   GET_POST_PLACE_IMG,
   POST_PLACE,
+  PUT_PLACE,
 } from '../action/places'
 
 const initialState = {
+  list: [],
   place: null,
   postImage: null,
-  list: [],
+  update: '',
 }
 
 const placeReducer = (state = initialState, action) => {
@@ -27,6 +29,11 @@ const placeReducer = (state = initialState, action) => {
       return {
         ...state,
         list: action.payload,
+      }
+    case PUT_PLACE:
+      return {
+        ...state,
+        update: action.payload,
       }
     case DELETE_PLACE:
       return {

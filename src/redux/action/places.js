@@ -2,6 +2,7 @@ export const POST_PLACE = 'POST_PLACE'
 export const GET_POST_PLACE_IMG = 'GET_POST_PLACE_IMG'
 export const GET_PLACE = 'GET_PLACE'
 export const DELETE_PLACE = 'DELETE_PLACE'
+export const PUT_PLACE = 'PUT_PLACE'
 
 export const postPlace = (place, token) => {
   return async (dispatch) => {
@@ -70,7 +71,7 @@ export const getPlace = () => {
         throw new Error('List failed')
       }
     } catch (error) {
-      console.log('Error', error)
+      console.log('Error get', error)
     }
   }
 }
@@ -94,7 +95,35 @@ export const deletePlace = (id, token) => {
         throw new Error('Error deleting place')
       }
     } catch (error) {
-      console.log('Error', error)
+      console.log('Error delete', error)
+    }
+  }
+}
+
+export const updatePlace = (id, updatePlace, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/place/' + id, {
+        method: 'PUT',
+        body: JSON.stringify(updatePlace),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        console.log(data.content)
+        dispatch({
+          type: PUT_PLACE,
+          payload: data.content,
+        })
+        alert('Modifica effettuata con successo!')
+      } else {
+        throw new Error('Errore durante la modifica')
+      }
+    } catch (error) {
+      console.log('Error put', error)
     }
   }
 }

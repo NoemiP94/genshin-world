@@ -116,13 +116,21 @@ const Region = () => {
   const handleDeletePlace = async (placeId) => {
     console.log('place id delete', placeId)
     try {
-      console.log(placeId)
       await dispatch(deletePlace(placeId, token))
-      dispatch(getPlace())
-      alert('Eliminato con successo!')
+      await dispatch(getPlace())
+      console.log('Eliminato con successo!')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
     }
+  }
+
+  //UPDATE PLACE
+  const handleUpdatePlace = (id) => {
+    setSelected(id)
+    setShowModal(true)
+    console.log('place passato', id)
+    console.log('id place selezionato', selected)
+    console.log('Pulsante cliccato')
   }
 
   return (
@@ -322,7 +330,9 @@ const Region = () => {
                                     <button
                                       type="button"
                                       className="inline-flex w-full justify-center bg-yellow-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 sm:ml-3 sm:w-auto"
-                                      //onClick={() => showModalImg(place.id)}
+                                      onClick={() =>
+                                        handleUpdatePlace(place.id)
+                                      }
                                     >
                                       modifica
                                     </button>
