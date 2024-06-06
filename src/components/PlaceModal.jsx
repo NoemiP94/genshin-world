@@ -5,26 +5,26 @@ import { getSinglePage, postPlace } from '../redux/action/places'
 
 const PlaceModal = ({ showModal, setShowModal, regionId, placeId, region }) => {
   const dispatch = useDispatch()
-  const id = placeId
-  const singlePlace = useSelector((state) => state.place.singlePlace)
+  // const id = placeId
+  // const singlePlace = useSelector((state) => state.place.singlePlace)
   const [place, setPlace] = useState({
     name: '',
     description: '',
     region_id: regionId,
   })
 
-  useEffect(() => {
-    dispatch(getSinglePage(id, token))
-    console.log('id ricevuto: ', id)
-  }, [dispatch, id])
+  // useEffect(() => {
+  //   dispatch(getSinglePage(id, token))
+  //   console.log('id ricevuto: ', id)
+  // }, [dispatch, id])
 
   const token = localStorage.getItem('token')
 
-  const [newPlace, setNewPlace] = useState({
-    id: singlePlace.id,
-    name: singlePlace.name,
-    description: singlePlace.description,
-  })
+  // const [newPlace, setNewPlace] = useState({
+  //   id: singlePlace.id,
+  //   name: singlePlace.name,
+  //   description: singlePlace.description,
+  // })
 
   const handleSending = async (e) => {
     e.preventDefault()
@@ -65,7 +65,7 @@ const PlaceModal = ({ showModal, setShowModal, regionId, placeId, region }) => {
                 </label>
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-1"
-                  value={newPlace.name}
+                  // value={newPlace.name}
                   onChange={(e) => {
                     setPlace({
                       ...place,
@@ -81,7 +81,7 @@ const PlaceModal = ({ showModal, setShowModal, regionId, placeId, region }) => {
                   name="about"
                   rows={5}
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300  "
-                  value={newPlace.description}
+                  //value={newPlace.description}
                   onChange={(e) => {
                     setPlace({
                       ...place,

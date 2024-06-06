@@ -126,7 +126,7 @@ const Region = () => {
 
   //UPDATE PLACE
   const handleUpdatePlace = (id) => {
-    setSelectedPlace(id)
+    setSelected(id)
     setShowModal(true)
     console.log('place passato', id)
     console.log('id place selezionato', selected)
