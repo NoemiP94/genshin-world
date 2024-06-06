@@ -4,6 +4,7 @@ import {
   GET_POST_PLACE_IMG,
   POST_PLACE,
   PUT_PLACE,
+  SINGLE_PLACE,
 } from '../action/places'
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
   place: null,
   postImage: null,
   update: '',
+  singlePlace: null,
 }
 
 const placeReducer = (state = initialState, action) => {
@@ -34,6 +36,11 @@ const placeReducer = (state = initialState, action) => {
       return {
         ...state,
         update: action.payload,
+      }
+    case SINGLE_PLACE:
+      return {
+        ...state,
+        singlePlace: action.payload,
       }
     case DELETE_PLACE:
       return {

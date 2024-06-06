@@ -1,17 +1,30 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getRegion } from '../redux/action/regions'
-import { useDispatch } from 'react-redux'
-import { postPlace } from '../redux/action/places'
+import { useDispatch, useSelector } from 'react-redux'
+import { getSinglePage, postPlace } from '../redux/action/places'
 
-const PlaceModal = ({ showModal, setShowModal, regionId }) => {
+const PlaceModal = ({ showModal, setShowModal, regionId, placeId, region }) => {
   const dispatch = useDispatch()
+  const id = placeId
+  const singlePlace = useSelector((state) => state.place.singlePlace)
   const [place, setPlace] = useState({
     name: '',
     description: '',
     region_id: regionId,
   })
 
+  useEffect(() => {
+    dispatch(getSinglePage(id, token))
+    console.log('id ricevuto: ', id)
+  }, [dispatch, id])
+
   const token = localStorage.getItem('token')
+
+  const [newPlace, setNewPlace] = useState({
+    id: singlePlace.id,
+    name: singlePlace.name,
+    description: singlePlace.description,
+  })
 
   const handleSending = async (e) => {
     e.preventDefault()
@@ -19,6 +32,7 @@ const PlaceModal = ({ showModal, setShowModal, regionId }) => {
       await dispatch(postPlace(place, token))
       setShowModal(false)
       dispatch(getRegion())
+
       //setShowImgModal(true)
       //console.log('modale immagine', showImgModal)
     } catch (error) {
@@ -51,6 +65,7 @@ const PlaceModal = ({ showModal, setShowModal, regionId }) => {
                 </label>
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-1"
+                  value={newPlace.name}
                   onChange={(e) => {
                     setPlace({
                       ...place,
@@ -66,6 +81,7 @@ const PlaceModal = ({ showModal, setShowModal, regionId }) => {
                   name="about"
                   rows={5}
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300  "
+                  value={newPlace.description}
                   onChange={(e) => {
                     setPlace({
                       ...place,

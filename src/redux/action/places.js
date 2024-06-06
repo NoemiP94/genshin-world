@@ -3,6 +3,7 @@ export const GET_POST_PLACE_IMG = 'GET_POST_PLACE_IMG'
 export const GET_PLACE = 'GET_PLACE'
 export const DELETE_PLACE = 'DELETE_PLACE'
 export const PUT_PLACE = 'PUT_PLACE'
+export const SINGLE_PLACE = 'SINGLE_PLACE'
 
 export const postPlace = (place, token) => {
   return async (dispatch) => {
@@ -124,6 +125,32 @@ export const updatePlace = (id, updatePlace, token) => {
       }
     } catch (error) {
       console.log('Error put', error)
+    }
+  }
+}
+
+export const getSinglePage = (id, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/place/detail/' + id, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        console.log('SinglePlace: ', data)
+        dispatch({
+          type: SINGLE_PLACE,
+          payload: data,
+        })
+        console.log('SinglePlace load correctly')
+      } else {
+        throw new Error('Loading failed')
+      }
+    } catch (error) {
+      console.log('Error singlePlace: ', error)
     }
   }
 }
