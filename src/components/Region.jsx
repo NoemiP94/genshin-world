@@ -22,6 +22,7 @@ import {
   postImage,
 } from '../redux/action/places'
 import ModalImg from './ModalImg'
+import UpdatePlaceModal from './UpdatePlaceModal'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -109,6 +110,15 @@ const Region = () => {
     setShowImgModal(true)
 
     console.log('Luogo cliccato')
+    console.log('Luogo selezionato', selectedPlace)
+  }
+
+  //MODALE UPDATE PLACE
+  const [showUpdtModal, setShowUpdtModal] = useState(null)
+  const showUpdatePlaceModal = (id) => {
+    console.log('id ricevuto: ', id)
+    setSelectedPlace(id)
+    setShowUpdtModal(true)
     console.log('Luogo selezionato', selectedPlace)
   }
 
@@ -331,7 +341,7 @@ const Region = () => {
                                       type="button"
                                       className="inline-flex w-full justify-center bg-yellow-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 sm:ml-3 sm:w-auto"
                                       onClick={() =>
-                                        handleUpdatePlace(place.id)
+                                        showUpdatePlaceModal(place.id)
                                       }
                                     >
                                       modifica
@@ -345,6 +355,15 @@ const Region = () => {
                                     >
                                       elimina
                                     </button>
+                                    {showUpdtModal && selectedPlace && (
+                                      <UpdatePlaceModal
+                                        showModal={showUpdtModal}
+                                        setShowModal={setShowUpdtModal}
+                                        placeId={selectedPlace}
+                                        place={place}
+                                        region={region}
+                                      />
+                                    )}
                                   </a>
                                   {/* )} */}
                                 </MenuItem>

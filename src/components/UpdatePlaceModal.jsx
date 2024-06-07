@@ -1,31 +1,35 @@
-import { useState } from 'react'
-import { getRegion } from '../redux/action/regions'
-import { useDispatch } from 'react-redux'
-import { postPlace } from '../redux/action/places'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getSinglePage, postPlace } from '../redux/action/places'
 
-const PlaceModal = ({ showModal, setShowModal, regionId }) => {
+const UpdatePlaceModal = ({ setShowModal, place, placeId, region }) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
+  const id = placeId
+  //const singlePlace = useSelector((state) => state.place.singlePlace)
 
-  const [place, setPlace] = useState({
-    name: '',
-    description: '',
-    region_id: regionId,
+  // useEffect(() => {
+  //   dispatch(getSinglePage(id, token))
+  //   console.log('id ricevuto: ', id)
+  // }, [dispatch, id])
+
+  const [newPlace, setNewPlace] = useState({
+    id: place.id,
+    name: place.name,
+    description: place.description,
+    region_id: place.region_id,
   })
 
-  const handleSending = async (e) => {
-    e.preventDefault()
-    try {
-      await dispatch(postPlace(place, token))
-      setShowModal(false)
-      dispatch(getRegion())
-
-      //setShowImgModal(true)
-      //console.log('modale immagine', showImgModal)
-    } catch (error) {
-      console.log('Error', error)
-    }
-  }
+  // const handleSending = async (e) => {
+  //   e.preventDefault()
+  //   try {
+  //     await dispatch(postPlace(place, token))
+  //     setShowModal(false)
+  //     dispatch(getRegion())
+  //   } catch (error) {
+  //     console.log('Error', error)
+  //   }
+  // }
 
   return (
     <>
@@ -34,7 +38,7 @@ const PlaceModal = ({ showModal, setShowModal, regionId }) => {
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
               <h3 className="text-3xl font=semibold text-black">
-                Aggiungi luogo
+                Modifica luogo
               </h3>
               <button
                 className="bg-transparent border-0 text-black float-right"
@@ -52,12 +56,13 @@ const PlaceModal = ({ showModal, setShowModal, regionId }) => {
                 </label>
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-1"
-                  onChange={(e) => {
-                    setPlace({
-                      ...place,
-                      name: e.target.value,
-                    })
-                  }}
+                  //value={newPlace.name}
+                  // onChange={(e) => {
+                  //   setPlace({
+                  //     ...place,
+                  //     name: e.target.value,
+                  //   })
+                  // }}
                 />
                 <label className="block text-black text-sm font-bold mb-1">
                   Descrizione
@@ -67,12 +72,13 @@ const PlaceModal = ({ showModal, setShowModal, regionId }) => {
                   name="about"
                   rows={5}
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300  "
-                  onChange={(e) => {
-                    setPlace({
-                      ...place,
-                      description: e.target.value,
-                    })
-                  }}
+                  //value={newPlace.description}
+                  // onChange={(e) => {
+                  //   setPlace({
+                  //     ...place,
+                  //     description: e.target.value,
+                  //   })
+                  // }}
                 />
               </form>
             </div>
@@ -86,9 +92,9 @@ const PlaceModal = ({ showModal, setShowModal, regionId }) => {
               <button
                 className="text-white bg-yellow-500 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                 type="button"
-                onClick={handleSending}
+                // onClick={handleSending}
               >
-                Salva
+                Modifica
               </button>
             </div>
           </div>
@@ -98,4 +104,4 @@ const PlaceModal = ({ showModal, setShowModal, regionId }) => {
   )
 }
 
-export default PlaceModal
+export default UpdatePlaceModal
