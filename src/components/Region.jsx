@@ -91,36 +91,25 @@ const Region = () => {
     }
   }
 
-  //MODALE PLACE
-  const [selected, setSelected] = useState(null)
-  const showCreateModal = (id) => {
-    setSelected(id)
-    setShowModal(true)
-    console.log('Id regione: ', id)
-    console.log('Regione cliccata')
-    console.log('Regione selezionata', selected)
-  }
+  //UPDATE PLACE
+  const [place, setPlace] = useState(null)
+  const [newPlace, setNewPlace] = useState(null)
+  const [idPlace, setIdPlace] = useState('')
 
-  //MODALE IMG
-  // const [showImgModal, setShowImgModal] = useState(false)
-  // const [selectedPlace, setSelectedPlace] = useState(null)
-
-  // const showModalImg = (idPlace) => {
-  //   console.log('Id place ricevuto :', idPlace)
-  //   setSelectedPlace(idPlace)
-  //   setShowImgModal(true)
-
-  //   console.log('Luogo cliccato')
-  //   console.log('Luogo selezionato', selectedPlace)
-  // }
-
-  //MODALE UPDATE PLACE
-  const [showUpdtModal, setShowUpdtModal] = useState(null)
-  const showUpdatePlaceModal = (id) => {
-    console.log('id ricevuto: ', id)
-    setSelectedPlace(id)
-    setShowUpdtModal(true)
-    console.log('Luogo selezionato', selectedPlace)
+  const handleUpdateButton = async (place, region) => {
+    console.log('Bottone modifica cliccato')
+    console.log('Place da modificare: ', place)
+    console.log('id region: ', region)
+    setNewPlace(place)
+    setIdPlace(place.id)
+    console.log('idPlace: ', idPlace)
+    setPlace((prevPlace) => ({
+      ...prevPlace,
+      name: place.name,
+      description: place.description,
+      id: place.id,
+      region_id: region.id,
+    }))
   }
 
   //DELETE PLACE
@@ -133,15 +122,6 @@ const Region = () => {
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
     }
-  }
-
-  //UPDATE PLACE
-  const handleUpdatePlace = (id) => {
-    setSelected(id)
-    setShowModal(true)
-    console.log('place passato', id)
-    console.log('id place selezionato', selected)
-    console.log('Pulsante cliccato')
   }
 
   return (
@@ -330,23 +310,16 @@ const Region = () => {
                                   // )}
                                   >
                                     {place.name}
-                                    {/* id: {place.id} */}
-                                    {/* <button
-                                      type="button"
-                                      className="inline-flex w-full justify-center bg-green-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 sm:ml-3 sm:w-auto"
-                                      onClick={() => showModalImg(place.id)}
-                                    >
-                                      img
-                                    </button> */}
-                                    {/* <button
+
+                                    <button
                                       type="button"
                                       className="inline-flex w-full justify-center bg-yellow-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 sm:ml-3 sm:w-auto"
                                       onClick={() =>
-                                        showUpdatePlaceModal(place.id)
+                                        handleUpdateButton(place, region.id)
                                       }
                                     >
                                       modifica
-                                    </button> */}
+                                    </button>
                                     <button
                                       type="button"
                                       className="inline-flex w-full justify-center bg-red-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 sm:ml-3 sm:w-auto"
@@ -356,49 +329,15 @@ const Region = () => {
                                     >
                                       elimina
                                     </button>
-                                    {/* {showUpdtModal && selectedPlace && (
-                                      <UpdatePlaceModal
-                                        showModal={showUpdtModal}
-                                        setShowModal={setShowUpdtModal}
-                                        placeId={selectedPlace}
-                                        place={place}
-                                        region={region}
-                                      />
-                                    )} */}
                                   </a>
                                   {/* )} */}
                                 </MenuItem>
                               </Transition>
                             ))
                           : null}
-                        {/* {showImgModal && selectedPlace && (
-                          <ModalImg
-                            showImgModal={showImgModal}
-                            setShowImgModal={setShowImgModal}
-                            placeId={selectedPlace}
-                          />
-                        )} */}
                       </Menu>
                     </div>
                     <div className="m-2 ">
-                      {/* <div className="flex my-1">
-                        <button>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            className="size-6 me-1"
-                            onClick={() => showCreateModal(region.id)}
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          Aggiungi località
-                        </button>
-                      </div> */}
                       <div className="flex my-1">
                         <button
                           className="block text-white"
@@ -440,22 +379,12 @@ const Region = () => {
                       </div>
                     </div>
                   </div>
-
-                  {/* {showModal && selected && (
-                    <PlaceModal
-                      showModal={showModal}
-                      setShowModal={setShowModal}
-                      regionId={selected}
-                      placeId={selectedPlace}
-                      region={region}
-                    />
-                  )} */}
                 </li>
               ))}
           </ul>
         </div>
         <div>
-          <Place />
+          <Place region={region} idPlace={idPlace} />
         </div>
       </div>
     </div>

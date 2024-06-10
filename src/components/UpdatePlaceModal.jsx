@@ -13,12 +13,12 @@ const UpdatePlaceModal = ({ setShowModal, place, placeId, region }) => {
   //   console.log('id ricevuto: ', id)
   // }, [dispatch, id])
 
-  const [newPlace, setNewPlace] = useState({
-    id: place.id,
-    name: place.name,
-    description: place.description,
-    region_id: place.region_id,
-  })
+  // const [newPlace, setNewPlace] = useState({
+  //   id: place.id,
+  //   name: place.name,
+  //   description: place.description,
+  //   region_id: place.region_id,
+  // })
 
   // const handleSending = async (e) => {
   //   e.preventDefault()
