@@ -118,6 +118,7 @@ const Region = () => {
     try {
       await dispatch(deletePlace(placeId, token))
       await dispatch(getPlace())
+      await dispatch(getRegion())
       console.log('Eliminato con successo!')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
