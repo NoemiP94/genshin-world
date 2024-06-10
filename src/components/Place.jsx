@@ -55,7 +55,7 @@ const Place = ({ region, idPlace }) => {
   }
 
   return (
-    <div>
+    <div className="flex">
       {/* CREAZIONE LUOGO   */}
       <div>
         <form className="w-64 text-white">

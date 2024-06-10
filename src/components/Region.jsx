@@ -6,23 +6,9 @@ import {
   postRegion,
   updateRegion,
 } from '../redux/action/regions'
-import PlaceModal from './PlaceModal'
-import {
-  Button,
-  Menu,
-  MenuButton,
-  MenuItem,
-  Transition,
-} from '@headlessui/react'
+import { Menu, MenuButton, MenuItem, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
-import {
-  GET_POST_PLACE_IMG,
-  deletePlace,
-  getPlace,
-  postImage,
-} from '../redux/action/places'
-import ModalImg from './ModalImg'
-import UpdatePlaceModal from './UpdatePlaceModal'
+import { deletePlace, getPlace } from '../redux/action/places'
 import Place from './Place'
 
 function classNames(...classes) {
