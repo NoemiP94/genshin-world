@@ -23,6 +23,7 @@ import {
 } from '../redux/action/places'
 import ModalImg from './ModalImg'
 import UpdatePlaceModal from './UpdatePlaceModal'
+import Place from './Place'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -380,7 +381,7 @@ const Region = () => {
                       </Menu>
                     </div>
                     <div className="m-2 ">
-                      <div className="flex my-1">
+                      {/* <div className="flex my-1">
                         <button>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -397,7 +398,7 @@ const Region = () => {
                           </svg>
                           Aggiungi località
                         </button>
-                      </div>
+                      </div> */}
                       <div className="flex my-1">
                         <button
                           className="block text-white"
@@ -439,6 +440,7 @@ const Region = () => {
                       </div>
                     </div>
                   </div>
+
                   {showModal && selected && (
                     <PlaceModal
                       showModal={showModal}
@@ -451,6 +453,9 @@ const Region = () => {
                 </li>
               ))}
           </ul>
+        </div>
+        <div>
+          <Place />
         </div>
       </div>
     </div>
