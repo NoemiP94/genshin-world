@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRegion } from '../redux/action/regions'
-import { postPlace } from '../redux/action/places'
+import { getPlace, postPlace } from '../redux/action/places'
+import ModalImg from './ModalImg'
 
 const Place = () => {
   const dispatch = useDispatch()
@@ -13,7 +14,10 @@ const Place = () => {
   }, [dispatch])
 
   const [place, setPlace] = useState(null)
-
+  const placeData = useSelector((state) => state.place.list)
+  useEffect(() => {
+    dispatch(getPlace())
+  }, [dispatch])
   const handleSave = async (e) => {
     e.preventDefault()
     try {
@@ -22,6 +26,19 @@ const Place = () => {
     } catch (error) {
       console.log('Errore creazione place: ', error)
     }
+  }
+
+  //MODALE IMG
+  const [showImgModal, setShowImgModal] = useState(false)
+  const [selectedPlace, setSelectedPlace] = useState(null)
+
+  const showModalImg = (idPlace) => {
+    console.log('Id place ricevuto :', idPlace)
+    setSelectedPlace(idPlace)
+    setShowImgModal(true)
+
+    console.log('Luogo cliccato')
+    console.log('Luogo selezionato', selectedPlace)
   }
 
   return (
@@ -134,6 +151,48 @@ const Place = () => {
         </form>
       </div>
       {/* FINE CREAZIONE LUOGO  */}
+      {/* INIZIO LISTA LUOGHI */}
+      <div>
+        <ul role="list" className="divide-y divide-gray-100 ms-5">
+          <p className="text-white">Lista Luoghi</p>
+          {placeData.content &&
+            placeData.content.map((place) => (
+              <li key={place.id} className="my-3 text-left">
+                <div className="flex justify-between">
+                  <p>Nome: {place.name}</p>
+                  <p>Descrizione: {place.description}</p>
+                  <p>{place.image}</p>
+                  {/* bottone immagine */}
+                  <button
+                    type="button"
+                    className="inline-flex w-full justify-center bg-green-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 sm:ml-3 sm:w-auto"
+                    onClick={() => showModalImg(place.id)}
+                  >
+                    img
+                  </button>
+                  {/* bottone modifica */}
+                  <button
+                    type="button"
+                    className="inline-flex w-full justify-center bg-yellow-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 sm:ml-3 sm:w-auto"
+                    //   onClick={() =>
+                    //     showUpdatePlaceModal(place.id)
+                    //   }
+                  >
+                    modifica
+                  </button>
+                </div>
+                {showImgModal && selectedPlace && (
+                  <ModalImg
+                    showImgModal={showImgModal}
+                    setShowImgModal={setShowImgModal}
+                    placeId={selectedPlace}
+                  />
+                )}
+              </li>
+            ))}
+        </ul>
+      </div>
+      {/* FINE LISTA LUOGHI */}
     </div>
   )
 }
