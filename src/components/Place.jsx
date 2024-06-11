@@ -22,7 +22,8 @@ const Place = ({ region, idPlace }) => {
     e.preventDefault()
     try {
       await dispatch(postPlace(place, token))
-      dispatch(getRegion())
+      await dispatch(getRegion())
+      await dispatch(getPlace())
     } catch (error) {
       console.log('Errore creazione place: ', error)
     }
@@ -55,18 +56,18 @@ const Place = ({ region, idPlace }) => {
   }
 
   return (
-    <div className="flex">
+    <div className="flex m-6">
       {/* CREAZIONE LUOGO   */}
-      <div>
-        <form className="w-64 text-white">
+      <div className="w-2/4 flex justify-center border p-3">
+        <form className="w-full px-10 text-white">
           <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="font-semibold leading-7">Crea un Luogo</h2>
+            <h2 className="font-semibold leading-7 text-lg">Crea un Luogo</h2>
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-3">
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium leading-6"
+                  className="block text-sm font-medium leading-6 text-left"
                 >
                   Nome
                 </label>
@@ -92,7 +93,7 @@ const Place = ({ region, idPlace }) => {
             <div className="sm:col-span-3 pt-2">
               <label
                 htmlFor="vision"
-                className="block text-sm font-medium leading-6"
+                className="block text-sm font-medium leading-6 text-left"
               >
                 Regione
               </label>
@@ -122,7 +123,10 @@ const Place = ({ region, idPlace }) => {
             </div>
 
             <div className="col-span-full pt-2">
-              <label htmlFor="about" className="block text-sm font-medium">
+              <label
+                htmlFor="about"
+                className="block text-sm font-medium leading-6 text-left"
+              >
                 Descrizione
               </label>
               <div className="mt-2">
@@ -168,24 +172,35 @@ const Place = ({ region, idPlace }) => {
       </div>
       {/* FINE CREAZIONE LUOGO  */}
       {/* INIZIO LISTA LUOGHI */}
-      <div>
-        <ul role="list" className="divide-y divide-gray-100 ms-5">
-          <p className="text-white">Lista Luoghi</p>
+      <div className="w-2/4">
+        <ul role="list" className="divide-y divide-gray-100 ms-5 ">
+          <p className="text-white text-lg">Lista Luoghi</p>
           {placeData.content &&
             placeData.content.map((place) => (
-              <li key={place.id} className="my-3 text-left">
+              <li key={place.id} className="my-3 text-left px-5 py-3 ">
                 <div className="flex justify-between">
-                  <p>Nome: {place.name}</p>
-                  <p>Descrizione: {place.description}</p>
-                  <p>{place.image}</p>
-                  {/* bottone immagine */}
-                  <button
-                    type="button"
-                    className="inline-flex w-full justify-center bg-green-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 sm:ml-3 sm:w-auto"
-                    onClick={() => showModalImg(place.id)}
-                  >
-                    img
-                  </button>
+                  <div className="w-3/4 overflow-auto">
+                    <p>
+                      - Nome: <span className="italic">{place.name}</span>
+                    </p>
+                    <p>
+                      - Descrizione:{' '}
+                      <span className="italic">{place.description}</span>
+                    </p>
+                    <p>
+                      - Link img: <span className="italic">{place.image}</span>
+                    </p>
+                  </div>
+                  <div className="w-1/4 mt-4">
+                    {/* bottone immagine */}
+                    <button
+                      type="button"
+                      className="inline-flex w-full justify-center bg-green-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 sm:ml-3 sm:w-auto"
+                      onClick={() => showModalImg(place.id)}
+                    >
+                      Aggiungi immagine
+                    </button>
+                  </div>
                 </div>
                 {showImgModal && selectedPlace && (
                   <ModalImg

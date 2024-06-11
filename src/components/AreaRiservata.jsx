@@ -4,8 +4,8 @@ import SidebarLayout from './SidebarLayout'
 const AreaRiservata = () => {
   return (
     <>
-      <div className="flex w-full h-screen">
-        <div className="column-1 w-1/5 ">
+      <div className="flex w-full ">
+        <div className="column-1 w-1/5 h-full ">
           <SidebarLayout />
         </div>
         <div className="text-white column-11 w-4/5">
