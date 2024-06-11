@@ -113,18 +113,21 @@ const Region = () => {
 
   return (
     <div>
-      <h2 className="mt-5">Gestione Regioni di Teyvat</h2>
+      <h2 className="mt-5 text-2xl font-bold">Gestione Regioni di Teyvat</h2>
       <div className="container m-6 w-full flex">
-        <div>
-          <form className="w-64 text-white">
+        {/* INIZIO CREA REGIONE */}
+        <div className="w-2/4 flex justify-center border p-3">
+          <form className="w-full px-10 text-white">
             <div className="border-b border-gray-900/10 pb-12">
-              <h2 className="font-semibold leading-7">Crea una Regione</h2>
+              <h2 className="font-semibold leading-7 text-lg">
+                Crea una Regione
+              </h2>
 
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="name"
-                    className="block text-sm font-medium leading-6"
+                    className="block text-sm font-medium leading-6 text-left"
                   >
                     Nome
                   </label>
@@ -147,10 +150,10 @@ const Region = () => {
                 </div>
               </div>
 
-              <div className="sm:col-span-3 pt-2">
+              <div className="sm:col-span-3 pt-5">
                 <label
                   htmlFor="vision"
-                  className="block text-sm font-medium leading-6"
+                  className="block text-sm font-medium leading-6 text-left"
                 >
                   Visione
                 </label>
@@ -180,8 +183,11 @@ const Region = () => {
                 </div>
               </div>
 
-              <div className="col-span-full pt-2">
-                <label htmlFor="about" className="block text-sm font-medium">
+              <div className="col-span-full pt-5">
+                <label
+                  htmlFor="about"
+                  className="block text-sm font-medium text-left"
+                >
                   Descrizione
                 </label>
                 <div className="mt-2">
@@ -201,8 +207,11 @@ const Region = () => {
                 </div>
               </div>
 
-              <div className="sm:col-span-3 pt-2">
-                <label htmlFor="archon" className="block text-sm font-medium">
+              <div className="sm:col-span-3 pt-5">
+                <label
+                  htmlFor="archon"
+                  className="block text-sm font-medium text-left"
+                >
                   Archon
                 </label>
                 <div className="mt-2">
@@ -223,8 +232,11 @@ const Region = () => {
                 </div>
               </div>
               <div className="mt-6 flex items-center justify-end gap-x-6">
-                <button type="reset" className="text-sm font-semibold">
-                  Cancel
+                <button
+                  type="reset"
+                  className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                >
+                  Svuota
                 </button>
                 <button
                   type="submit"
@@ -251,7 +263,10 @@ const Region = () => {
             </div>
           </form>
         </div>
-        <div>
+        {/* FINE CREA REGIONE */}
+
+        {/* INIZIO LISTA REGIONI */}
+        <div className="w-2/4">
           <ul role="list" className="divide-y divide-gray-100 ms-5">
             <p className="text-white">Lista regioni</p>
             {data.content &&
@@ -370,9 +385,10 @@ const Region = () => {
               ))}
           </ul>
         </div>
-        <div>
-          <Place region={region} idPlace={idPlace} />
-        </div>
+      </div>{' '}
+      {/* FINE REGION */}{' '}
+      <div>
+        <Place region={region} idPlace={idPlace} />
       </div>
     </div>
   )

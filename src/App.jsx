@@ -10,8 +10,9 @@ function App() {
     <BrowserRouter>
       <MyNav />
       <Routes>
-        <Route path="/reserved" element={<AreaRiservata />} />
-        <Route path="/region" element={<Region />} />
+        <Route path="/reserved/*" element={<AreaRiservata />}>
+          <Route path="region" element={<Region />} /> {/* Nested route */}
+        </Route>
         <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>

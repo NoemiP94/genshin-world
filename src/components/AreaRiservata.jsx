@@ -1,3 +1,4 @@
+import { Outlet } from 'react-router-dom'
 import SidebarLayout from './SidebarLayout'
 
 const AreaRiservata = () => {
@@ -7,7 +8,9 @@ const AreaRiservata = () => {
         <div className="column-1 w-1/5 ">
           <SidebarLayout />
         </div>
-        <div className="text-white column-11 w-4/5">Gestione applicazione</div>
+        <div className="text-white column-11 w-4/5">
+          <Outlet />
+        </div>
       </div>
     </>
   )
