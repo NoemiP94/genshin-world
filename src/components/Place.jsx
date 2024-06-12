@@ -56,11 +56,11 @@ const Place = ({ region, idPlace }) => {
   }
 
   return (
-    <div className="flex m-6">
+    <div className="flex ">
       {/* CREAZIONE LUOGO   */}
-      <div className="w-2/4 flex justify-center border p-3">
-        <form className="w-full px-10 text-white">
-          <div className="border-b border-gray-900/10 pb-12">
+      <div className="w-2/4 flex justify-center ">
+        <form className="w-full text-white ">
+          <div className="border-b pb-12 border p-7 h-auto">
             <h2 className="font-semibold leading-7 text-lg">Crea un Luogo</h2>
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -90,7 +90,7 @@ const Place = ({ region, idPlace }) => {
               </div>
             </div>
 
-            <div className="sm:col-span-3 pt-2">
+            <div className="sm:col-span-3 pt-5">
               <label
                 htmlFor="vision"
                 className="block text-sm font-medium leading-6 text-left"
@@ -122,7 +122,7 @@ const Place = ({ region, idPlace }) => {
               </div>
             </div>
 
-            <div className="col-span-full pt-2">
+            <div className="col-span-full pt-5">
               <label
                 htmlFor="about"
                 className="block text-sm font-medium leading-6 text-left"
@@ -187,7 +187,7 @@ const Place = ({ region, idPlace }) => {
                       - Descrizione:{' '}
                       <span className="italic">{place.description}</span>
                     </p>
-                    <p>
+                    <p className=" overflow-x-scroll ">
                       - Link img: <span className="italic">{place.image}</span>
                     </p>
                   </div>

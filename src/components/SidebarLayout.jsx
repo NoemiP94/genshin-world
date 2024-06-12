@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 const SidebarLayout = () => {
   return (
-    <div className="bg-indigo-600 h-screen">
+    <div className="bg-indigo-600 h-full">
       <div className="flex flex-col text-xl	text-right  flex-end pe-10">
         <button className="text-right py-2 mt-10">
           <Link to="/reserved/region">Regioni e luoghi</Link>

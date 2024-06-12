@@ -114,11 +114,11 @@ const Region = () => {
   return (
     <div>
       <h2 className="mt-5 text-2xl font-bold">Gestione Regioni di Teyvat</h2>
-      <div className="container m-6 w-full flex">
+      <div className="container m-6 w-full flex h-1/2">
         {/* INIZIO CREA REGIONE */}
-        <div className="w-2/4 flex justify-center border p-3">
-          <form className="w-full px-10 text-white">
-            <div className="border-b border-gray-900/10 pb-12">
+        <div className="w-2/4 flex justify-center">
+          <form className="w-full  text-white">
+            <div className="border-b pb-12 border p-7 h-auto">
               <h2 className="font-semibold leading-7 text-lg">
                 Crea una Regione
               </h2>
@@ -195,7 +195,7 @@ const Region = () => {
                     id="about"
                     name="about"
                     rows={5}
-                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300  "
+                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 "
                     value={region.description}
                     onChange={(e) => {
                       setRegion({
@@ -264,7 +264,6 @@ const Region = () => {
           </form>
         </div>
         {/* FINE CREA REGIONE */}
-
         {/* INIZIO LISTA REGIONI */}
         <div className="w-2/4">
           <ul role="list" className="divide-y divide-gray-100 ms-5 px-5">
@@ -395,10 +394,10 @@ const Region = () => {
                 </li>
               ))}
           </ul>
-        </div>
+        </div>{' '}
+        {/* FINE REGION */}{' '}
       </div>{' '}
-      {/* FINE REGION */}{' '}
-      <div className="mt-10">
+      <div className="mt-10 container h-1/2 m-6">
         <Place region={region} idPlace={idPlace} />
       </div>
     </div>

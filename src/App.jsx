@@ -12,7 +12,8 @@ function App() {
       <MyNav />
       <Routes>
         <Route path="/reserved/*" element={<AreaRiservata />}>
-          <Route path="region" element={<Region />} /> {/* Nested route */}
+          {/* Nested route */}
+          <Route path="region" element={<Region />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>
