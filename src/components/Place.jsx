@@ -173,13 +173,13 @@ const Place = ({ region, idPlace }) => {
       {/* FINE CREAZIONE LUOGO  */}
       {/* INIZIO LISTA LUOGHI */}
       <div className="w-2/4">
-        <ul role="list" className="divide-y divide-gray-100 ms-5 ">
+        <ul role="list" className="divide-y divide-gray-100 ms-5  px-5">
           <p className="text-white text-lg">Lista Luoghi</p>
           {placeData.content &&
             placeData.content.map((place) => (
               <li key={place.id} className="my-3 text-left px-5 py-3 ">
                 <div className="flex justify-between">
-                  <div className="w-3/4 overflow-auto">
+                  <div className="w-3/4 ">
                     <p>
                       - Nome: <span className="italic">{place.name}</span>
                     </p>

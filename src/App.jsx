@@ -4,6 +4,7 @@ import MyNav from './components/MyNav'
 import AreaRiservata from './components/AreaRiservata'
 import Region from './components/Region'
 import Login from './components/Login'
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   )
 }
