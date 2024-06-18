@@ -146,8 +146,11 @@ const Place = ({ region, idPlace }) => {
               </div>
             </div>
             <div className="mt-6 flex items-center justify-end gap-x-6">
-              <button type="reset" className="text-sm font-semibold">
-                Cancel
+              <button
+                type="reset"
+                className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+              >
+                Svuota
               </button>
               <button
                 type="submit"

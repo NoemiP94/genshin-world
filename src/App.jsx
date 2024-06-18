@@ -5,6 +5,7 @@ import AreaRiservata from './components/AreaRiservata'
 import Region from './components/Region'
 import Login from './components/Login'
 import Footer from './components/Footer'
+import Material from './components/Material'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/reserved/*" element={<AreaRiservata />}>
           {/* Nested route */}
           <Route path="region" element={<Region />} />
+          <Route path="material" element={<Material />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>

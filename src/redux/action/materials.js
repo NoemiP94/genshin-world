@@ -1,0 +1,1 @@
+export const POST_MATERIAL = 'POST_MATERIAL'

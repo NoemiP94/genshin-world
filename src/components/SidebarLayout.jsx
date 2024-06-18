@@ -17,7 +17,7 @@ const SidebarLayout = () => {
           <Link to="#">Goal</Link>
         </button>
         <button className="text-right py-2">
-          <Link to="#">Materiali</Link>
+          <Link to="/reserved/material">Materiali</Link>
         </button>
         <button className="text-right py-2">
           <Link to="#">Armi</Link>
