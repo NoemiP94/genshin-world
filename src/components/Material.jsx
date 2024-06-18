@@ -1,6 +1,7 @@
+import { useDispatch } from 'react-redux'
+
 const Material = () => {
-  //Creazione
-  //form( name, description, materialType(dropdown))
+  const dispatch = useDispatch()
 
   return (
     <div>
