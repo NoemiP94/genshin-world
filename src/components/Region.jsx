@@ -53,6 +53,16 @@ const Region = () => {
     console.log('Matita cliccata')
   }
 
+  //CREATE REGION
+  const saveRegion = async () => {
+    try {
+      await dispatch(postRegion(region, token))
+      dispatch(getRegion)
+    } catch (error) {
+      console.log('Errore nel salvataggio', error)
+    }
+  }
+
   //UPDATE REGION
 
   const handleUpdate = async () => {
@@ -114,11 +124,11 @@ const Region = () => {
   return (
     <div>
       <h2 className="mt-5 text-2xl font-bold">Gestione Regioni di Teyvat</h2>
-      <div className="container m-6 w-full flex h-1/2">
+      <div className="container my-6  w-full flex h-1/2">
         {/* INIZIO CREA REGIONE */}
         <div className="w-2/4 flex justify-center">
           <form className="w-full  text-white">
-            <div className="border-b pb-12 border p-7 h-auto">
+            <div className=" p-7 h-auto">
               <h2 className="font-semibold leading-7 text-lg">
                 Crea una Regione
               </h2>
@@ -243,8 +253,7 @@ const Region = () => {
                   className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   onClick={(e) => {
                     e.preventDefault()
-
-                    dispatch(postRegion(region, token))
+                    saveRegion()
                   }}
                 >
                   Salva
@@ -266,8 +275,11 @@ const Region = () => {
         {/* FINE CREA REGIONE */}
         {/* INIZIO LISTA REGIONI */}
         <div className="w-2/4">
-          <ul role="list" className="divide-y divide-gray-100 ms-5 px-5">
-            <p className="text-white text-lg">Lista regioni</p>
+          <p className="text-white text-lg">Lista regioni</p>
+          <ul
+            role="list"
+            className="divide-y divide-gray-100 ms-5 px-5 overflow-y-scroll h-3/4"
+          >
             {data.content &&
               data.content.map((region) => (
                 <li key={region.id} className="my-3 text-left px-5">
@@ -397,7 +409,7 @@ const Region = () => {
         </div>{' '}
         {/* FINE REGION */}{' '}
       </div>{' '}
-      <div className="mt-10 container h-1/2 m-6">
+      <div className="mt-10 container h-1/2">
         <Place region={region} idPlace={idPlace} />
       </div>
     </div>

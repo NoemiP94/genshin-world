@@ -60,7 +60,7 @@ const Place = ({ region, idPlace }) => {
       {/* CREAZIONE LUOGO   */}
       <div className="w-2/4 flex justify-center ">
         <form className="w-full text-white ">
-          <div className="border-b pb-12 border p-7 h-auto">
+          <div className="p-7 h-auto">
             <h2 className="font-semibold leading-7 text-lg">Crea un Luogo</h2>
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -173,8 +173,11 @@ const Place = ({ region, idPlace }) => {
       {/* FINE CREAZIONE LUOGO  */}
       {/* INIZIO LISTA LUOGHI */}
       <div className="w-2/4">
-        <ul role="list" className="divide-y divide-gray-100 ms-5  px-5">
-          <p className="text-white text-lg">Lista Luoghi</p>
+        <p className="text-white text-lg">Lista Luoghi</p>
+        <ul
+          role="list"
+          className="divide-y divide-gray-100 ms-5 overflow-y-scroll px-5 h-2/3"
+        >
           {placeData.content &&
             placeData.content.map((place) => (
               <li key={place.id} className="my-3 text-left px-5 py-3 ">
