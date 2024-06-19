@@ -1,7 +1,8 @@
-import { POST_MATERIAL } from '../action/materials'
+import { GET_MATERIAL, POST_MATERIAL } from '../action/materials'
 
 const initialState = {
   material: null,
+  list: [],
 }
 
 const materialReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const materialReducer = (state = initialState, action) => {
       return {
         ...state,
         material: action.payload,
+      }
+    case GET_MATERIAL:
+      return {
+        ...state,
+        list: action.payload,
       }
     default:
       return state
