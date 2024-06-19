@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getMaterial, postMaterial } from '../redux/action/materials'
+import {
+  deleteMaterial,
+  getMaterial,
+  postMaterial,
+} from '../redux/action/materials'
+import ModalMaterialImg from './ModalMaterialImg'
 
 const Material = () => {
   const dispatch = useDispatch()
@@ -25,10 +30,34 @@ const Material = () => {
     }
   }
 
+  //IMG MODAL
+  const [showImgModal, setShowImgModal] = useState(false)
+  const [selectedMaterial, setSelectedMaterial] = useState(null)
+
+  const showModalImg = (idMaterial) => {
+    console.log('Id materiale ricevuto :', idMaterial)
+    setSelectedMaterial(idMaterial)
+    setShowImgModal(true)
+
+    console.log('Materiale cliccato')
+    console.log('Materiale selezionato', selectedMaterial)
+  }
+
+  //DELETE MATERIAL
+  const handleDelete = async (material) => {
+    try {
+      await dispatch(deleteMaterial(material.id, token))
+      dispatch(getMaterial())
+      console.log('Materiale eliminato con successo!')
+    } catch (error) {
+      console.log("Errore nell'eliminazione", error)
+    }
+  }
+
   return (
-    <div>
+    <div className="h-screen">
       <h2 className="mt-5 text-2xl font-bold">Gestione Materiali</h2>
-      <div className="container my-6 w-full flex h-1/2">
+      <div className="container my-6 w-full flex">
         {/* CREA MATERIAL */}
         <div className="w-2/4 flex justify-center">
           <form className="w-full  text-white">
@@ -170,28 +199,44 @@ const Material = () => {
                         - Descrizione:{' '}
                         <span className="italic">{material.description}</span>
                       </p>
-                      {/* <p className=" overflow-x-scroll ">
-                    - Link img: <span className="italic">{place.image}</span>
-                  </p> */}
+                      <p className=" overflow-x-scroll ">
+                        - Link img:{' '}
+                        <span className="italic">{material.image}</span>
+                      </p>
                     </div>
                     <div className="w-1/4 mt-4">
                       {/* bottone immagine */}
                       <button
                         type="button"
                         className="inline-flex w-full justify-center bg-green-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 sm:ml-3 sm:w-auto"
-                        //onClick={() => showModalImg(place.id)}
+                        onClick={() => showModalImg(material.id)}
                       >
                         Aggiungi immagine
                       </button>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="#dc2626"
+                        className="size-6 me-1"
+                        onClick={() => {
+                          handleDelete(material)
+                        }}
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
                     </div>
                   </div>
-                  {/* {showImgModal && selectedPlace && (
-                  <ModalImg
-                    showImgModal={showImgModal}
-                    setShowImgModal={setShowImgModal}
-                    placeId={selectedPlace}
-                  />
-                )} */}
+                  {showImgModal && selectedMaterial && (
+                    <ModalMaterialImg
+                      showImgModal={showImgModal}
+                      setShowImgModal={setShowImgModal}
+                      materialId={selectedMaterial}
+                    />
+                  )}
                 </li>
               ))}
           </ul>

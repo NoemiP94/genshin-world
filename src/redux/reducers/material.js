@@ -1,8 +1,14 @@
-import { GET_MATERIAL, POST_MATERIAL } from '../action/materials'
+import {
+  DELETE_MATERIAL,
+  GET_MATERIAL,
+  GET_POST_MATERIAL_IMG,
+  POST_MATERIAL,
+} from '../action/materials'
 
 const initialState = {
   material: null,
   list: [],
+  postImage: null,
 }
 
 const materialReducer = (state = initialState, action) => {
@@ -17,6 +23,17 @@ const materialReducer = (state = initialState, action) => {
         ...state,
         list: action.payload,
       }
+    case GET_POST_MATERIAL_IMG:
+      return {
+        ...state,
+        postImage: action.payload,
+      }
+    case DELETE_MATERIAL: {
+      return {
+        ...state,
+        list: state.list.filter((material) => material.id !== action.payload),
+      }
+    }
     default:
       return state
   }
