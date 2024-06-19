@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { postMaterial } from '../redux/action/materials'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getMaterial, postMaterial } from '../redux/action/materials'
 
 const Material = () => {
   const dispatch = useDispatch()
@@ -10,6 +10,11 @@ const Material = () => {
     description: '',
     materialType: '',
   })
+
+  const materialData = useSelector((state) => state.material.list)
+  useEffect(() => {
+    dispatch(getMaterial())
+  }, [dispatch])
 
   //SAVE MATERIAL
   const saveMaterial = async () => {
@@ -146,6 +151,52 @@ const Material = () => {
         </div>
 
         {/* FINE CREAZIONE MATERIAL */}
+        {/* INIZIO LISTA MATERIAL */}
+        <div className="w-2/4">
+          <p className="text-white text-lg">Lista Materiali</p>
+          <ul
+            role="list"
+            className="divide-y divide-gray-100 ms-5 overflow-y-scroll px-5 h-2/3"
+          >
+            {materialData.content &&
+              materialData.content.map((material) => (
+                <li key={material.id} className="my-3 text-left px-5 py-3 ">
+                  <div className="flex justify-between">
+                    <div className="w-3/4 ">
+                      <p>
+                        - Nome: <span className="italic">{material.name}</span>
+                      </p>
+                      <p>
+                        - Descrizione:{' '}
+                        <span className="italic">{material.description}</span>
+                      </p>
+                      {/* <p className=" overflow-x-scroll ">
+                    - Link img: <span className="italic">{place.image}</span>
+                  </p> */}
+                    </div>
+                    <div className="w-1/4 mt-4">
+                      {/* bottone immagine */}
+                      <button
+                        type="button"
+                        className="inline-flex w-full justify-center bg-green-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 sm:ml-3 sm:w-auto"
+                        //onClick={() => showModalImg(place.id)}
+                      >
+                        Aggiungi immagine
+                      </button>
+                    </div>
+                  </div>
+                  {/* {showImgModal && selectedPlace && (
+                  <ModalImg
+                    showImgModal={showImgModal}
+                    setShowImgModal={setShowImgModal}
+                    placeId={selectedPlace}
+                  />
+                )} */}
+                </li>
+              ))}
+          </ul>
+        </div>
+        {/* FINE LISTA LUOGHI */}
       </div>
     </div>
   )

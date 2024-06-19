@@ -29,7 +29,7 @@ export const postMaterial = (material, token) => {
   }
 }
 
-export const getRegion = () => {
+export const getMaterial = () => {
   return async (dispatch) => {
     try {
       const res = await fetch('http://localhost:3001/material/getall')
