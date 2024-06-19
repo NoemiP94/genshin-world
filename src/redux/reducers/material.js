@@ -3,12 +3,14 @@ import {
   GET_MATERIAL,
   GET_POST_MATERIAL_IMG,
   POST_MATERIAL,
+  PUT_MATERIAL,
 } from '../action/materials'
 
 const initialState = {
   material: null,
   list: [],
   postImage: null,
+  update: '',
 }
 
 const materialReducer = (state = initialState, action) => {
@@ -34,6 +36,11 @@ const materialReducer = (state = initialState, action) => {
         list: state.list.filter((material) => material.id !== action.payload),
       }
     }
+    case PUT_MATERIAL:
+      return {
+        ...state,
+        update: action.payload,
+      }
     default:
       return state
   }

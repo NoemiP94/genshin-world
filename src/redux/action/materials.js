@@ -2,6 +2,7 @@ export const POST_MATERIAL = 'POST_MATERIAL'
 export const GET_MATERIAL = 'GET_MATERIAL'
 export const GET_POST_MATERIAL_IMG = 'GET_POST_MATERIAL_IMG'
 export const DELETE_MATERIAL = 'DELETE_MATERIAL'
+export const PUT_MATERIAL = 'PUT_MATERIAL'
 
 export const postMaterial = (material, token) => {
   return async (dispatch) => {
@@ -98,6 +99,34 @@ export const deleteMaterial = (id, token) => {
         })
       } else {
         throw new Error("Errore durante l'eliminazione")
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const updateMaterial = (id, updateMaterial, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/material/' + id, {
+        method: 'PUT',
+        body: JSON.stringify(updateMaterial),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        console.log(data.content)
+        dispatch({
+          type: PUT_MATERIAL,
+          payload: data.content,
+        })
+        alert('Modifica effettuata con successo!')
+      } else {
+        throw new Error('Errore durante la modifica')
       }
     } catch (error) {
       console.log('Error', error)
