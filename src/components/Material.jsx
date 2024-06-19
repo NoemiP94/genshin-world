@@ -4,6 +4,7 @@ import {
   deleteMaterial,
   getMaterial,
   postMaterial,
+  updateMaterial,
 } from '../redux/action/materials'
 import ModalMaterialImg from './ModalMaterialImg'
 
@@ -54,6 +55,33 @@ const Material = () => {
     }
   }
 
+  //UPDATE MATERIAL
+  const [updtMaterial, setUpdtMaterial] = useState(null)
+  const [idMaterial, setIdMaterial] = useState('')
+
+  const handlePencilUpdate = (material) => {
+    setUpdtMaterial(material)
+    setIdMaterial(material.id)
+    setMaterial({
+      name: material.name,
+      description: material.description,
+      materialType: material.materialType,
+    })
+    console.log('materiale passato: ', material)
+    console.log('id materiale selezionato: ', material.id)
+    console.log('matita cliccata')
+  }
+
+  const handleUpdate = async () => {
+    try {
+      await dispatch(updateMaterial(idMaterial, material, token))
+      dispatch(getMaterial())
+      console.log('Modificato con successo')
+    } catch (error) {
+      console.log('Errore nella modifica', error)
+    }
+  }
+
   return (
     <div className="h-screen">
       <h2 className="mt-5 text-2xl font-bold">Gestione Materiali</h2>
@@ -81,7 +109,7 @@ const Material = () => {
                       id="name"
                       autoComplete="name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //   value={region.name}
+                      value={material.name}
                       onChange={(e) => {
                         setMaterial({
                           ...material,
@@ -136,7 +164,7 @@ const Material = () => {
                     name="about"
                     rows={5}
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 "
-                    // value={region.description}
+                    value={material.description}
                     onChange={(e) => {
                       setMaterial({
                         ...material,
@@ -167,10 +195,10 @@ const Material = () => {
                 <button
                   type="submit"
                   className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  //   onClick={(e) => {
-                  //     e.preventDefault()
-                  //     handleUpdate()
-                  //   }}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleUpdate()
+                  }}
                 >
                   Salva modifiche
                 </button>
@@ -204,20 +232,39 @@ const Material = () => {
                         <span className="italic">{material.image}</span>
                       </p>
                     </div>
-                    <div className="w-1/4 mt-4">
-                      {/* bottone immagine */}
-                      <button
-                        type="button"
-                        className="inline-flex w-full justify-center bg-green-500 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 sm:ml-3 sm:w-auto"
+                    <div className="w-1/4 mt-4 mx-4 flex">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="#15803d"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="size-8 mx-2"
                         onClick={() => showModalImg(material.id)}
                       >
-                        Aggiungi immagine
-                      </button>
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                        />
+                      </svg>
+
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="#facc15"
+                        className="size-8 mx-2"
+                        onClick={() => {
+                          handlePencilUpdate(material)
+                        }}
+                      >
+                        <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
+                      </svg>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         fill="#dc2626"
-                        className="size-6 me-1"
+                        className="size-8 mx-2"
                         onClick={() => {
                           handleDelete(material)
                         }}
