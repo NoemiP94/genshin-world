@@ -1,5 +1,6 @@
 export const POST_ARTIFACT = 'POST_ARTIFACT'
 export const GET_ARTIFACT = 'GET_ARTIFACT'
+export const DELETE_ARTIFACT = 'DELETE_ARTIFACT'
 
 export const postArtifact = (artifact, token) => {
   return async (dispatch) => {
@@ -48,6 +49,29 @@ export const getArtifact = () => {
     } catch (error) {
       console.log('Error', error)
       throw error
+    }
+  }
+}
+
+export const deleteArtifact = (id, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/artifactset/' + id, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      if (res.ok) {
+        dispatch({
+          type: DELETE_ARTIFACT,
+          payload: id,
+        })
+      } else {
+        throw new Error("Errore durante l'eliminazione")
+      }
+    } catch (error) {
+      console.log('Error', error)
     }
   }
 }

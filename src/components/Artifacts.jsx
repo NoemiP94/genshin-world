@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getArtifact, postArtifact } from '../redux/action/artifacts'
+import {
+  deleteArtifact,
+  getArtifact,
+  postArtifact,
+} from '../redux/action/artifacts'
 
 const Artifacts = () => {
   const dispatch = useDispatch()
@@ -14,6 +18,7 @@ const Artifacts = () => {
   const saveArtifact = async () => {
     try {
       await dispatch(postArtifact(artifact, token))
+      dispatch(getArtifact())
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }
@@ -24,6 +29,17 @@ const Artifacts = () => {
   useEffect(() => {
     dispatch(getArtifact())
   }, [dispatch])
+
+  //DELETE ARTIFACT
+  const handleDelete = async (artifact) => {
+    try {
+      await dispatch(deleteArtifact(artifact.id, token))
+      dispatch(getArtifact())
+      console.log('Set Artefatti eliminato con successo!')
+    } catch (error) {
+      console.log("Errore nell'eliminazione", error)
+    }
+  }
 
   return (
     <div className="h-screen">
@@ -152,12 +168,11 @@ const Artifacts = () => {
                         strokeWidth={1.5}
                         stroke="currentColor"
                         className="size-8 mx-2"
-                        // onClick={() => showModalImg(artifact.id)}
                       >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                          d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                         />
                       </svg>
 
@@ -177,9 +192,9 @@ const Artifacts = () => {
                         viewBox="0 0 24 24"
                         fill="#dc2626"
                         className="size-8 mx-2"
-                        // onClick={() => {
-                        //   handleDelete(artifact)
-                        // }}
+                        onClick={() => {
+                          handleDelete(artifact)
+                        }}
                       >
                         <path
                           fillRule="evenodd"

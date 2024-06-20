@@ -1,4 +1,8 @@
-import { GET_ARTIFACT, POST_ARTIFACT } from '../action/artifacts'
+import {
+  DELETE_ARTIFACT,
+  GET_ARTIFACT,
+  POST_ARTIFACT,
+} from '../action/artifacts'
 
 const initialState = {
   artifact: null,
@@ -17,6 +21,12 @@ const artifactReducer = (state = initialState, action) => {
         ...state,
         list: action.payload,
       }
+    case DELETE_ARTIFACT: {
+      return {
+        ...state,
+        list: state.list.filter((artifact) => artifact.id !== action.payload),
+      }
+    }
     default:
       return state
   }
