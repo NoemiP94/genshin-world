@@ -91,7 +91,7 @@ const Material = () => {
           <form className="w-full  text-white">
             <div className=" p-7 h-auto">
               <h2 className="font-semibold leading-7 text-lg">
-                Crea una Materiale
+                Crea un Materiale
               </h2>
 
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">

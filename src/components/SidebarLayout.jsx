@@ -8,7 +8,7 @@ const SidebarLayout = () => {
           <Link to="/reserved/region">Regioni e luoghi</Link>
         </button>
         <button className="text-right py-2">
-          <Link to="#">Artefatti</Link>
+          <Link to="/reserved/artifacts">Artefatti</Link>
         </button>
         <button className="text-right py-2">
           <Link to="#">Domini</Link>
