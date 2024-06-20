@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
+import ModalMaterialImg from './modals/ModalMaterialImg'
 import {
   deleteMaterial,
   getMaterial,
   postMaterial,
   updateMaterial,
 } from '../redux/action/materials'
-import ModalMaterialImg from './ModalMaterialImg'
 
 const Material = () => {
   const dispatch = useDispatch()

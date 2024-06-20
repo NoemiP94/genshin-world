@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRegion } from '../redux/action/regions'
 import { getPlace, postPlace, updatePlace } from '../redux/action/places'
-import ModalImg from './ModalImg'
+import ModalImg from './modals/ModalImg'
 
 const Place = ({ region, idPlace }) => {
   const dispatch = useDispatch()

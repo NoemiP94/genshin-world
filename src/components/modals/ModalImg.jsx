@@ -1,12 +1,12 @@
 import { useDispatch } from 'react-redux'
-import { useState } from 'react'
 import {
-  GET_POST_MATERIAL_IMG,
-  getMaterial,
-  postMaterialImage,
-} from '../redux/action/materials'
+  GET_POST_PLACE_IMG,
+  getPlace,
+  postImage,
+} from '../../redux/action/places'
+import { useState } from 'react'
 
-const ModalMaterialImg = ({ showImgModal, setShowImgModal, materialId }) => {
+const ModalImg = ({ showImgModal, setShowImgModal, placeId }) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
   const [formImg, setFormImg] = useState(null)
@@ -14,25 +14,27 @@ const ModalMaterialImg = ({ showImgModal, setShowImgModal, materialId }) => {
   const handleUploadImage = async (id) => {
     try {
       console.log('cliccato'), console.log('id luogo', id)
-      console.log(materialId)
+      console.log(placeId)
 
       if (formImg) {
         console.log('formImg', formImg)
-        const id_material = id ? id.toString() : null
-        console.log('id_material: ', id_material)
-        if (id_material) {
-          const response = await postMaterialImage(id_material, formImg, token)
+        const id_place = id ? id.toString() : null
+        console.log('id_place: ', id_place)
+        if (id_place) {
+          const response = await postImage(id_place, formImg, token)
           console.log('response', response)
           if (response !== null) {
             console.log('Immagine caricata correttamente', response)
-            console.log('id materiale', id)
-            console.log('altro id materiale', id_material)
+            console.log('id luogo', id)
+            console.log('altro id luogo', id_place)
             dispatch({
-              type: GET_POST_MATERIAL_IMG,
+              type: GET_POST_PLACE_IMG,
               payload: response.url,
             })
 
             alert('immagine caricata')
+
+            //dispatch(getPlace())
           } else {
             console.log('Image upload successful, but no URL returned')
           }
@@ -56,7 +58,7 @@ const ModalMaterialImg = ({ showImgModal, setShowImgModal, materialId }) => {
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
               <h3 className="text-3xl font=semibold text-black">
-                Aggiungi immagine Materiale
+                Aggiungi immagine
               </h3>
               <button
                 className="bg-transparent border-0 text-black float-right"
@@ -85,7 +87,7 @@ const ModalMaterialImg = ({ showImgModal, setShowImgModal, materialId }) => {
               <button
                 className="text-white bg-yellow-500 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                 type="button"
-                onClick={() => handleSave(materialId)}
+                onClick={() => handleSave(placeId)}
               >
                 Salva
               </button>
@@ -97,4 +99,4 @@ const ModalMaterialImg = ({ showImgModal, setShowImgModal, materialId }) => {
   )
 }
 
-export default ModalMaterialImg
+export default ModalImg
