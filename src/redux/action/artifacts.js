@@ -1,4 +1,5 @@
 export const POST_ARTIFACT = 'POST_ARTIFACT'
+export const GET_ARTIFACT = 'GET_ARTIFACT'
 
 export const postArtifact = (artifact, token) => {
   return async (dispatch) => {
@@ -24,6 +25,29 @@ export const postArtifact = (artifact, token) => {
       }
     } catch (error) {
       console.log(error)
+    }
+  }
+}
+
+export const getArtifact = () => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/artifactset/getall')
+      console.log('res', res)
+      if (res.ok) {
+        const data = await res.json()
+        console.log('fetch', data)
+        dispatch({
+          type: GET_ARTIFACT,
+          payload: data,
+        })
+        console.log('List loaded')
+      } else {
+        throw new Error('Loading of list is failed')
+      }
+    } catch (error) {
+      console.log('Error', error)
+      throw error
     }
   }
 }

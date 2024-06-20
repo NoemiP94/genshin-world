@@ -17,6 +17,7 @@ const Material = () => {
     materialType: '',
   })
 
+  //GET MATERIAL
   const materialData = useSelector((state) => state.material.list)
   useEffect(() => {
     dispatch(getMaterial())
