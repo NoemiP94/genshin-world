@@ -1,6 +1,7 @@
 export const POST_ARTIFACT = 'POST_ARTIFACT'
 export const GET_ARTIFACT = 'GET_ARTIFACT'
 export const DELETE_ARTIFACT = 'DELETE_ARTIFACT'
+export const PUT_ARTIFACT = 'PUT_ARTIFACT'
 
 export const postArtifact = (artifact, token) => {
   return async (dispatch) => {
@@ -69,6 +70,34 @@ export const deleteArtifact = (id, token) => {
         })
       } else {
         throw new Error("Errore durante l'eliminazione")
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const updateArtifact = (id, updateArtifact, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/artifactset/' + id, {
+        method: 'PUT',
+        body: JSON.stringify(updateArtifact),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        console.log(data.content)
+        dispatch({
+          type: PUT_ARTIFACT,
+          payload: data.content,
+        })
+        alert('Modifica effettuata con successo!')
+      } else {
+        throw new Error('Errore durante la modifica')
       }
     } catch (error) {
       console.log('Error', error)

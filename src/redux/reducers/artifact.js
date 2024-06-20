@@ -2,11 +2,13 @@ import {
   DELETE_ARTIFACT,
   GET_ARTIFACT,
   POST_ARTIFACT,
+  PUT_ARTIFACT,
 } from '../action/artifacts'
 
 const initialState = {
   artifact: null,
   list: [],
+  update: '',
 }
 
 const artifactReducer = (state = initialState, action) => {
@@ -27,6 +29,11 @@ const artifactReducer = (state = initialState, action) => {
         list: state.list.filter((artifact) => artifact.id !== action.payload),
       }
     }
+    case PUT_ARTIFACT:
+      return {
+        ...state,
+        update: action.payload,
+      }
     default:
       return state
   }
