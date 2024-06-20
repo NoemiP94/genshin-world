@@ -1,5 +1,6 @@
 export const POST_PIECE = 'POST_PIECE'
 export const GET_PIECE = 'GET_PIECE'
+export const GET_POST_PIECE_IMG = 'GET_POST_PLACE_IMG'
 
 export const postPiece = (piece, token) => {
   return async (dispatch) => {
@@ -51,3 +52,28 @@ export const getPiece = () => {
     }
   }
 }
+
+export const postPieceImage = async (id_piece, formImg, token) => {
+  try {
+    const res = await fetch(`http://localhost:3001/piece/${id_piece}/image`, {
+      method: 'POST',
+      body: formImg,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    if (res.ok) {
+      alert('Immagine salvata correttamente!')
+      return null
+    } else {
+      throw new Error('Failed to upload image')
+    }
+  } catch (error) {
+    console.log('Error', error)
+  }
+}
+
+export const getPieceImage = (image) => ({
+  type: GET_POST_PIECE_IMG,
+  payload: image,
+})

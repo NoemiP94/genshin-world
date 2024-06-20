@@ -1,8 +1,9 @@
-import { GET_PIECE, POST_PIECE } from '../action/pieces'
+import { GET_PIECE, GET_POST_PIECE_IMG, POST_PIECE } from '../action/pieces'
 
 const initialState = {
   piece: null,
   list: [],
+  postImage: null,
 }
 
 const pieceReducer = (state = initialState, action) => {
@@ -16,6 +17,11 @@ const pieceReducer = (state = initialState, action) => {
       return {
         ...state,
         list: action.payload,
+      }
+    case GET_POST_PIECE_IMG:
+      return {
+        ...state,
+        postImage: action.payload,
       }
     default:
       return state

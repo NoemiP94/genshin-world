@@ -10,6 +10,7 @@ import Piece from './Piece'
 import { getPiece } from '../redux/action/pieces'
 import { Menu, MenuButton, MenuItem, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
+import ModalPieceImg from './modals/ModalPieceImg'
 
 const Artifacts = () => {
   const dispatch = useDispatch()
@@ -77,6 +78,19 @@ const Artifacts = () => {
   useEffect(() => {
     dispatch(getPiece())
   }, [dispatch])
+
+  //MODALE IMG
+  const [showPieceImgModal, setPieceShowImgModal] = useState(false)
+  const [selectedPiece, setSelectedPiece] = useState(null)
+
+  const showModalPieceImg = (idPiece) => {
+    console.log('Id pezzo ricevuto :', idPiece)
+    setSelectedPiece(idPiece)
+    setPieceShowImgModal(true)
+
+    console.log('Pezzo cliccato')
+    console.log('Pezzo selezionato', selectedPiece)
+  }
 
   return (
     <div>
@@ -237,7 +251,9 @@ const Artifacts = () => {
                                           strokeWidth={1.5}
                                           stroke="currentColor"
                                           className="size-8 mx-2"
-                                          //onClick={() => showModalImg(material.id)}
+                                          onClick={() =>
+                                            showModalPieceImg(piece.id)
+                                          }
                                         >
                                           <path
                                             strokeLinecap="round"
@@ -321,6 +337,13 @@ const Artifacts = () => {
                     </svg>
                   </div>
                 </div>
+                {showModalPieceImg && selectedPiece && (
+                  <ModalPieceImg
+                    showImgModal={showPieceImgModal}
+                    setShowImgModal={setPieceShowImgModal}
+                    pieceId={selectedPiece}
+                  />
+                )}
               </li>
             ))}
         </ul>

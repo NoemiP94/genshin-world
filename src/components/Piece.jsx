@@ -25,6 +25,7 @@ const Piece = (artifact) => {
       console.log('Errore creazione place: ', error)
     }
   }
+
   return (
     <div>
       {/* CREAZIONE PEZZO   */}
