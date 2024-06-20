@@ -4,6 +4,7 @@ import regionReducer from '../reducers/region'
 import placeReducer from '../reducers/place'
 import materialReducer from '../reducers/material'
 import artifactReducer from '../reducers/artifact'
+import pieceReducer from '../reducers/piece'
 
 const bigReducer = combineReducers({
   login: loginReducer,
@@ -11,6 +12,7 @@ const bigReducer = combineReducers({
   place: placeReducer,
   material: materialReducer,
   artifact: artifactReducer,
+  piece: pieceReducer,
 })
 
 const store = configureStore({
