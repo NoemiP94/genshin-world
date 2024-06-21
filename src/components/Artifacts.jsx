@@ -7,7 +7,7 @@ import {
   updateArtifact,
 } from '../redux/action/artifacts'
 import Piece from './Piece'
-import { getPiece } from '../redux/action/pieces'
+import { deletePiece, getPiece } from '../redux/action/pieces'
 import { Menu, MenuButton, MenuItem, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import ModalPieceImg from './modals/ModalPieceImg'
@@ -114,6 +114,18 @@ const Artifacts = () => {
       pieceType: piece.pieceType,
       //artifactSet_id: piece.artifactSet_id,
     }))
+  }
+
+  //HANDLE DELETE
+  const handleDeletePiece = async (pieceId) => {
+    console.log('piece id delete', pieceId)
+    try {
+      await dispatch(deletePiece(pieceId, token))
+      await dispatch(getPiece())
+      await dispatch(getArtifact())
+    } catch (error) {
+      console.log("Errore nell'eliminazione", error)
+    }
   }
 
   useEffect(() => {
@@ -324,9 +336,7 @@ const Artifacts = () => {
                                 <button
                                   type="button"
                                   className="block text-white"
-                                  //   onClick={() =>
-                                  //     handleDeletePlace(place.id)
-                                  //   }
+                                  onClick={() => handleDeletePiece(piece.id)}
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"

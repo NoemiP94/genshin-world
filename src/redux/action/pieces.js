@@ -2,6 +2,7 @@ export const POST_PIECE = 'POST_PIECE'
 export const GET_PIECE = 'GET_PIECE'
 export const GET_POST_PIECE_IMG = 'GET_POST_PLACE_IMG'
 export const PUT_PIECE = 'PUT_PIECE'
+export const DELETE_PIECE = 'DELETE_PIECE'
 
 export const postPiece = (piece, token) => {
   return async (dispatch) => {
@@ -103,6 +104,29 @@ export const updatePiece = (id, updatePiece, token) => {
       }
     } catch (error) {
       console.log('Error put', error)
+    }
+  }
+}
+
+export const deletePiece = (id, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/piece/' + id, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      if (res.ok) {
+        dispatch({
+          type: DELETE_PIECE,
+          payload: id,
+        })
+      } else {
+        throw new Error("Errore durante l'eliminazione")
+      }
+    } catch (error) {
+      console.log('Error', error)
     }
   }
 }

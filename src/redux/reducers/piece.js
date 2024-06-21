@@ -1,4 +1,5 @@
 import {
+  DELETE_PIECE,
   GET_PIECE,
   GET_POST_PIECE_IMG,
   POST_PIECE,
@@ -34,6 +35,12 @@ const pieceReducer = (state = initialState, action) => {
         ...state,
         update: action.payload,
       }
+    case DELETE_PIECE: {
+      return {
+        ...state,
+        list: state.list.filter((piece) => piece.id !== action.payload),
+      }
+    }
     default:
       return state
   }
