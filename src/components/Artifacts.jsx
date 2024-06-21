@@ -337,7 +337,7 @@ const Artifacts = () => {
                     </svg>
                   </div>
                 </div>
-                {showModalPieceImg && selectedPiece && (
+                {showPieceImgModal && selectedPiece && (
                   <ModalPieceImg
                     showImgModal={showPieceImgModal}
                     setShowImgModal={setPieceShowImgModal}
