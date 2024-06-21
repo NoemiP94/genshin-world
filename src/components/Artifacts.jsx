@@ -92,6 +92,33 @@ const Artifacts = () => {
     console.log('Pezzo selezionato', selectedPiece)
   }
 
+  //UPDATE PIECE
+  const [piece, setPiece] = useState(null)
+  const [newPiece, setNewPiece] = useState(null)
+  //const [idPiece, setIdPiece] = useState('')
+
+  const handleUpdatePieceButton = (piece, artifact) => {
+    console.log('Bottone modifica cliccato')
+    console.log('Piece da modificare: ', piece)
+    console.log('id artifact: ', artifact)
+    console.log('piece.id: ', piece.id)
+    setSelectedPiece(piece.id)
+    setNewPiece(piece)
+
+    console.log('selectedPiece: ', selectedPiece)
+    setPiece((prevPiece) => ({
+      ...prevPiece,
+      name: piece.name,
+      description: piece.description,
+      id: piece.id,
+      pieceType: piece.pieceType,
+      //artifactSet_id: piece.artifactSet_id,
+    }))
+  }
+
+  useEffect(() => {
+    console.log('selectedPiece aggiornato:', selectedPiece)
+  }, [selectedPiece])
   return (
     <div>
       <div className="mt-5 text-2xl font-bold">Gestione Artefatti</div>
@@ -188,7 +215,7 @@ const Artifacts = () => {
         </div>
         {/* FINE CREAZIONE ARTIFACT */}{' '}
         <div className="container my-6 w-full flex">
-          <Piece artifact={artifact} />
+          <Piece artifact={artifact} idPiece={selectedPiece} piece={piece} />
         </div>
       </div>
       {/* INIZIO LISTA ARTIFACT */}
@@ -261,9 +288,6 @@ const Artifacts = () => {
                                 <button
                                   type="button"
                                   className="block text-white"
-                                  //   onClick={() =>
-                                  //     handleUpdateButton(place, region.id)
-                                  //   }
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -284,9 +308,9 @@ const Artifacts = () => {
                                 <button
                                   type="button"
                                   className="block text-white"
-                                  //   onClick={() =>
-                                  //     handleUpdateButton(place, region.id)
-                                  //   }
+                                  onClick={() =>
+                                    handleUpdatePieceButton(piece, artifact.id)
+                                  }
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -309,9 +333,6 @@ const Artifacts = () => {
                                     viewBox="0 0 24 24"
                                     fill="#dc2626"
                                     className="size-6 me-1"
-                                    // onClick={() => {
-                                    //   handleDelete(region)
-                                    // }}
                                   >
                                     <path
                                       fillRule="evenodd"

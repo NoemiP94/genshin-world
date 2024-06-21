@@ -1,6 +1,7 @@
 export const POST_PIECE = 'POST_PIECE'
 export const GET_PIECE = 'GET_PIECE'
 export const GET_POST_PIECE_IMG = 'GET_POST_PLACE_IMG'
+export const PUT_PIECE = 'PUT_PIECE'
 
 export const postPiece = (piece, token) => {
   return async (dispatch) => {
@@ -77,3 +78,31 @@ export const getPieceImage = (image) => ({
   type: GET_POST_PIECE_IMG,
   payload: image,
 })
+
+export const updatePiece = (id, updatePiece, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/piece/' + id, {
+        method: 'PUT',
+        body: JSON.stringify(updatePiece),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        console.log(data.content)
+        dispatch({
+          type: PUT_PIECE,
+          payload: data.content,
+        })
+        alert('Modifica effettuata con successo!')
+      } else {
+        throw new Error('Errore durante la modifica')
+      }
+    } catch (error) {
+      console.log('Error put', error)
+    }
+  }
+}

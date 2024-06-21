@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getArtifact } from '../redux/action/artifacts'
-import { getPiece, postPiece } from '../redux/action/pieces'
+import { getPiece, postPiece, updatePiece } from '../redux/action/pieces'
 
-const Piece = (artifact) => {
+const Piece = ({ idPiece, pieceOb }) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
 
@@ -14,15 +14,49 @@ const Piece = (artifact) => {
   }, [dispatch])
 
   //SAVE PIECE
-  const [piece, setPiece] = useState(null)
+  const [piece, setPiece] = useState({
+    name: '',
+    description: '',
+    id: idPiece,
+    pieceType: '',
+    artifactSet_id: '',
+  })
+
+  const [newPiece, setNewPiece] = useState({
+    name: piece.name,
+    description: piece.description,
+    id: idPiece,
+    pieceType: piece.pieceType,
+    artifactSet_id: piece.artifactSet_id,
+  })
   const handleSave = async (e) => {
     e.preventDefault()
+
     try {
       await dispatch(postPiece(piece, token))
       await dispatch(getArtifact())
       await dispatch(getPiece())
     } catch (error) {
       console.log('Errore creazione place: ', error)
+    }
+  }
+
+  //UPDATE PIECE
+  const handleUpdate = async () => {
+    console.log('nell handleUpdate ', idPiece)
+    if (!idPiece) {
+      console.log('ID nn valido', idPiece)
+      return
+    }
+    try {
+      await dispatch(updatePiece(idPiece, piece, token))
+      await dispatch(getPiece())
+      await dispatch(getArtifact())
+      //console.log('idPiece: ', idPiece)
+      console.log('modificato')
+      console.log('piece: ', piece)
+    } catch (error) {
+      console.log('Errore nella modifica: ', error)
     }
   }
 
@@ -50,7 +84,7 @@ const Piece = (artifact) => {
                     name="set"
                     autoComplete="set-name"
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    //value={place.region_id}
+                    //value={newPiece.artifactSet_id}
                     onChange={(e) => {
                       setPiece({
                         ...piece,
@@ -82,7 +116,7 @@ const Piece = (artifact) => {
                     id="name"
                     autoComplete="name"
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    //value={place.name}
+                    //value={newPiece.name}
                     onChange={(e) => {
                       setPiece({
                         ...piece,
@@ -106,7 +140,7 @@ const Piece = (artifact) => {
                   name="about"
                   rows={5}
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300  "
-                  // value={place.description}
+                  //value={newPiece.description}
                   onChange={(e) => {
                     setPiece({
                       ...piece,
@@ -129,7 +163,7 @@ const Piece = (artifact) => {
                   name="pieceType"
                   autoComplete="pieceType-name"
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                  // value={region.vision}
+                  //value={newPiece.pieceType}
                   onChange={(e) => {
                     setPiece({
                       ...piece,
@@ -164,10 +198,11 @@ const Piece = (artifact) => {
               <button
                 type="submit"
                 className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                // onClick={(e) => {
-                //   e.preventDefault()
-                //   handleUpdate()
-                // }}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleUpdate()
+                  console.log('idPiece', idPiece)
+                }}
               >
                 Salva modifiche
               </button>

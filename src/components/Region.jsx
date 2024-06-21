@@ -348,9 +348,6 @@ const Region = () => {
                                             viewBox="0 0 24 24"
                                             fill="#dc2626"
                                             className="size-6 me-1"
-                                            onClick={() => {
-                                              handleDelete(region)
-                                            }}
                                           >
                                             <path
                                               fillRule="evenodd"
