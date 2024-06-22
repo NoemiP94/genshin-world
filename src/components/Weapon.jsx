@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getWeapon, postWeapon } from '../redux/action/weapons'
+import { deleteWeapon, getWeapon, postWeapon } from '../redux/action/weapons'
 import ModalWeaponImg from './modals/ModalWeaponImg'
 
 const Weapon = () => {
@@ -41,6 +41,17 @@ const Weapon = () => {
 
     console.log('Arma cliccata')
     console.log('Arma selezionata', selectedWeapon)
+  }
+
+  //DELETE WEAPON
+  const handleDelete = async (weapon) => {
+    try {
+      await dispatch(deleteWeapon(weapon.id, token))
+      dispatch(getWeapon())
+      console.log('Arma eliminata con successo!')
+    } catch (error) {
+      console.log("Errore nell'eliminazione", error)
+    }
   }
 
   return (
@@ -285,9 +296,9 @@ const Weapon = () => {
                           viewBox="0 0 24 24"
                           fill="#dc2626"
                           className="size-8 mx-2"
-                          // onClick={() => {
-                          //   handleDelete(weapon)
-                          // }}
+                          onClick={() => {
+                            handleDelete(weapon)
+                          }}
                         >
                           <path
                             fillRule="evenodd"

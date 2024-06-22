@@ -1,6 +1,7 @@
 export const POST_WEAPON = 'POST_WEAPON'
 export const GET_WEAPON = 'GET_WEAPON'
 export const GET_POST_WEAPON_IMG = 'GET_POST_WEAPON_IMG'
+export const DELETE_WEAPON = 'DELETE_WEAPON'
 
 export const postWeapon = (weapon, token) => {
   return async (dispatch) => {
@@ -77,3 +78,26 @@ export const getWeaponImage = (image) => ({
   type: GET_POST_WEAPON_IMG,
   payload: image,
 })
+
+export const deleteWeapon = (id, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/weapon/' + id, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      if (res.ok) {
+        dispatch({
+          type: DELETE_WEAPON,
+          payload: id,
+        })
+      } else {
+        throw new Error("Errore durante l'eliminazione")
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
