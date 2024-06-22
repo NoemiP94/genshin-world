@@ -3,12 +3,14 @@ import {
   GET_POST_WEAPON_IMG,
   GET_WEAPON,
   POST_WEAPON,
+  PUT_WEAPON,
 } from '../action/weapons'
 
 const initialState = {
   weapon: null,
   list: [],
   postImage: null,
+  update: '',
 }
 
 const weaponReducer = (state = initialState, action) => {
@@ -34,6 +36,11 @@ const weaponReducer = (state = initialState, action) => {
         list: state.list.filter((weapon) => weapon.id !== action.payload),
       }
     }
+    case PUT_WEAPON:
+      return {
+        ...state,
+        update: action.payload,
+      }
     default:
       return state
   }

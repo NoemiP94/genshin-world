@@ -2,6 +2,7 @@ export const POST_WEAPON = 'POST_WEAPON'
 export const GET_WEAPON = 'GET_WEAPON'
 export const GET_POST_WEAPON_IMG = 'GET_POST_WEAPON_IMG'
 export const DELETE_WEAPON = 'DELETE_WEAPON'
+export const PUT_WEAPON = 'PUT_WEAPON'
 
 export const postWeapon = (weapon, token) => {
   return async (dispatch) => {
@@ -95,6 +96,34 @@ export const deleteWeapon = (id, token) => {
         })
       } else {
         throw new Error("Errore durante l'eliminazione")
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const updateWeapon = (id, updateWeapon, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/weapon/' + id, {
+        method: 'PUT',
+        body: JSON.stringify(updateWeapon),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        console.log(data.content)
+        dispatch({
+          type: PUT_WEAPON,
+          payload: data.content,
+        })
+        alert('Modifica effettuata con successo!')
+      } else {
+        throw new Error('Errore durante la modifica')
       }
     } catch (error) {
       console.log('Error', error)

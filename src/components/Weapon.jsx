@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteWeapon, getWeapon, postWeapon } from '../redux/action/weapons'
+import {
+  deleteWeapon,
+  getWeapon,
+  postWeapon,
+  updateWeapon,
+} from '../redux/action/weapons'
 import ModalWeaponImg from './modals/ModalWeaponImg'
 
 const Weapon = () => {
@@ -54,6 +59,35 @@ const Weapon = () => {
     }
   }
 
+  //UPDATE WEAPON
+  const [updtWeapon, setUpdtWeapon] = useState(null)
+  const [idWeapon, setIdWeapon] = useState('')
+
+  const handlePencilUpdate = (weapon) => {
+    setUpdtWeapon(weapon)
+    setIdWeapon(weapon.id)
+    setWeapon({
+      name: weapon.name,
+      description: weapon.description,
+      weaponType: weapon.weaponType,
+      stars: weapon.stars,
+      details: weapon.details,
+    })
+    console.log('arma passato: ', weapon)
+    console.log('id arma selezionato: ', weapon.id)
+    console.log('matita cliccata')
+  }
+
+  const handleUpdate = async () => {
+    try {
+      await dispatch(updateWeapon(idWeapon, weapon, token))
+      dispatch(getWeapon())
+      console.log('Modificato con successo')
+    } catch (error) {
+      console.log('Errore nella modifica', error)
+    }
+  }
+
   return (
     <div className="h-screen">
       <h2 className="mt-5 text-2xl font-bold">Gestione Armi</h2>
@@ -81,7 +115,7 @@ const Weapon = () => {
                       id="name"
                       autoComplete="name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //   value={weapon.name}
+                      value={weapon.name}
                       onChange={(e) => {
                         setWeapon({
                           ...weapon,
@@ -106,7 +140,7 @@ const Weapon = () => {
                     name="weaponType"
                     autoComplete="weaponType-name"
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    // value={material.weaponType}
+                    value={weapon.weaponType}
                     onChange={(e) => {
                       setWeapon({
                         ...weapon,
@@ -136,7 +170,7 @@ const Weapon = () => {
                     name="stars"
                     autoComplete="stars-name"
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    // value={weapon.stars}
+                    value={weapon.stars}
                     onChange={(e) => {
                       setWeapon({
                         ...weapon,
@@ -164,9 +198,9 @@ const Weapon = () => {
                   <textarea
                     id="about"
                     name="about"
-                    rows={5}
+                    rows={4}
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 "
-                    // value={weapon.description}
+                    value={weapon.description}
                     onChange={(e) => {
                       setWeapon({
                         ...weapon,
@@ -187,9 +221,9 @@ const Weapon = () => {
                   <textarea
                     id="details"
                     name="details"
-                    rows={4}
+                    rows={3}
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 "
-                    // value={weapon.details}
+                    value={weapon.details}
                     onChange={(e) => {
                       setWeapon({
                         ...weapon,
@@ -219,10 +253,10 @@ const Weapon = () => {
                 <button
                   type="submit"
                   className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  //   onClick={(e) => {
-                  //     e.preventDefault()
-                  //     handleUpdate()
-                  //   }}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleUpdate()
+                  }}
                 >
                   Salva modifiche
                 </button>
@@ -285,9 +319,9 @@ const Weapon = () => {
                           viewBox="0 0 24 24"
                           fill="#facc15"
                           className="size-8 mx-2"
-                          // onClick={() => {
-                          //   handlePencilUpdate(weapon)
-                          // }}
+                          onClick={() => {
+                            handlePencilUpdate(weapon)
+                          }}
                         >
                           <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
                         </svg>
