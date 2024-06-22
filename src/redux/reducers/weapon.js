@@ -1,7 +1,8 @@
-import { POST_WEAPON } from '../action/weapons'
+import { GET_WEAPON, POST_WEAPON } from '../action/weapons'
 
 const initialState = {
   weapon: null,
+  list: [],
 }
 
 const weaponReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const weaponReducer = (state = initialState, action) => {
       return {
         ...state,
         weapon: action.payload,
+      }
+    case GET_WEAPON:
+      return {
+        ...state,
+        list: action.payload,
       }
     default:
       return state

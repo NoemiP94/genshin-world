@@ -1,4 +1,5 @@
 export const POST_WEAPON = 'POST_WEAPON'
+export const GET_WEAPON = 'GET_WEAPON'
 
 export const postWeapon = (weapon, token) => {
   return async (dispatch) => {
@@ -24,6 +25,29 @@ export const postWeapon = (weapon, token) => {
       }
     } catch (error) {
       console.log(error)
+    }
+  }
+}
+
+export const getWeapon = () => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/weapon/getall')
+      console.log('res', res)
+      if (res.ok) {
+        const data = await res.json()
+        console.log('fetch', data)
+        dispatch({
+          type: GET_WEAPON,
+          payload: data,
+        })
+        console.log('List loaded')
+      } else {
+        throw new Error('Loading of list is failed')
+      }
+    } catch (error) {
+      console.log('Error', error)
+      throw error
     }
   }
 }
