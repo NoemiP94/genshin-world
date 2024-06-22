@@ -1,5 +1,6 @@
 export const POST_WEAPON = 'POST_WEAPON'
 export const GET_WEAPON = 'GET_WEAPON'
+export const GET_POST_WEAPON_IMG = 'GET_POST_WEAPON_IMG'
 
 export const postWeapon = (weapon, token) => {
   return async (dispatch) => {
@@ -51,3 +52,28 @@ export const getWeapon = () => {
     }
   }
 }
+
+export const postWeaponImage = async (id_weapon, formImg, token) => {
+  try {
+    const res = await fetch(`http://localhost:3001/weapon/${id_weapon}/image`, {
+      method: 'POST',
+      body: formImg,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    if (res.ok) {
+      alert('Immagine salvata correttamente!')
+      return null
+    } else {
+      throw new Error('Failed to upload image')
+    }
+  } catch (error) {
+    console.log('Error', error)
+  }
+}
+
+export const getWeaponImage = (image) => ({
+  type: GET_POST_WEAPON_IMG,
+  payload: image,
+})

@@ -1,8 +1,9 @@
-import { GET_WEAPON, POST_WEAPON } from '../action/weapons'
+import { GET_POST_WEAPON_IMG, GET_WEAPON, POST_WEAPON } from '../action/weapons'
 
 const initialState = {
   weapon: null,
   list: [],
+  postImage: null,
 }
 
 const weaponReducer = (state = initialState, action) => {
@@ -16,6 +17,11 @@ const weaponReducer = (state = initialState, action) => {
       return {
         ...state,
         list: action.payload,
+      }
+    case GET_POST_WEAPON_IMG:
+      return {
+        ...state,
+        postImage: action.payload,
       }
     default:
       return state
