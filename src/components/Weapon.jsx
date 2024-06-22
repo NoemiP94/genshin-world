@@ -267,7 +267,7 @@ const Weapon = () => {
         {/* FINE CREAZIONE WEAPON */}
         {/* INIZIO LISTA WEAPON */}
         <div className="w-2/4">
-          <p className="text-white text-lg">Lista Materiali</p>
+          <p className="text-white text-lg">Lista Armi</p>
           <ul
             role="list"
             className="divide-y divide-gray-100 ms-5 overflow-y-scroll px-5 h-2/3"
@@ -295,6 +295,30 @@ const Weapon = () => {
                       <p>
                         - Stelle: <span className="italic">{weapon.stars}</span>
                       </p>
+                      <div className="mt-2">
+                        <div className="flex">
+                          <p>- Materiali necessari</p>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="#15803d"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="#15803d"
+                            className="size-6 mx-2"
+                            //aggiungi materiale -> mostra barra di ricerca per inserire il nome del materiale
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 4.5v15m7.5-7.5h-15"
+                            />
+                          </svg>
+                        </div>
+
+                        <div>
+                          qua vengono mostrati i materiali scelti(img+nome)
+                        </div>
+                      </div>
                     </div>
                     <div className="w-1/4 mt-4 mx-4 flex flex-col">
                       <div className="flex mb-4">

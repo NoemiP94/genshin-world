@@ -3,6 +3,7 @@ export const GET_MATERIAL = 'GET_MATERIAL'
 export const GET_POST_MATERIAL_IMG = 'GET_POST_MATERIAL_IMG'
 export const DELETE_MATERIAL = 'DELETE_MATERIAL'
 export const PUT_MATERIAL = 'PUT_MATERIAL'
+export const GET_MATERIAL_BY_NAME = 'GET_MATERIAL_BY_NAME'
 
 export const postMaterial = (material, token) => {
   return async (dispatch) => {

@@ -1,6 +1,7 @@
 import {
   DELETE_MATERIAL,
   GET_MATERIAL,
+  GET_MATERIAL_BY_NAME,
   GET_POST_MATERIAL_IMG,
   POST_MATERIAL,
   PUT_MATERIAL,
@@ -40,6 +41,11 @@ const materialReducer = (state = initialState, action) => {
       return {
         ...state,
         update: action.payload,
+      }
+    case GET_MATERIAL_BY_NAME:
+      return {
+        ...state,
+        material: action.payload,
       }
     default:
       return state
