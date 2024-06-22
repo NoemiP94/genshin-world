@@ -5,6 +5,7 @@ import placeReducer from '../reducers/place'
 import materialReducer from '../reducers/material'
 import artifactReducer from '../reducers/artifact'
 import pieceReducer from '../reducers/piece'
+import weaponReducer from '../reducers/weapon'
 
 const bigReducer = combineReducers({
   login: loginReducer,
@@ -13,6 +14,7 @@ const bigReducer = combineReducers({
   material: materialReducer,
   artifact: artifactReducer,
   piece: pieceReducer,
+  weapon: weaponReducer,
 })
 
 const store = configureStore({

@@ -28,6 +28,7 @@ const Material = () => {
   const saveMaterial = async () => {
     try {
       await dispatch(postMaterial(material, token))
+      await dispatch(getMaterial())
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }

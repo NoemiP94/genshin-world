@@ -1,4 +1,28 @@
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { postWeapon } from '../redux/action/weapons'
+
 const Weapon = () => {
+  const dispatch = useDispatch()
+  const token = localStorage.getItem('token')
+  const [weapon, setWeapon] = useState({
+    name: '',
+    description: '',
+    weaponType: '',
+    stars: '',
+    details: '',
+  })
+
+  //SAVE WEAPON
+  const saveWeapon = async () => {
+    try {
+      await dispatch(postWeapon(weapon, token))
+      //await dispatch(getWeapon())
+    } catch (error) {
+      console.log('Errore nel salvataggio', error)
+    }
+  }
+
   return (
     <div className="h-screen">
       <h2 className="mt-5 text-2xl font-bold">Gestione Armi</h2>
@@ -26,13 +50,13 @@ const Weapon = () => {
                       id="name"
                       autoComplete="name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //   value={material.name}
-                      //   onChange={(e) => {
-                      //     setMaterial({
-                      //       ...material,
-                      //       name: e.target.value,
-                      //     })
-                      //   }}
+                      //   value={weapon.name}
+                      onChange={(e) => {
+                        setWeapon({
+                          ...weapon,
+                          name: e.target.value,
+                        })
+                      }}
                     />
                   </div>
                 </div>
@@ -51,13 +75,13 @@ const Weapon = () => {
                     name="weaponType"
                     autoComplete="weaponType-name"
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    // value={material.materialType}
-                    // onChange={(e) => {
-                    //   setMaterial({
-                    //     ...material,
-                    //     materialType: e.target.value,
-                    //   })
-                    // }}
+                    // value={material.weaponType}
+                    onChange={(e) => {
+                      setWeapon({
+                        ...weapon,
+                        weaponType: e.target.value,
+                      })
+                    }}
                   >
                     <option>Seleziona un tipo</option>
                     <option>Spada</option>
@@ -81,13 +105,13 @@ const Weapon = () => {
                     name="stars"
                     autoComplete="stars-name"
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    // value={material.materialType}
-                    // onChange={(e) => {
-                    //   setMaterial({
-                    //     ...material,
-                    //     materialType: e.target.value,
-                    //   })
-                    // }}
+                    // value={weapon.stars}
+                    onChange={(e) => {
+                      setWeapon({
+                        ...weapon,
+                        stars: e.target.value,
+                      })
+                    }}
                   >
                     <option>Seleziona stelle</option>
                     <option>ONE</option>
@@ -111,13 +135,13 @@ const Weapon = () => {
                     name="about"
                     rows={5}
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 "
-                    // value={material.description}
-                    // onChange={(e) => {
-                    //   setMaterial({
-                    //     ...material,
-                    //     description: e.target.value,
-                    //   })
-                    // }}
+                    // value={weapon.description}
+                    onChange={(e) => {
+                      setWeapon({
+                        ...weapon,
+                        description: e.target.value,
+                      })
+                    }}
                   />
                 </div>
               </div>
@@ -134,13 +158,13 @@ const Weapon = () => {
                     name="details"
                     rows={4}
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 "
-                    // value={material.description}
-                    // onChange={(e) => {
-                    //   setMaterial({
-                    //     ...material,
-                    //     description: e.target.value,
-                    //   })
-                    // }}
+                    // value={weapon.details}
+                    onChange={(e) => {
+                      setWeapon({
+                        ...weapon,
+                        details: e.target.value,
+                      })
+                    }}
                   />
                 </div>
               </div>
@@ -154,10 +178,10 @@ const Weapon = () => {
                 <button
                   type="submit"
                   className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm"
-                  //   onClick={(e) => {
-                  //     e.preventDefault()
-                  //     saveMaterial()
-                  //   }}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    saveWeapon()
+                  }}
                 >
                   Salva
                 </button>
