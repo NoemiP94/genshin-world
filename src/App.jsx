@@ -7,6 +7,7 @@ import Login from './components/Login'
 import Footer from './components/Footer'
 import Material from './components/Material'
 import Artifacts from './components/Artifacts'
+import Weapon from './components/Weapon'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="region" element={<Region />} />
           <Route path="material" element={<Material />} />
           <Route path="artifacts" element={<Artifacts />} />
+          <Route path="weapon" element={<Weapon />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>

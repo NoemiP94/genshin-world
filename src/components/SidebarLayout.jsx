@@ -20,7 +20,7 @@ const SidebarLayout = () => {
           <Link to="/reserved/material">Materiali</Link>
         </button>
         <button className="text-right py-2">
-          <Link to="#">Armi</Link>
+          <Link to="/reserved/weapon">Armi</Link>
         </button>
         <button className="text-right py-2">
           <Link to="#">Personaggi</Link>
