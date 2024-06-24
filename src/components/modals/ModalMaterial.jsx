@@ -1,13 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  GET_POST_PLACE_IMG,
-  getPlace,
-  postImage,
-} from '../../redux/action/places'
 import { useEffect, useState } from 'react'
 import { getMaterial, getMaterialByName } from '../../redux/action/materials'
+import { addMaterialToWeapon, getWeapon } from '../../redux/action/weapons'
 
-const ModalMaterial = ({ showModal, setShowModal, weaponId }) => {
+const ModalMaterial = ({ showModal, setShowModal, weaponId, weapon }) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
 
@@ -17,22 +13,25 @@ const ModalMaterial = ({ showModal, setShowModal, weaponId }) => {
     dispatch(getMaterial())
   }, [dispatch])
 
-  // const handleShowMaterial = () => {
-  //   try {
-  //     console.log()
-  //   } catch (error) {
-  //     console.log('Error', error)
-  //   }
-  //getMaterialByName(qualcosa preso dall'input)
-  //}
-  //quando si clicca INVIA mostra i risultati trovati
-  //quando si clicca AGGIUNGI aggiunge alla lista dei materiali per l'arma, ma non chiude il modale.
+  //quando si clicca sull'oggetto lo aggiunge
+  const handleAddMaterial = async (weapon, idWeapon, idMaterial, token) => {
+    try {
+      console.log('idWeapon: ', idWeapon)
+      console.log('idMaterial: ', idMaterial)
+      console.log('weapon selected: ', weapon)
+      console.log('token: ', token)
+      await dispatch(addMaterialToWeapon(weapon, idWeapon, idMaterial, token))
+      await dispatch(getWeapon())
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
 
   return (
     <>
       <div className="flex justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-51 outline-none focus:outline-none">
         <div className="relative w-auto my-6 mx-auto max-w-3xl ">
-          <div className="border-0 bg-slate-600 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+          <div className="bg-slate-700 border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
               <h3 className="text-3xl font=semibold text-black">
                 Aggiungi Materiali
@@ -51,6 +50,9 @@ const ModalMaterial = ({ showModal, setShowModal, weaponId }) => {
                   <div
                     key={material.id}
                     className="flex flex-col m-4 items-center w-20 "
+                    onClick={() =>
+                      handleAddMaterial(weapon, weaponId, material.id, token)
+                    }
                   >
                     {material.image !== null ? (
                       <img
@@ -63,14 +65,6 @@ const ModalMaterial = ({ showModal, setShowModal, weaponId }) => {
                     </p>
                   </div>
                 ))}
-            </div>
-            <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-              <button
-                className="text-white bg-yellow-500 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                type="button"
-              >
-                Salva
-              </button>
             </div>
           </div>
         </div>

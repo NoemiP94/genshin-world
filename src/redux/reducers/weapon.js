@@ -1,4 +1,5 @@
 import {
+  ADD_MATERIAL,
   DELETE_WEAPON,
   GET_POST_WEAPON_IMG,
   GET_WEAPON,
@@ -40,6 +41,11 @@ const weaponReducer = (state = initialState, action) => {
       return {
         ...state,
         update: action.payload,
+      }
+    case ADD_MATERIAL:
+      return {
+        ...state,
+        weapon: action.payload,
       }
     default:
       return state

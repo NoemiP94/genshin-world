@@ -3,6 +3,7 @@ export const GET_WEAPON = 'GET_WEAPON'
 export const GET_POST_WEAPON_IMG = 'GET_POST_WEAPON_IMG'
 export const DELETE_WEAPON = 'DELETE_WEAPON'
 export const PUT_WEAPON = 'PUT_WEAPON'
+export const ADD_MATERIAL = 'ADD_MATERIAL'
 
 export const postWeapon = (weapon, token) => {
   return async (dispatch) => {
@@ -124,6 +125,37 @@ export const updateWeapon = (id, updateWeapon, token) => {
         alert('Modifica effettuata con successo!')
       } else {
         throw new Error('Errore durante la modifica')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+//http://localhost:3001/weapon/{weaponId}/material/{materialId}
+export const addMaterialToWeapon = (weapon, idWeapon, idMaterial, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/weapon/${idWeapon}/material/${idMaterial}`,
+        {
+          method: 'POST',
+          body: JSON.stringify(weapon),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      if (res.ok) {
+        const data = await res.json()
+        dispatch({
+          type: ADD_MATERIAL,
+          payload: data,
+        })
+        console.log('data: ', data)
+      } else {
+        throw new Error('Salvataggio fallito!')
       }
     } catch (error) {
       console.log('Error', error)
