@@ -1,93 +1,73 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   GET_POST_PLACE_IMG,
   getPlace,
   postImage,
 } from '../../redux/action/places'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { getMaterial, getMaterialByName } from '../../redux/action/materials'
 
-const ModalMaterial = ({ showImgModal, setShowImgModal, placeId }) => {
+const ModalMaterial = ({ showModal, setShowModal, weaponId }) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
-  const [formImg, setFormImg] = useState(null)
 
-  const handleUploadImage = async (id) => {
-    try {
-      console.log('cliccato'), console.log('id luogo', id)
-      console.log(placeId)
+  //metodo che prende il testo dell'input e lo aggiunge all'endpoint
+  const materialData = useSelector((state) => state.material.list)
+  useEffect(() => {
+    dispatch(getMaterial())
+  }, [dispatch])
 
-      if (formImg) {
-        console.log('formImg', formImg)
-        const id_place = id ? id.toString() : null
-        console.log('id_place: ', id_place)
-        if (id_place) {
-          const response = await postImage(id_place, formImg, token)
-          console.log('response', response)
-          if (response !== null) {
-            console.log('Immagine caricata correttamente', response)
-            console.log('id luogo', id)
-            console.log('altro id luogo', id_place)
-            dispatch({
-              type: GET_POST_PLACE_IMG,
-              payload: response.url,
-            })
+  // const handleShowMaterial = () => {
+  //   try {
+  //     console.log()
+  //   } catch (error) {
+  //     console.log('Error', error)
+  //   }
+  //getMaterialByName(qualcosa preso dall'input)
+  //}
+  //quando si clicca INVIA mostra i risultati trovati
+  //quando si clicca AGGIUNGI aggiunge alla lista dei materiali per l'arma, ma non chiude il modale.
 
-            alert('immagine caricata')
-
-            //dispatch(getPlace())
-          } else {
-            console.log('Image upload successful, but no URL returned')
-          }
-        } else {
-          console.log('Place ID not recovered')
-        }
-      }
-    } catch (error) {
-      console.log('Error', error)
-    }
-  }
-
-  const handleSave = (id) => {
-    handleUploadImage(id)
-    setShowImgModal(false)
-  }
   return (
     <>
-      <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-51 outline-none focus:outline-none">
-        <div className="relative w-auto my-6 mx-auto max-w-3xl">
-          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+      <div className="flex justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-51 outline-none focus:outline-none">
+        <div className="relative w-auto my-6 mx-auto max-w-3xl ">
+          <div className="border-0 bg-slate-600 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
               <h3 className="text-3xl font=semibold text-black">
-                Aggiungi immagine
+                Aggiungi Materiali
               </h3>
               <button
                 className="bg-transparent border-0 text-black float-right"
-                onClick={() => setShowImgModal(false)}
+                onClick={() => setShowModal(false)}
               >
                 <span className="text-black h-6 w-6 text-xl block py-0">x</span>
               </button>
             </div>
-            <div className="relative p-6 flex-auto">
-              <form className="bg-gray-200 shadow-md rounded px-8 pt-6 pb-8 w-full">
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-1 "
-                  type="file"
-                  onChange={(e) => {
-                    const file = e.target.files[0]
-                    if (file) {
-                      const formData = new FormData()
-                      formData.append('image', file)
-                      setFormImg(formData)
-                    }
-                  }}
-                />
-              </form>
+            <div className="relative p-6 flex flex-wrap overflow-y-scroll border m-4 rounded-xl border-slate-900 border-2">
+              {/* mostrare tutti i materiali */}
+              {materialData.content &&
+                materialData.content.map((material) => (
+                  <div
+                    key={material.id}
+                    className="flex flex-col m-4 items-center w-20 "
+                  >
+                    {material.image !== null ? (
+                      <img
+                        src={material.image}
+                        className="w-14 border border-yellow-600 rounded-lg w-20 mx-auto"
+                      />
+                    ) : null}
+                    <p className="text-center pt-1 truncate hover:text-clip w-20">
+                      {material.name}
+                    </p>
+                  </div>
+                ))}
             </div>
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
               <button
                 className="text-white bg-yellow-500 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                 type="button"
-                onClick={() => handleSave(placeId)}
               >
                 Salva
               </button>

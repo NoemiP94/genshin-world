@@ -90,8 +90,6 @@ const Weapon = () => {
   }
 
   //GET MATERIALS
-
-  //quando si clicca sul + c'è un modale che mostra un input per inserire il nome,
   const [showMaterialModal, setShowMaterialModal] = useState(false)
   const [selected, setSelected] = useState(null)
 
@@ -101,9 +99,6 @@ const Weapon = () => {
     setShowMaterialModal(true)
     console.log('arma selezionata: ', selected)
   }
-
-  //quando si clicca INVIA mostra i risultati trovati
-  //quando si clicca AGGIUNGI aggiunge alla lista dei materiali per l'arma, ma non chiude il modale.
 
   return (
     <div className="h-screen">
