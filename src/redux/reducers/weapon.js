@@ -5,6 +5,7 @@ import {
   GET_WEAPON,
   POST_WEAPON,
   PUT_WEAPON,
+  REMOVE_MATERIAL,
 } from '../action/weapons'
 
 const initialState = {
@@ -46,6 +47,16 @@ const weaponReducer = (state = initialState, action) => {
       return {
         ...state,
         weapon: action.payload,
+      }
+    case REMOVE_MATERIAL:
+      return {
+        ...state,
+        weapon: {
+          ...state.weapon,
+          materials: state.weapon.materials.filter(
+            (mater) => mater.id !== action.payload
+          ),
+        },
       }
     default:
       return state

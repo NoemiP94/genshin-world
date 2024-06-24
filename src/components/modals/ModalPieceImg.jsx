@@ -50,7 +50,7 @@ const ModalPieceImg = ({ showImgModal, setShowImgModal, pieceId }) => {
     <>
       <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-51 outline-none focus:outline-none">
         <div className="relative w-auto my-6 mx-auto max-w-3xl">
-          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-slate-700 outline-none focus:outline-none">
             <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
               <h3 className="text-3xl font=semibold text-black">
                 Aggiungi immagine
@@ -63,9 +63,9 @@ const ModalPieceImg = ({ showImgModal, setShowImgModal, pieceId }) => {
               </button>
             </div>
             <div className="relative p-6 flex-auto">
-              <form className="bg-gray-200 shadow-md rounded px-8 pt-6 pb-8 w-full">
+              <form className=" shadow-md rounded px-8 pt-6 pb-8 w-full">
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-1 "
+                  className="shadow appearance-none  rounded w-full py-2 px-1 "
                   type="file"
                   onChange={(e) => {
                     const file = e.target.files[0]

@@ -4,6 +4,7 @@ export const GET_POST_WEAPON_IMG = 'GET_POST_WEAPON_IMG'
 export const DELETE_WEAPON = 'DELETE_WEAPON'
 export const PUT_WEAPON = 'PUT_WEAPON'
 export const ADD_MATERIAL = 'ADD_MATERIAL'
+export const REMOVE_MATERIAL = 'REMOVE_MATERIAL'
 
 export const postWeapon = (weapon, token) => {
   return async (dispatch) => {
@@ -153,9 +154,36 @@ export const addMaterialToWeapon = (weapon, idWeapon, idMaterial, token) => {
           type: ADD_MATERIAL,
           payload: data,
         })
-        console.log('data: ', data)
+        console.log(res.ok)
       } else {
         throw new Error('Salvataggio fallito!')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const removeMaterial = (idWeapon, idMaterial, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/weapon/${idWeapon}/material/${idMaterial}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      if (res.ok) {
+        dispatch({
+          type: REMOVE_MATERIAL,
+          payload: idMaterial,
+        })
+        console.log(res.ok)
+      } else {
+        throw new Error("Errore durante l'eliminazione")
       }
     } catch (error) {
       console.log('Error', error)

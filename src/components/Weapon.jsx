@@ -4,6 +4,7 @@ import {
   deleteWeapon,
   getWeapon,
   postWeapon,
+  removeMaterial,
   updateWeapon,
 } from '../redux/action/weapons'
 import ModalWeaponImg from './modals/ModalWeaponImg'
@@ -99,6 +100,26 @@ const Weapon = () => {
     setShowMaterialModal(true)
     console.log('arma selezionata: ', selected)
   }
+
+  //REMOVE MATERIAL
+  const handleRemoveMaterial = async (idWeapon, idMaterial) => {
+    try {
+      await dispatch(removeMaterial(idWeapon, idMaterial, token))
+      await dispatch(getWeapon())
+    } catch (error) {
+      console.log("Errore nell'eliminazione", error)
+    }
+  }
+
+  // const handleDelete = async (weapon) => {
+  //   try {
+  //     await dispatch(deleteWeapon(weapon.id, token))
+  //     dispatch(getWeapon())
+  //     console.log('Arma eliminata con successo!')
+  //   } catch (error) {
+  //     console.log("Errore nell'eliminazione", error)
+  //   }
+  // }
 
   return (
     <div className="h-screen">
@@ -317,7 +338,6 @@ const Weapon = () => {
                             strokeWidth={1.5}
                             stroke="#15803d"
                             className="size-6 mx-2"
-                            //aggiungi materiale -> mostra barra di ricerca per inserire il nome del materiale
                             onClick={() => handlePlusButton(weapon.id)}
                           >
                             <path
@@ -328,7 +348,7 @@ const Weapon = () => {
                           </svg>
                         </div>
 
-                        <div className="flex flex-wrap overflow-y-scroll h-20">
+                        <div className="flex flex-wrap overflow-y-scroll h-20 mt-2 border border-2 rounded-lg">
                           {weapon.materials.length > 0 &&
                             weapon.materials.map((mater) => (
                               <div
@@ -350,7 +370,11 @@ const Weapon = () => {
                                   fill="#dc2626"
                                   className="size-5 mx-2"
                                   onClick={() => {
-                                    handleDelete(weapon)
+                                    handleRemoveMaterial(
+                                      weapon.id,
+                                      mater.id,
+                                      token
+                                    )
                                   }}
                                 >
                                   <path
