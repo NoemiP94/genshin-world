@@ -134,3 +134,26 @@ export const updateMaterial = (id, updateMaterial, token) => {
     }
   }
 }
+
+export const getMaterialByName = (name) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(`http://localhost:3001/material/name/${name}`)
+      console.log('res', res)
+      if (res.ok) {
+        const data = await res.json()
+        console.log('fetch', data)
+        dispatch({
+          type: GET_MATERIAL_BY_NAME,
+          payload: data,
+        })
+        console.log('Loaded')
+      } else {
+        throw new Error('Loading is failed')
+      }
+    } catch (error) {
+      console.log('Error', error)
+      throw error
+    }
+  }
+}

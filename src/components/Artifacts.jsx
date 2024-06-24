@@ -288,10 +288,12 @@ const Artifacts = () => {
                           <a className="italic py-2 " key={piece.id}>
                             <div className="flex p-2 w-96 ">
                               <div>
-                                <img
-                                  src={piece.image}
-                                  className="border mx-2 w-14 border-yellow-600"
-                                />
+                                {piece.image !== null ? (
+                                  <img
+                                    src={piece.image}
+                                    className="border mx-2 w-14 border-yellow-600"
+                                  />
+                                ) : null}
                               </div>
                               <div className="pe-5 ps-5 text-sm">
                                 {piece.name}

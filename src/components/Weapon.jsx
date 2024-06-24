@@ -7,6 +7,7 @@ import {
   updateWeapon,
 } from '../redux/action/weapons'
 import ModalWeaponImg from './modals/ModalWeaponImg'
+import ModalMaterial from './modals/ModaMaterial'
 
 const Weapon = () => {
   const dispatch = useDispatch()
@@ -87,6 +88,22 @@ const Weapon = () => {
       console.log('Errore nella modifica', error)
     }
   }
+
+  //GET MATERIALS
+
+  //quando si clicca sul + c'è un modale che mostra un input per inserire il nome,
+  const [showMaterialModal, setShowMaterialModal] = useState(false)
+  const [selected, setSelected] = useState(null)
+
+  const handlePlusButton = (idWeapon) => {
+    console.log('idWeapon ricevuto: ', idWeapon)
+    setSelected(idWeapon)
+    setShowMaterialModal(true)
+    console.log('arma selezionata: ', selected)
+  }
+
+  //quando si clicca INVIA mostra i risultati trovati
+  //quando si clicca AGGIUNGI aggiunge alla lista dei materiali per l'arma, ma non chiude il modale.
 
   return (
     <div className="h-screen">
@@ -306,6 +323,7 @@ const Weapon = () => {
                             stroke="#15803d"
                             className="size-6 mx-2"
                             //aggiungi materiale -> mostra barra di ricerca per inserire il nome del materiale
+                            onClick={() => handlePlusButton(weapon.id)}
                           >
                             <path
                               strokeLinecap="round"
@@ -366,10 +384,12 @@ const Weapon = () => {
                         </svg>
                       </div>
                       <div>
-                        <img
-                          src={weapon.image}
-                          className="border border-yellow-600 rounded-lg w-20 mx-auto"
-                        />
+                        {weapon.image !== null ? (
+                          <img
+                            src={weapon.image}
+                            className="border border-yellow-600 rounded-lg w-20 mx-auto"
+                          />
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -378,6 +398,13 @@ const Weapon = () => {
                       showImgModal={showWeaponImgModal}
                       setShowImgModal={setShowWeaponImgModal}
                       weaponId={selectedWeapon}
+                    />
+                  )}
+                  {showMaterialModal && selected && (
+                    <ModalMaterial
+                      showModal={showMaterialModal}
+                      setShowModal={setShowMaterialModal}
+                      weaponId={selected}
                     />
                   )}
                 </li>
