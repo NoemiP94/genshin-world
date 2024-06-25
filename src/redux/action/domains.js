@@ -1,6 +1,7 @@
 export const POST_DOMAIN = 'POST_DOMAIN'
 export const GET_DOMAIN = 'GET_DOMAIN'
 export const PUT_DOMAIN = 'PUT_DOMAIN'
+export const DELETE_DOMAIN = 'DELETE_DOMAIN'
 
 export const postDomain = (domain, token) => {
   return async (dispatch) => {
@@ -74,6 +75,29 @@ export const updateDomain = (id, updateDomain, token) => {
         alert('Modifica effettuata con successo!')
       } else {
         throw new Error('Errore durante la modifica')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const deleteDomain = (id, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/domain/' + id, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      if (res.ok) {
+        dispatch({
+          type: DELETE_DOMAIN,
+          payload: id,
+        })
+      } else {
+        throw new Error("Errore durante l'eliminazione")
       }
     } catch (error) {
       console.log('Error', error)

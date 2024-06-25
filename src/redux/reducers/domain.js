@@ -1,4 +1,9 @@
-import { GET_DOMAIN, POST_DOMAIN, PUT_DOMAIN } from '../action/domains'
+import {
+  DELETE_DOMAIN,
+  GET_DOMAIN,
+  POST_DOMAIN,
+  PUT_DOMAIN,
+} from '../action/domains'
 
 const initialState = {
   domain: null,
@@ -23,6 +28,12 @@ const domainReducer = (state = initialState, action) => {
         ...state,
         update: action.payload,
       }
+    case DELETE_DOMAIN: {
+      return {
+        ...state,
+        list: state.list.filter((domain) => domain.id !== action.payload),
+      }
+    }
     default:
       return state
   }

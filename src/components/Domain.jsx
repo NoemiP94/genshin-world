@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRegion } from '../redux/action/regions'
-import { getDomain, postDomain, updateDomain } from '../redux/action/domains'
+import {
+  deleteDomain,
+  getDomain,
+  postDomain,
+  updateDomain,
+} from '../redux/action/domains'
 
 const Domain = () => {
   const dispatch = useDispatch()
@@ -57,6 +62,18 @@ const Domain = () => {
       console.log('Errore nella modifica', error)
     }
   }
+
+  //DELETE DOMAIN
+  const handleDelete = async (domain) => {
+    try {
+      await dispatch(deleteDomain(domain.id, token))
+      dispatch(getDomain())
+      console.log('Dominio eliminato con successo!')
+    } catch (error) {
+      console.log("Errore nell'eliminazione", error)
+    }
+  }
+
   return (
     <div className="h-screen">
       <h2 className="mt-5 text-2xl font-bold">Gestione Domini</h2>
@@ -321,9 +338,9 @@ const Domain = () => {
                           viewBox="0 0 24 24"
                           fill="#dc2626"
                           className="size-8 mx-2"
-                          //   onClick={() => {
-                          //     handleDelete(weapon)
-                          //   }}
+                          onClick={() => {
+                            handleDelete(domain)
+                          }}
                         >
                           <path
                             fillRule="evenodd"
