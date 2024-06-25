@@ -111,16 +111,6 @@ const Weapon = () => {
     }
   }
 
-  // const handleDelete = async (weapon) => {
-  //   try {
-  //     await dispatch(deleteWeapon(weapon.id, token))
-  //     dispatch(getWeapon())
-  //     console.log('Arma eliminata con successo!')
-  //   } catch (error) {
-  //     console.log("Errore nell'eliminazione", error)
-  //   }
-  // }
-
   return (
     <div className="h-screen">
       <h2 className="mt-5 text-2xl font-bold">Gestione Armi</h2>

@@ -8,6 +8,7 @@ import Footer from './components/Footer'
 import Material from './components/Material'
 import Artifacts from './components/Artifacts'
 import Weapon from './components/Weapon'
+import Domain from './components/Domain'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="material" element={<Material />} />
           <Route path="artifacts" element={<Artifacts />} />
           <Route path="weapon" element={<Weapon />} />
+          <Route path="domain" element={<Domain />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>
