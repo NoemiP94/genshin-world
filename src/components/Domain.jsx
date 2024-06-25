@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRegion } from '../redux/action/regions'
-import { postDomain } from '../redux/action/domains'
+import { getDomain, postDomain } from '../redux/action/domains'
 
 const Domain = () => {
   const dispatch = useDispatch()
@@ -18,11 +18,17 @@ const Domain = () => {
     try {
       await dispatch(postDomain(domain, token))
       console.log(domain)
-      //await dispatch(getDomain())
+      await dispatch(getDomain())
     } catch (error) {
       console.log('Errore creazione dominio: ', error)
     }
   }
+
+  //GET DOMAIN
+  const domainData = useSelector((state) => state.domain.list)
+  useEffect(() => {
+    dispatch(getDomain())
+  }, [dispatch])
 
   return (
     <div className="h-screen">
@@ -189,81 +195,103 @@ const Domain = () => {
             role="list"
             className="divide-y divide-gray-100 ms-5 overflow-y-scroll px-5 h-2/3"
           >
-            {/* {weaponData.content &&
-              weaponData.content.map((weapon) => ( */}
-            <li
-              // key={weapon.id}
-              className="my-3 text-left px-5 py-3"
-            >
-              <div className="flex justify-between">
-                <div className="w-3/4 ">
-                  <p>
-                    - Nome:{' '}
-                    <span className="italic">{/* {weapon.name} */}</span>
-                  </p>
-                  <p className=" overflow-y-scroll h-14 pt-2">
-                    - Descrizione:{' '}
-                    <span className="italic">{/* {weapon.description} */}</span>
-                  </p>
-                  <p className=" overflow-y-scroll h-14 pt-2">
-                    - Dettagli:{' '}
-                    <span className="italic">{/* {weapon.details} */}</span>
-                  </p>
-                  <p className="pt-2">
-                    - Tipo:{' '}
-                    <span className="italic">{/* {weapon.weaponType} */}</span>
-                  </p>
-                  <p>
-                    - Stelle:{' '}
-                    <span className="italic">{/* {weapon.stars} */}</span>
-                  </p>
-                  <div className="mt-2">
-                    <div className="flex">
-                      <p>- Materiali necessari</p>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="#15803d"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="#15803d"
-                        className="size-6 mx-2"
-                        // onClick={() => handlePlusButton(weapon.id)}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 4.5v15m7.5-7.5h-15"
-                        />
-                      </svg>
-                    </div>
+            {domainData.content &&
+              domainData.content.map((domain) => (
+                <li key={domain.id} className="my-3 text-left px-5 py-3">
+                  <div className="flex justify-between">
+                    <div className="w-3/4 ">
+                      <p>
+                        - Nome: <span className="italic"> {domain.name} </span>
+                      </p>
+                      <p>
+                        - Luogo:{' '}
+                        <span className="italic"> {domain.place} </span>
+                      </p>
 
-                    <div className="flex flex-wrap overflow-y-scroll h-20 mt-2 border border-2 rounded-lg">
-                      {/* {weapon.materials.length > 0 &&
+                      <p>
+                        - Tipo:{' '}
+                        <span className="italic"> {domain.domainType} </span>
+                      </p>
+                      <div className="mt-2">
+                        <div className="flex">
+                          <p>- Materiali: </p>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="#15803d"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="#15803d"
+                            className="size-6 mx-2"
+                            // onClick={() => handlePlusButton(weapon.id)}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 4.5v15m7.5-7.5h-15"
+                            />
+                          </svg>
+                        </div>
+
+                        <div className="flex flex-wrap overflow-y-scroll h-20 mt-2 border border-2 rounded-lg">
+                          {/* {weapon.materials.length > 0 &&
                             weapon.materials.map((mater) => ( */}
-                      <div
-                        // key={mater.id}
-                        className="flex flex-col mx-4 my-2 items-center w-16"
-                      >
-                        {/* {mater.image !== null ? ( */}
-                        <img
-                          // src={mater.image}
-                          className="w-14 border border-yellow-600 rounded-lg w-14 mx-auto"
-                        />
-                        {/* ) : null} */}
-                        <p className="text-center pt-1 truncate hover:text-clip w-14">
-                          {/* {mater.name} */}
-                        </p>
+                          <div
+                            // key={mater.id}
+                            className="flex flex-col mx-4 my-2 items-center w-16"
+                          >
+                            {/* {mater.image !== null ? ( */}
+                            <img
+                              // src={mater.image}
+                              className="w-14 border border-yellow-600 rounded-lg w-14 mx-auto"
+                            />
+                            {/* ) : null} */}
+                            <p className="text-center pt-1 truncate hover:text-clip w-14">
+                              {/* {mater.name} */}
+                            </p>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="#dc2626"
+                              className="size-5 mx-2"
+                              //   onClick={() => {
+                              //     handleRemoveMaterial(
+                              //       weapon.id,
+                              //       mater.id,
+                              //       token
+                              //     )
+                              //   }}
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </div>
+                          {/* ))} */}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="w-1/4 mt-4 mx-4 flex flex-col">
+                      <div className="flex mb-4">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="#facc15"
+                          className="size-8 mx-2"
+                          //   onClick={() => {
+                          //     handlePencilUpdate(weapon)
+                          //   }}
+                        >
+                          <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
+                        </svg>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                           fill="#dc2626"
-                          className="size-5 mx-2"
+                          className="size-8 mx-2"
                           //   onClick={() => {
-                          //     handleRemoveMaterial(
-                          //       weapon.id,
-                          //       mater.id,
-                          //       token
-                          //     )
+                          //     handleDelete(weapon)
                           //   }}
                         >
                           <path
@@ -273,43 +301,10 @@ const Domain = () => {
                           />
                         </svg>
                       </div>
-                      {/* ))} */}
                     </div>
                   </div>
-                </div>
-                <div className="w-1/4 mt-4 mx-4 flex flex-col">
-                  <div className="flex mb-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="#facc15"
-                      className="size-8 mx-2"
-                      //   onClick={() => {
-                      //     handlePencilUpdate(weapon)
-                      //   }}
-                    >
-                      <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="#dc2626"
-                      className="size-8 mx-2"
-                      //   onClick={() => {
-                      //     handleDelete(weapon)
-                      //   }}
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
 
-              {/* {showMaterialModal && selected && (
+                  {/* {showMaterialModal && selected && (
                     <ModalMaterial
                       showModal={showMaterialModal}
                       setShowModal={setShowMaterialModal}
@@ -317,8 +312,8 @@ const Domain = () => {
                       weapon={weapon}
                     />
                   )} */}
-            </li>
-            {/* ))} */}
+                </li>
+              ))}
           </ul>
         </div>
         {/* FINE LISTA DOMAIN */}

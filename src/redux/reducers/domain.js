@@ -1,7 +1,8 @@
-import { POST_DOMAIN } from '../action/domains'
+import { GET_DOMAIN, POST_DOMAIN } from '../action/domains'
 
 const initialState = {
   domain: null,
+  list: [],
 }
 
 const domainReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const domainReducer = (state = initialState, action) => {
       return {
         ...state,
         domain: action.payload,
+      }
+    case GET_DOMAIN:
+      return {
+        ...state,
+        list: action.payload,
       }
     default:
       return state
