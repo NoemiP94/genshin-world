@@ -1,27 +1,26 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
-import { getMaterial, getMaterialByName } from '../../redux/action/materials'
-import { addMaterialToWeapon, getWeapon } from '../../redux/action/weapons'
+import { useEffect } from 'react'
+import { getMaterial } from '../../redux/action/materials'
+import { addMaterialToDomain, getDomain } from '../../redux/action/domains'
 
-const ModalMaterial = ({ showModal, setShowModal, weaponId, weapon }) => {
+const ModalMaterialDomain = ({ showModal, setShowModal, domainId, domain }) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
 
-  //metodo che prende il testo dell'input e lo aggiunge all'endpoint
   const materialData = useSelector((state) => state.material.list)
   useEffect(() => {
     dispatch(getMaterial())
   }, [dispatch])
 
   //quando si clicca sull'oggetto lo aggiunge
-  const handleAddMaterial = async (weapon, idWeapon, idMaterial, token) => {
+  const handleAddMaterial = async (domain, idDomain, idMaterial, token) => {
     try {
-      console.log('idWeapon: ', idWeapon)
+      console.log('idDomain: ', idDomain)
       console.log('idMaterial: ', idMaterial)
-      console.log('weapon selected: ', weapon)
+      console.log('domain selected: ', domain)
       console.log('token: ', token)
-      await dispatch(addMaterialToWeapon(weapon, idWeapon, idMaterial, token))
-      await dispatch(getWeapon())
+      await dispatch(addMaterialToDomain(domain, idDomain, idMaterial, token))
+      await dispatch(getDomain())
     } catch (error) {
       console.log('Error', error)
     }
@@ -51,7 +50,7 @@ const ModalMaterial = ({ showModal, setShowModal, weaponId, weapon }) => {
                     key={material.id}
                     className="flex flex-col m-4 items-center w-20 "
                     onClick={() =>
-                      handleAddMaterial(weapon, weaponId, material.id, token)
+                      handleAddMaterial(domain, domainId, material.id, token)
                     }
                   >
                     {material.image !== null ? (
@@ -73,4 +72,4 @@ const ModalMaterial = ({ showModal, setShowModal, weaponId, weapon }) => {
   )
 }
 
-export default ModalMaterial
+export default ModalMaterialDomain

@@ -2,6 +2,8 @@ export const POST_DOMAIN = 'POST_DOMAIN'
 export const GET_DOMAIN = 'GET_DOMAIN'
 export const PUT_DOMAIN = 'PUT_DOMAIN'
 export const DELETE_DOMAIN = 'DELETE_DOMAIN'
+export const ADD_MATERIAL = 'ADD_MATERIAL'
+export const REMOVE_MATERIAL = 'REMOVE_MATERIAL'
 
 export const postDomain = (domain, token) => {
   return async (dispatch) => {
@@ -96,6 +98,64 @@ export const deleteDomain = (id, token) => {
           type: DELETE_DOMAIN,
           payload: id,
         })
+      } else {
+        throw new Error("Errore durante l'eliminazione")
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+//http://localhost:3001/domain/{domainId}/material/{materialId}
+export const addMaterialToDomain = (domain, idDomain, idMaterial, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/domain/${idDomain}/material/${idMaterial}`,
+        {
+          method: 'POST',
+          body: JSON.stringify(domain),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      if (res.ok) {
+        const data = await res.json()
+        dispatch({
+          type: ADD_MATERIAL,
+          payload: data,
+        })
+        console.log(res.ok)
+      } else {
+        throw new Error('Salvataggio fallito!')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const removeMaterial = (idDomain, idMaterial, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/domain/${idDomain}/material/${idMaterial}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      if (res.ok) {
+        dispatch({
+          type: REMOVE_MATERIAL,
+          payload: idMaterial,
+        })
+        console.log(res.ok)
       } else {
         throw new Error("Errore durante l'eliminazione")
       }

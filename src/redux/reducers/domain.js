@@ -1,8 +1,10 @@
 import {
+  ADD_MATERIAL,
   DELETE_DOMAIN,
   GET_DOMAIN,
   POST_DOMAIN,
   PUT_DOMAIN,
+  REMOVE_MATERIAL,
 } from '../action/domains'
 
 const initialState = {
@@ -34,6 +36,21 @@ const domainReducer = (state = initialState, action) => {
         list: state.list.filter((domain) => domain.id !== action.payload),
       }
     }
+    case ADD_MATERIAL:
+      return {
+        ...state,
+        domain: action.payload,
+      }
+    case REMOVE_MATERIAL:
+      return {
+        ...state,
+        domain: {
+          ...state.weapon,
+          materialList: state.domain.materialList.filter(
+            (mater) => mater.id !== action.payload
+          ),
+        },
+      }
     default:
       return state
   }
