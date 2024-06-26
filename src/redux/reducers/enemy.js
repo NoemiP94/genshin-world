@@ -1,7 +1,8 @@
-import { POST_ENEMY } from '../action/enemies'
+import { GET_ENEMY, POST_ENEMY } from '../action/enemies'
 
 const initialState = {
   enemy: null,
+  list: [],
 }
 
 const enemyReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const enemyReducer = (state = initialState, action) => {
       return {
         ...state,
         enemy: action.payload,
+      }
+    case GET_ENEMY:
+      return {
+        ...state,
+        list: action.payload,
       }
     default:
       return state
