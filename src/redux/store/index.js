@@ -7,6 +7,7 @@ import artifactReducer from '../reducers/artifact'
 import pieceReducer from '../reducers/piece'
 import weaponReducer from '../reducers/weapon'
 import domainReducer from '../reducers/domain'
+import enemyReducer from '../reducers/enemy'
 
 const bigReducer = combineReducers({
   login: loginReducer,
@@ -17,6 +18,7 @@ const bigReducer = combineReducers({
   piece: pieceReducer,
   weapon: weaponReducer,
   domain: domainReducer,
+  enemy: enemyReducer,
 })
 
 const store = configureStore({

@@ -23,6 +23,9 @@ const SidebarLayout = () => {
           <Link to="/reserved/weapon">Armi</Link>
         </button>
         <button className="text-right py-2">
+          <Link to="/reserved/enemy">Nemici</Link>
+        </button>
+        <button className="text-right py-2">
           <Link to="#">Personaggi</Link>
         </button>
         <button className="text-right py-2">
