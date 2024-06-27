@@ -1,5 +1,6 @@
 export const POST_ENEMY = 'POST_ENEMY'
 export const GET_ENEMY = 'GET_ENEMY'
+export const GET_POST_ENEMY_IMG = 'GET_POST_ENEMY_IMG'
 
 export const postEnemy = (enemy, token) => {
   return async (dispatch) => {
@@ -51,3 +52,28 @@ export const getEnemy = () => {
     }
   }
 }
+
+export const postEnemyImage = async (id_enemy, formImg, token) => {
+  try {
+    const res = await fetch(`http://localhost:3001/enemy/${id_enemy}/image`, {
+      method: 'POST',
+      body: formImg,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    if (res.ok) {
+      alert('Immagine salvata correttamente!')
+      return null
+    } else {
+      throw new Error('Failed to upload image')
+    }
+  } catch (error) {
+    console.log('Error', error)
+  }
+}
+
+export const getEnemyImage = (image) => ({
+  type: GET_POST_ENEMY_IMG,
+  payload: image,
+})

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getEnemy, postEnemy } from '../redux/action/enemies'
+import ModalEnemyImg from './modals/ModalEnemyImg'
 
 const Enemy = () => {
   const dispatch = useDispatch()
@@ -25,11 +26,19 @@ const Enemy = () => {
 
   //GET ENEMY
   const enemyData = useSelector((state) => state.enemy.list)
-
   useEffect(() => {
     console.log(enemyData)
     dispatch(getEnemy())
   }, [dispatch])
+
+  //IMG MODAL
+  const [showEnemyImgModal, setShowEnemyImgModal] = useState(false)
+  const [selectedEnemy, setSelectedEnemy] = useState(null)
+
+  const showEnemyModal = (idEnemy) => {
+    setSelectedEnemy(idEnemy)
+    setShowEnemyImgModal(true)
+  }
 
   return (
     <div className="h-screen">
@@ -274,7 +283,7 @@ const Enemy = () => {
                           strokeWidth={1.5}
                           stroke="currentColor"
                           className="size-8 mx-2"
-                          //   onClick={() => showWeaponModal(weapon.id)}
+                          onClick={() => showEnemyModal(enemy.id)}
                         >
                           <path
                             strokeLinecap="round"
@@ -320,13 +329,13 @@ const Enemy = () => {
                       </div>
                     </div>
                   </div>
-                  {/* {showWeaponImgModal && selectedWeapon && (
-                <ModalWeaponImg
-                  showImgModal={showWeaponImgModal}
-                  setShowImgModal={setShowWeaponImgModal}
-                  weaponId={selectedWeapon}
-                />
-              )} */}
+                  {showEnemyImgModal && selectedEnemy && (
+                    <ModalEnemyImg
+                      showImgModal={showEnemyImgModal}
+                      setShowImgModal={setShowEnemyImgModal}
+                      enemyId={selectedEnemy}
+                    />
+                  )}
                   {/* {showMaterialModal && selected && (
                 <ModalMaterial
                   showModal={showMaterialModal}
