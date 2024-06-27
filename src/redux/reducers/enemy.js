@@ -6,7 +6,7 @@ const initialState = {
 }
 
 const enemyReducer = (state = initialState, action) => {
-  switch (action.payload) {
+  switch (action.type) {
     case POST_ENEMY:
       return {
         ...state,

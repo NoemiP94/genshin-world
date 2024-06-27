@@ -25,7 +25,9 @@ const Enemy = () => {
 
   //GET ENEMY
   const enemyData = useSelector((state) => state.enemy.list)
+
   useEffect(() => {
+    console.log(enemyData)
     dispatch(getEnemy())
   }, [dispatch])
 
@@ -190,13 +192,13 @@ const Enemy = () => {
                         - Descrizione:{' '}
                         <span className="italic">{enemy.description}</span>
                       </p>
-                      {enemy.codeName !== null ? (
+                      {enemy.codeName !== '' ? (
                         <p className=" overflow-y-scroll h-14 pt-2">
                           - Nome in codice:{' '}
                           <span className="italic"> {enemy.codeName} </span>
                         </p>
                       ) : null}
-                      {enemy.place !== null ? (
+                      {enemy.place !== '' ? (
                         <p className="pt-2">
                           - Luogo:{' '}
                           <span className="italic"> {enemy.place} </span>
@@ -204,7 +206,7 @@ const Enemy = () => {
                       ) : null}
 
                       <div className="mt-2">
-                        {/* <div className="flex">
+                        <div className="flex">
                           <p>- Materiali necessari</p>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -221,7 +223,7 @@ const Enemy = () => {
                               d="M12 4.5v15m7.5-7.5h-15"
                             />
                           </svg>
-                        </div> */}
+                        </div>
 
                         <div className="flex flex-wrap overflow-y-scroll h-20 mt-2 border border-2 rounded-lg">
                           {/* {weapon.materials.length > 0 &&
@@ -309,12 +311,12 @@ const Enemy = () => {
                         </svg>
                       </div>
                       <div>
-                        {/* {enemy.image !== null ? (
+                        {enemy.image !== null ? (
                           <img
                             src={enemy.image}
                             className="border border-yellow-600 rounded-lg w-20 mx-auto"
                           />
-                        ) : null} */}
+                        ) : null}
                       </div>
                     </div>
                   </div>
