@@ -1,4 +1,5 @@
 import {
+  DELETE_ENEMY,
   GET_ENEMY,
   GET_POST_ENEMY_IMG,
   POST_ENEMY,
@@ -34,6 +35,12 @@ const enemyReducer = (state = initialState, action) => {
         ...state,
         update: action.payload,
       }
+    case DELETE_ENEMY: {
+      return {
+        ...state,
+        list: state.list.filter((enemy) => enemy.id !== action.payload),
+      }
+    }
     default:
       return state
   }

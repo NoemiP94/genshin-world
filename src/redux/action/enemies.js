@@ -2,6 +2,7 @@ export const POST_ENEMY = 'POST_ENEMY'
 export const GET_ENEMY = 'GET_ENEMY'
 export const GET_POST_ENEMY_IMG = 'GET_POST_ENEMY_IMG'
 export const PUT_ENEMY = 'PUT_ENEMY'
+export const DELETE_ENEMY = 'DELETE_ENEMY'
 
 export const postEnemy = (enemy, token) => {
   return async (dispatch) => {
@@ -100,6 +101,29 @@ export const updateEnemy = (id, updateEnemy, token) => {
         alert('Modifica effettuata con successo!')
       } else {
         throw new Error('Errore durante la modifica')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const deleteEnemy = (id, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/enemy/' + id, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      if (res.ok) {
+        dispatch({
+          type: DELETE_ENEMY,
+          payload: id,
+        })
+      } else {
+        throw new Error("Errore durante l'eliminazione")
       }
     } catch (error) {
       console.log('Error', error)

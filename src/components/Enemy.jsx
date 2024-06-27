@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getEnemy, postEnemy, updateEnemy } from '../redux/action/enemies'
+import {
+  deleteEnemy,
+  getEnemy,
+  postEnemy,
+  updateEnemy,
+} from '../redux/action/enemies'
 import ModalEnemyImg from './modals/ModalEnemyImg'
 
 const Enemy = () => {
@@ -65,6 +70,17 @@ const Enemy = () => {
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
+    }
+  }
+
+  //DELETE ENEMY
+  const handleDelete = async (enemy) => {
+    try {
+      await dispatch(deleteEnemy(enemy.id, token))
+      dispatch(getEnemy())
+      console.log('Nemico eliminata con successo!')
+    } catch (error) {
+      console.log("Errore nell'eliminazione", error)
     }
   }
 
@@ -336,9 +352,9 @@ const Enemy = () => {
                           viewBox="0 0 24 24"
                           fill="#dc2626"
                           className="size-8 mx-2"
-                          //   onClick={() => {
-                          //     handleDelete(enemy)
-                          //   }}
+                          onClick={() => {
+                            handleDelete(enemy)
+                          }}
                         >
                           <path
                             fillRule="evenodd"
