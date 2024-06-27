@@ -3,6 +3,8 @@ export const GET_ENEMY = 'GET_ENEMY'
 export const GET_POST_ENEMY_IMG = 'GET_POST_ENEMY_IMG'
 export const PUT_ENEMY = 'PUT_ENEMY'
 export const DELETE_ENEMY = 'DELETE_ENEMY'
+export const ADD_MATERIAL = 'ADD_MATERIAL'
+export const REMOVE_MATERIAL = 'REMOVE_MATERIAL'
 
 export const postEnemy = (enemy, token) => {
   return async (dispatch) => {
@@ -122,6 +124,64 @@ export const deleteEnemy = (id, token) => {
           type: DELETE_ENEMY,
           payload: id,
         })
+      } else {
+        throw new Error("Errore durante l'eliminazione")
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+//http://localhost:3001/enemy/{enemyId}/material/{materialId}
+export const addMaterialToEnemy = (enemy, idEnemy, idMaterial, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/enemy/${idEnemy}/material/${idMaterial}`,
+        {
+          method: 'POST',
+          body: JSON.stringify(enemy),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      if (res.ok) {
+        const data = await res.json()
+        dispatch({
+          type: ADD_MATERIAL,
+          payload: data,
+        })
+        console.log(res.ok)
+      } else {
+        throw new Error('Salvataggio fallito!')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const removeMaterial = (idEnemy, idMaterial, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/enemy/${idEnemy}/material/${idMaterial}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      if (res.ok) {
+        dispatch({
+          type: REMOVE_MATERIAL,
+          payload: idEnemy,
+        })
+        console.log(res.ok)
       } else {
         throw new Error("Errore durante l'eliminazione")
       }

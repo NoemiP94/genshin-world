@@ -1,9 +1,11 @@
 import {
+  ADD_MATERIAL,
   DELETE_ENEMY,
   GET_ENEMY,
   GET_POST_ENEMY_IMG,
   POST_ENEMY,
   PUT_ENEMY,
+  REMOVE_MATERIAL,
 } from '../action/enemies'
 
 const initialState = {
@@ -41,6 +43,21 @@ const enemyReducer = (state = initialState, action) => {
         list: state.list.filter((enemy) => enemy.id !== action.payload),
       }
     }
+    case ADD_MATERIAL:
+      return {
+        ...state,
+        enemy: action.payload,
+      }
+    case REMOVE_MATERIAL:
+      return {
+        ...state,
+        enemy: {
+          ...state.weapon,
+          rewards: state.enemy.rewards.filter(
+            (mater) => mater.id !== action.payload
+          ),
+        },
+      }
     default:
       return state
   }
