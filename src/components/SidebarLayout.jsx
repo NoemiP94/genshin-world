@@ -26,7 +26,7 @@ const SidebarLayout = () => {
           <Link to="/reserved/enemy">Nemici</Link>
         </button>
         <button className="text-right py-2">
-          <Link to="#">Personaggi</Link>
+          <Link to="/reserved/character">Personaggi</Link>
         </button>
         <button className="text-right py-2">
           <Link to="#">Blog</Link>
