@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getEnemy, postEnemy } from '../redux/action/enemies'
+import { getEnemy, postEnemy, updateEnemy } from '../redux/action/enemies'
 import ModalEnemyImg from './modals/ModalEnemyImg'
 
 const Enemy = () => {
@@ -40,6 +40,34 @@ const Enemy = () => {
     setShowEnemyImgModal(true)
   }
 
+  //UPDATE ENEMY
+  const [updtEnemy, setUpdtEnemy] = useState(null)
+  const [idEnemy, setIdEnemy] = useState('')
+
+  const handlePencilUpdate = (enemy) => {
+    setUpdtEnemy(enemy)
+    setIdEnemy(enemy.id)
+    setEnemy({
+      name: enemy.name,
+      description: enemy.description,
+      codeName: enemy.codeName,
+      place: enemy.place,
+    })
+    console.log('nemico passato: ', enemy)
+    console.log('id nemico selezionato: ', enemy.id)
+    console.log('matita cliccata')
+  }
+
+  const handleUpdate = async () => {
+    try {
+      await dispatch(updateEnemy(idEnemy, enemy, token))
+      dispatch(getEnemy())
+      console.log('Modificato con successo')
+    } catch (error) {
+      console.log('Errore nella modifica', error)
+    }
+  }
+
   return (
     <div className="h-screen">
       <h2 className="mt-5 text-2xl font-bold">Gestione Nemici</h2>
@@ -67,7 +95,7 @@ const Enemy = () => {
                       id="name"
                       autoComplete="name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //   value={enemy.name}
+                      value={enemy.name}
                       onChange={(e) => {
                         setEnemy({
                           ...enemy,
@@ -91,7 +119,7 @@ const Enemy = () => {
                     name="about"
                     rows={4}
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 "
-                    // value={enemy.description}
+                    value={enemy.description}
                     onChange={(e) => {
                       setEnemy({
                         ...enemy,
@@ -115,7 +143,7 @@ const Enemy = () => {
                     id="codename"
                     autoComplete="codename"
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    //   value={enemy.codeName}
+                    value={enemy.codeName}
                     onChange={(e) => {
                       setEnemy({
                         ...enemy,
@@ -139,7 +167,7 @@ const Enemy = () => {
                     id="place"
                     autoComplete="place"
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    //   value={enemy.place}
+                    value={enemy.place}
                     onChange={(e) => {
                       setEnemy({
                         ...enemy,
@@ -170,10 +198,10 @@ const Enemy = () => {
                 <button
                   type="submit"
                   className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  //   onClick={(e) => {
-                  //     e.preventDefault()
-                  //     handleUpdate()
-                  //   }}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleUpdate()
+                  }}
                 >
                   Salva modifiche
                 </button>
@@ -297,9 +325,9 @@ const Enemy = () => {
                           viewBox="0 0 24 24"
                           fill="#facc15"
                           className="size-8 mx-2"
-                          //   onClick={() => {
-                          //     handlePencilUpdate(weapon)
-                          //   }}
+                          onClick={() => {
+                            handlePencilUpdate(enemy)
+                          }}
                         >
                           <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
                         </svg>
@@ -309,7 +337,7 @@ const Enemy = () => {
                           fill="#dc2626"
                           className="size-8 mx-2"
                           //   onClick={() => {
-                          //     handleDelete(weapon)
+                          //     handleDelete(enemy)
                           //   }}
                         >
                           <path

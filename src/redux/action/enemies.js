@@ -1,6 +1,7 @@
 export const POST_ENEMY = 'POST_ENEMY'
 export const GET_ENEMY = 'GET_ENEMY'
 export const GET_POST_ENEMY_IMG = 'GET_POST_ENEMY_IMG'
+export const PUT_ENEMY = 'PUT_ENEMY'
 
 export const postEnemy = (enemy, token) => {
   return async (dispatch) => {
@@ -77,3 +78,31 @@ export const getEnemyImage = (image) => ({
   type: GET_POST_ENEMY_IMG,
   payload: image,
 })
+
+export const updateEnemy = (id, updateEnemy, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/enemy/' + id, {
+        method: 'PUT',
+        body: JSON.stringify(updateEnemy),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        console.log(data.content)
+        dispatch({
+          type: PUT_ENEMY,
+          payload: data.content,
+        })
+        alert('Modifica effettuata con successo!')
+      } else {
+        throw new Error('Errore durante la modifica')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
