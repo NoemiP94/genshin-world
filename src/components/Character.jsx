@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRegion } from '../redux/action/regions'
+import { getCharacter, postCharacter } from '../redux/action/characters'
 
 const Character = () => {
   const dispatch = useDispatch()
@@ -10,6 +11,33 @@ const Character = () => {
   const regionData = useSelector((state) => state.region.list)
   useEffect(() => {
     dispatch(getRegion())
+  }, [dispatch])
+
+  //SAVE CHARACTER
+  const [character, setCharacter] = useState({
+    name: '',
+    voice: '',
+    birthday: '',
+    stars: '',
+    affiliate: '',
+    visionType: '',
+    description: '',
+    weaponType: '',
+    region_id: '',
+  })
+  const saveCharacter = async () => {
+    try {
+      await dispatch(postCharacter(character, token))
+      await dispatch(getCharacter())
+    } catch (error) {
+      console.log('Errore nel salvataggio', error)
+    }
+  }
+
+  //GET CHARACTER
+  const characterData = useSelector((state) => state.character.list)
+  useEffect(() => {
+    dispatch(getCharacter())
   }, [dispatch])
 
   return (
@@ -38,13 +66,13 @@ const Character = () => {
                       id="name"
                       autoComplete="name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //   value={enemy.name}
-                      //   onChange={(e) => {
-                      //     setEnemy({
-                      //       ...enemy,
-                      //       name: e.target.value,
-                      //     })
-                      //   }}
+                      //   value={character.name}
+                      onChange={(e) => {
+                        setCharacter({
+                          ...character,
+                          name: e.target.value,
+                        })
+                      }}
                     />
                   </div>
                 </div>
@@ -62,13 +90,13 @@ const Character = () => {
                       id="voice"
                       autoComplete="voice"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //   value={enemy.voice}
-                      //   onChange={(e) => {
-                      //     setEnemy({
-                      //       ...enemy,
-                      //       voice: e.target.value,
-                      //     })
-                      //   }}
+                      //   value={character.voice}
+                      onChange={(e) => {
+                        setCharacter({
+                          ...character,
+                          voice: e.target.value,
+                        })
+                      }}
                     />
                   </div>
                 </div>
@@ -86,13 +114,13 @@ const Character = () => {
                       id="birthday"
                       autoComplete="birthday"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //   value={enemy.birthday}
-                      //   onChange={(e) => {
-                      //     setEnemy({
-                      //       ...enemy,
-                      //       birthday: e.target.value,
-                      //     })
-                      //   }}
+                      //   value={character.birthday}
+                      onChange={(e) => {
+                        setCharacter({
+                          ...character,
+                          birthday: e.target.value,
+                        })
+                      }}
                     />
                   </div>
                 </div>
@@ -110,13 +138,13 @@ const Character = () => {
                       id="affiliate"
                       autoComplete="birthday"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //   value={enemy.affiliate}
-                      //   onChange={(e) => {
-                      //     setEnemy({
-                      //       ...enemy,
-                      //       affiliate: e.target.value,
-                      //     })
-                      //   }}
+                      //   value={character.affiliate}
+                      onChange={(e) => {
+                        setCharacter({
+                          ...character,
+                          affiliate: e.target.value,
+                        })
+                      }}
                     />
                   </div>
                 </div>
@@ -133,13 +161,13 @@ const Character = () => {
                       name="stars"
                       autoComplete="stars-name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      // value={weapon.stars}
-                      // onChange={(e) => {
-                      //   setWeapon({
-                      //     ...weapon,
-                      //     stars: e.target.value,
-                      //   })
-                      // }}
+                      // value={character.stars}
+                      onChange={(e) => {
+                        setCharacter({
+                          ...character,
+                          stars: e.target.value,
+                        })
+                      }}
                     >
                       <option>Seleziona stelle</option>
 
@@ -161,13 +189,13 @@ const Character = () => {
                       name="vision"
                       autoComplete="vision-name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      // value={region.vision}
-                      // onChange={(e) => {
-                      //   setRegion({
-                      //     ...region,
-                      //     vision: e.target.value,
-                      //   })
-                      // }}
+                      // value={character.visionType}
+                      onChange={(e) => {
+                        setCharacter({
+                          ...character,
+                          visionType: e.target.value,
+                        })
+                      }}
                     >
                       <option>Seleziona una visione</option>
                       <option>Anemo</option>
@@ -193,13 +221,13 @@ const Character = () => {
                       name="weaponType"
                       autoComplete="weaponType-name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      // value={weapon.weaponType}
-                      // onChange={(e) => {
-                      //   setWeapon({
-                      //     ...weapon,
-                      //     weaponType: e.target.value,
-                      //   })
-                      // }}
+                      // value={character.weaponType}
+                      onChange={(e) => {
+                        setCharacter({
+                          ...character,
+                          weaponType: e.target.value,
+                        })
+                      }}
                     >
                       <option>Seleziona un tipo</option>
                       <option>Spada</option>
@@ -223,13 +251,13 @@ const Character = () => {
                       name="vision"
                       autoComplete="vision-name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      //value={place.region_id}
-                      //   onChange={(e) => {
-                      //     setPlace({
-                      //       ...place,
-                      //       region_id: e.target.value,
-                      //     })
-                      //   }}
+                      //value={character.region_id}
+                      onChange={(e) => {
+                        setCharacter({
+                          ...character,
+                          region_id: e.target.value,
+                        })
+                      }}
                     >
                       <option>Seleziona una regione</option>
                       {regionData.content &&
@@ -254,13 +282,13 @@ const Character = () => {
                       name="about"
                       rows={5}
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 "
-                      // value={region.description}
-                      // onChange={(e) => {
-                      //   setRegion({
-                      //     ...region,
-                      //     description: e.target.value,
-                      //   })
-                      // }}
+                      // value={character.description}
+                      onChange={(e) => {
+                        setCharacter({
+                          ...character,
+                          description: e.target.value,
+                        })
+                      }}
                     />
                   </div>
                 </div>
@@ -276,7 +304,7 @@ const Character = () => {
                 <button
                   type="submit"
                   className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  // onClick={handleSave}
+                  onClick={saveCharacter}
                 >
                   Salva
                 </button>
@@ -295,6 +323,30 @@ const Character = () => {
           </form>
         </div>
         {/* FINE CREA CHARACTER */}
+        {/* INIZIO LISTA CHARACTER */}
+        <div className="w-2/4">
+          <p className="text-white text-lg">Lista Personaggi</p>
+          <ul
+            role="list"
+            className="divide-y divide-gray-100 ms-5 overflow-y-scroll px-5 h-2/3"
+          >
+            {characterData.content &&
+              characterData.content.map((character) => (
+                <li
+                  key={character.id}
+                  className="my-3 text-left px-5 py-3 flex"
+                >
+                  <p>
+                    Nome: <span className="italic">{character.name}</span>
+                  </p>
+                  <button className="ms-5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Gestisci
+                  </button>
+                </li>
+              ))}
+          </ul>
+        </div>
+        {/* FINE LISTA CHARACTER */}
       </div>
     </div>
   )
