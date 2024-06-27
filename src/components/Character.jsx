@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRegion } from '../redux/action/regions'
 import { getCharacter, postCharacter } from '../redux/action/characters'
+import { Link } from 'react-router-dom'
 
 const Character = () => {
   const dispatch = useDispatch()
@@ -334,14 +335,17 @@ const Character = () => {
               characterData.content.map((character) => (
                 <li
                   key={character.id}
-                  className="my-3 text-left px-5 py-3 flex"
+                  className="my-3 text-left px-5 py-3 flex justify-between items-center"
                 >
                   <p>
                     Nome: <span className="italic">{character.name}</span>
                   </p>
-                  <button className="ms-5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                    Gestisci
-                  </button>
+                  <Link to={`/reserved/character/${character.id}`}>
+                    <button className="ms-5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                      Gestisci
+                    </button>
+                  </Link>
+                  {/* AGGIUNGERE BOTTONE ELIMINA */}
                 </li>
               ))}
           </ul>

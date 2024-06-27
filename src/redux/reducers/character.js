@@ -1,8 +1,13 @@
-import { GET_CHARACTER, POST_CHARACTER } from '../action/characters'
+import {
+  GET_CHARACTER,
+  POST_CHARACTER,
+  SINGLE_CHARACTER,
+} from '../action/characters'
 
 const initialState = {
   character: null,
   list: [],
+  singleCharacter: null,
 }
 
 const characterReducer = (state = initialState, action) => {
@@ -16,6 +21,11 @@ const characterReducer = (state = initialState, action) => {
       return {
         ...state,
         list: action.payload,
+      }
+    case SINGLE_CHARACTER:
+      return {
+        ...state,
+        singleCharacter: action.payload,
       }
     default:
       return state

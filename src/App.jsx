@@ -11,6 +11,7 @@ import Weapon from './components/Weapon'
 import Domain from './components/Domain'
 import Enemy from './components/Enemy'
 import Character from './components/Character'
+import SingleCharacter from './components/SingleCharacter'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="domain" element={<Domain />} />
           <Route path="enemy" element={<Enemy />} />
           <Route path="character" element={<Character />} />
+          <Route path="character/:id" element={<SingleCharacter />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>
