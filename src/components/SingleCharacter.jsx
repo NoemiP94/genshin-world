@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { getSingleCharacter } from '../redux/action/characters'
+import ModalCharacterImg from './modals/ModalCharacterImg'
 
 const SingleCharacter = () => {
   const dispatch = useDispatch()
@@ -14,6 +15,20 @@ const SingleCharacter = () => {
   useEffect(() => {
     dispatch(getSingleCharacter(id, token))
   }, [dispatch, id])
+
+  //IMG MODAL
+  const [showCharacterImgModal, setShowCharacterImgModal] = useState(false)
+  const [selectedCharacter, setSelectedCharacter] = useState(null)
+
+  const showCharacterModal = (idCharacter) => {
+    console.log('idCharacter ricevuto: ', idCharacter)
+    setSelectedCharacter(idCharacter)
+    setShowCharacterImgModal(true)
+
+    console.log('Personaggio cliccata')
+    console.log('Personaggio selezionato', selectedCharacter)
+  }
+
   return (
     <div className="h-screen">
       {singleCharacter && (
@@ -80,7 +95,7 @@ const SingleCharacter = () => {
               strokeWidth={1.5}
               stroke="currentColor"
               className="size-8 mx-2"
-              //onClick={() => showWeaponModal(weapon.id)}
+              onClick={() => showCharacterModal(singleCharacter.id)}
             >
               <path
                 strokeLinecap="round"
@@ -316,6 +331,13 @@ const SingleCharacter = () => {
             Indietro
           </button>
         </Link>
+        {showCharacterImgModal && selectedCharacter && (
+          <ModalCharacterImg
+            showImgModal={showCharacterImgModal}
+            setShowImgModal={setShowCharacterImgModal}
+            characterId={selectedCharacter}
+          />
+        )}
       </div>
     </div>
   )

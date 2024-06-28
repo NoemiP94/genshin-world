@@ -1,6 +1,7 @@
 export const POST_CHARACTER = 'POST_CHARACTER'
 export const GET_CHARACTER = 'GET_CHARACTER'
 export const SINGLE_CHARACTER = 'SINGLE_CHARACTER'
+export const GET_POST_CHARACTER_IMG = 'GET_POST_CHARACTER_IMG'
 
 export const postCharacter = (character, token) => {
   return async (dispatch) => {
@@ -78,3 +79,31 @@ export const getSingleCharacter = (id, token) => {
     }
   }
 }
+
+export const postCharacterImage = async (id_character, formImg, token) => {
+  try {
+    const res = await fetch(
+      `http://localhost:3001/character/${id_character}/image`,
+      {
+        method: 'POST',
+        body: formImg,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    if (res.ok) {
+      alert('Immagine salvata correttamente!')
+      return null
+    } else {
+      throw new Error('Failed to upload image')
+    }
+  } catch (error) {
+    console.log('Error', error)
+  }
+}
+
+export const getCharacterImage = (image) => ({
+  type: GET_POST_CHARACTER_IMG,
+  payload: image,
+})
