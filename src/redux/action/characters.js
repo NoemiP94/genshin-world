@@ -4,6 +4,8 @@ export const SINGLE_CHARACTER = 'SINGLE_CHARACTER'
 export const GET_POST_CHARACTER_IMG = 'GET_POST_CHARACTER_IMG'
 export const PUT_CHARACTER = 'PUT_CHARACTER'
 export const DELETE_CHARACTER = 'DELETE_CHARACTER'
+export const ADD_MATERIAL = 'ADD_MATERIAL'
+export const REMOVE_MATERIAL = 'REMOVE_MATERIAL'
 
 export const postCharacter = (character, token) => {
   return async (dispatch) => {
@@ -56,14 +58,11 @@ export const getCharacter = () => {
   }
 }
 
-export const getSingleCharacter = (id, token) => {
+export const getSingleCharacter = (id) => {
   return async (dispatch) => {
     try {
       const res = await fetch('http://localhost:3001/character/detail/' + id, {
         method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
       if (res.ok) {
         const data = await res.json()
@@ -152,6 +151,69 @@ export const deleteCharacter = (id, token) => {
           type: DELETE_CHARACTER,
           payload: id,
         })
+      } else {
+        throw new Error("Errore durante l'eliminazione")
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+//http://localhost:3001/character/{characterId}/material/{materialId}
+export const addMaterialToCharacter = (
+  character,
+  idCharacter,
+  idMaterial,
+  token
+) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/character/${idCharacter}/material/${idMaterial}`,
+        {
+          method: 'POST',
+          body: JSON.stringify(character),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      if (res.ok) {
+        const data = await res.json()
+        dispatch({
+          type: ADD_MATERIAL,
+          payload: data,
+        })
+        console.log(res.ok)
+      } else {
+        throw new Error('Salvataggio fallito!')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const removeMaterial = (idCharacter, idMaterial, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/character/${idCharacter}/material/${idMaterial}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      if (res.ok) {
+        dispatch({
+          type: REMOVE_MATERIAL,
+          payload: idMaterial,
+        })
+        console.log(res.ok)
       } else {
         throw new Error("Errore durante l'eliminazione")
       }

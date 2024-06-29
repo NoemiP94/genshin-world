@@ -1,9 +1,11 @@
 import {
+  ADD_MATERIAL,
   DELETE_CHARACTER,
   GET_CHARACTER,
   GET_POST_CHARACTER_IMG,
   POST_CHARACTER,
   PUT_CHARACTER,
+  REMOVE_MATERIAL,
   SINGLE_CHARACTER,
 } from '../action/characters'
 
@@ -48,6 +50,21 @@ const characterReducer = (state = initialState, action) => {
         character: state.list.filter(
           (character) => character.id !== action.payload
         ),
+      }
+    case ADD_MATERIAL:
+      return {
+        ...state,
+        character: action.payload,
+      }
+    case REMOVE_MATERIAL:
+      return {
+        ...state,
+        character: {
+          ...state.weapon,
+          ascensionMaterials: state.character.ascensionMaterials.filter(
+            (mater) => mater.id !== action.payload
+          ),
+        },
       }
     default:
       return state
