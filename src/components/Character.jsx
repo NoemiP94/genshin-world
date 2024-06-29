@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRegion } from '../redux/action/regions'
 import {
+  deleteCharacter,
   getCharacter,
   postCharacter,
   updateCharacter,
@@ -72,6 +73,17 @@ const Character = () => {
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
+    }
+  }
+
+  //DELETE CHARACTER
+  const handleDelete = async (character) => {
+    try {
+      await dispatch(deleteCharacter(character.id, token))
+      dispatch(getCharacter())
+      console.log('Personaggio eliminato con successo!')
+    } catch (error) {
+      console.log("Errore nell'eliminazione", error)
     }
   }
 
@@ -390,9 +402,9 @@ const Character = () => {
                     viewBox="0 0 24 24"
                     fill="#dc2626"
                     className="size-8 mx-2"
-                    // onClick={() => {
-                    //   handleDelete(weapon)
-                    // }}
+                    onClick={() => {
+                      handleDelete(character)
+                    }}
                   >
                     <path
                       fillRule="evenodd"

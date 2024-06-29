@@ -1,4 +1,5 @@
 import {
+  DELETE_CHARACTER,
   GET_CHARACTER,
   GET_POST_CHARACTER_IMG,
   POST_CHARACTER,
@@ -40,6 +41,13 @@ const characterReducer = (state = initialState, action) => {
       return {
         ...state,
         update: action.payload,
+      }
+    case DELETE_CHARACTER:
+      return {
+        ...state,
+        character: state.list.filter(
+          (character) => character.id !== action.payload
+        ),
       }
     default:
       return state

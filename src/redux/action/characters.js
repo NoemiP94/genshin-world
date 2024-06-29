@@ -3,6 +3,7 @@ export const GET_CHARACTER = 'GET_CHARACTER'
 export const SINGLE_CHARACTER = 'SINGLE_CHARACTER'
 export const GET_POST_CHARACTER_IMG = 'GET_POST_CHARACTER_IMG'
 export const PUT_CHARACTER = 'PUT_CHARACTER'
+export const DELETE_CHARACTER = 'DELETE_CHARACTER'
 
 export const postCharacter = (character, token) => {
   return async (dispatch) => {
@@ -130,6 +131,29 @@ export const updateCharacter = (id, updateCharacter, token) => {
         alert('Modifica effettuata con successo!')
       } else {
         throw new Error('Errore durante la modifica')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const deleteCharacter = (id, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/character/' + id, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      if (res.ok) {
+        dispatch({
+          type: DELETE_CHARACTER,
+          payload: id,
+        })
+      } else {
+        throw new Error("Errore durante l'eliminazione")
       }
     } catch (error) {
       console.log('Error', error)
