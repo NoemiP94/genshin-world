@@ -12,6 +12,7 @@ import ModalCharacterImg from './modals/ModalCharacterImg'
 import ModalMaterialCharacter from './modals/ModalMaterialCharacter'
 import ModalArtifactSetCharacter from './modals/ModalArtifactSetCharacter'
 import ModalWeaponCharacter from './modals/ModalWeaponCharacter'
+import Constellation from './modals/Constellation'
 
 const SingleCharacter = () => {
   const dispatch = useDispatch()
@@ -146,7 +147,9 @@ const SingleCharacter = () => {
             </p>
             <p>
               - Costellazione:{' '}
-              {/* <span className="italic">{singleCharacter.description}</span> */}
+              <span className="italic">
+                {singleCharacter.constellation.name}
+              </span>
             </p>
             <p>
               - Talenti:{' '}
@@ -179,22 +182,7 @@ const SingleCharacter = () => {
             </svg>
           </div>
           <div>
-            - Aggiungi costellazione{' '}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="#15803d"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="#15803d"
-              className="size-6 mx-2"
-              //onClick={() => handlePlusButton(weapon.id)}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
-            </svg>
+            <Constellation idCharacter={singleCharacter.id} />
           </div>
           <div>
             - Aggiungi talenti{' '}
