@@ -2,6 +2,7 @@ import {
   GET_CHARACTER,
   GET_POST_CHARACTER_IMG,
   POST_CHARACTER,
+  PUT_CHARACTER,
   SINGLE_CHARACTER,
 } from '../action/characters'
 
@@ -10,6 +11,7 @@ const initialState = {
   list: [],
   singleCharacter: null,
   postImage: null,
+  update: '',
 }
 
 const characterReducer = (state = initialState, action) => {
@@ -33,6 +35,11 @@ const characterReducer = (state = initialState, action) => {
       return {
         ...state,
         postImage: action.payload,
+      }
+    case PUT_CHARACTER:
+      return {
+        ...state,
+        update: action.payload,
       }
     default:
       return state
