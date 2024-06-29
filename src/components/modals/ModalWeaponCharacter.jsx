@@ -2,12 +2,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import {
   addArtifactSetToCharacter,
+  addWeaponToCharacter,
   getCharacter,
   getSingleCharacter,
 } from '../../redux/action/characters'
-import { getArtifact } from '../../redux/action/artifacts'
+import { getWeapon } from '../../redux/action/weapons'
 
-const ModalArtifactSetCharacter = ({
+const ModalWeaponCharacter = ({
   showModal,
   setShowModal,
   characterId,
@@ -16,25 +17,20 @@ const ModalArtifactSetCharacter = ({
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
 
-  const artifactData = useSelector((state) => state.artifact.list)
+  const weaponData = useSelector((state) => state.weapon.list)
   useEffect(() => {
-    dispatch(getArtifact())
+    dispatch(getWeapon())
   }, [dispatch])
 
   //quando si clicca sull'oggetto lo aggiunge
-  const handleAddArtifactSet = async (
-    character,
-    idCharacter,
-    idArtifactSet,
-    token
-  ) => {
+  const handleAddWeapon = async (character, idCharacter, idWeapon, token) => {
     try {
       console.log('idCharacter: ', idCharacter)
-      console.log('idArtifactSet: ', idArtifactSet)
+      console.log('idWeapon: ', idWeapon)
       console.log('personaggio selected: ', character)
       console.log('token: ', token)
       await dispatch(
-        addArtifactSetToCharacter(character, idCharacter, idArtifactSet, token)
+        addWeaponToCharacter(character, idCharacter, idWeapon, token)
       )
       await dispatch(getCharacter())
       await dispatch(getSingleCharacter(idCharacter))
@@ -61,28 +57,23 @@ const ModalArtifactSetCharacter = ({
             </div>
             <div className="relative p-6 flex flex-wrap overflow-y-scroll border m-4 rounded-xl border-slate-900 border-2">
               {/* mostrare tutti i materiali */}
-              {artifactData.content &&
-                artifactData.content.map((artifact) => (
+              {weaponData.content &&
+                weaponData.content.map((weapon) => (
                   <div
-                    key={artifact.id}
+                    key={weapon.id}
                     className="flex flex-col m-4 items-center w-20 "
                     onClick={() =>
-                      handleAddArtifactSet(
-                        character,
-                        characterId,
-                        artifact.id,
-                        token
-                      )
+                      handleAddWeapon(character, characterId, weapon.id, token)
                     }
                   >
-                    {/* {artifact.image !== null ? (
+                    {weapon.image !== null ? (
                       <img
-                        src={artifact.image}
+                        src={weapon.image}
                         className="w-14 border border-yellow-600 rounded-lg w-20 mx-auto"
                       />
-                    ) : null} */}
+                    ) : null}
                     <p className="text-center pt-1 truncate hover:text-clip w-20">
-                      {artifact.name}
+                      {weapon.name}
                     </p>
                   </div>
                 ))}
@@ -94,4 +85,4 @@ const ModalArtifactSetCharacter = ({
   )
 }
 
-export default ModalArtifactSetCharacter
+export default ModalWeaponCharacter

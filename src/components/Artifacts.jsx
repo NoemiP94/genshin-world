@@ -8,8 +8,6 @@ import {
 } from '../redux/action/artifacts'
 import Piece from './Piece'
 import { deletePiece, getPiece } from '../redux/action/pieces'
-import { Menu, MenuButton, MenuItem, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import ModalPieceImg from './modals/ModalPieceImg'
 
 const Artifacts = () => {

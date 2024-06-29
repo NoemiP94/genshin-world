@@ -8,6 +8,8 @@ export const ADD_MATERIAL = 'ADD_MATERIAL'
 export const REMOVE_MATERIAL = 'REMOVE_MATERIAL'
 export const ADD_ARTIFACTSET = 'ADD_ARTIFACTSET'
 export const REMOVE_ARTIFACTSET = 'REMOVE_ARTIFACTSET'
+export const ADD_WEAPON = 'ADD_WEAPON'
+export const REMOVE_WEAPON = 'REMOVE_WEAPON'
 
 export const postCharacter = (character, token) => {
   return async (dispatch) => {
@@ -277,6 +279,69 @@ export const removeArtifactSet = (idCharacter, idArtifactSet, token) => {
         dispatch({
           type: REMOVE_ARTIFACTSET,
           payload: idArtifactSet,
+        })
+        console.log(res.ok)
+      } else {
+        throw new Error("Errore durante l'eliminazione")
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+//http://localhost:3001/character/{characterId}/weapon/{weaponId}
+export const addWeaponToCharacter = (
+  character,
+  idCharacter,
+  idWeapon,
+  token
+) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/character/${idCharacter}/weapon/${idWeapon}`,
+        {
+          method: 'POST',
+          body: JSON.stringify(character),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      if (res.ok) {
+        const data = await res.json()
+        dispatch({
+          type: ADD_WEAPON,
+          payload: data,
+        })
+        console.log(res.ok)
+      } else {
+        throw new Error('Salvataggio fallito!')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const removeWeapon = (idCharacter, idWeapon, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/character/${idCharacter}/weapon/${idWeapon}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      if (res.ok) {
+        dispatch({
+          type: REMOVE_WEAPON,
+          payload: idWeapon,
         })
         console.log(res.ok)
       } else {
