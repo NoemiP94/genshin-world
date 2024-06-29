@@ -29,6 +29,9 @@ const SidebarLayout = () => {
           <Link to="/reserved/character">Personaggi</Link>
         </button>
         <button className="text-right py-2">
+          <Link to="/reserved/constellation">Costellazioni</Link>
+        </button>
+        <button className="text-right py-2">
           <Link to="#">Blog</Link>
         </button>
         <button className="text-right py-10">

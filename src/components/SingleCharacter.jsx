@@ -12,7 +12,6 @@ import ModalCharacterImg from './modals/ModalCharacterImg'
 import ModalMaterialCharacter from './modals/ModalMaterialCharacter'
 import ModalArtifactSetCharacter from './modals/ModalArtifactSetCharacter'
 import ModalWeaponCharacter from './modals/ModalWeaponCharacter'
-import Constellation from './modals/Constellation'
 
 const SingleCharacter = () => {
   const dispatch = useDispatch()
@@ -181,9 +180,7 @@ const SingleCharacter = () => {
               />
             </svg>
           </div>
-          <div>
-            <Constellation idCharacter={singleCharacter.id} />
-          </div>
+
           <div>
             - Aggiungi talenti{' '}
             <svg

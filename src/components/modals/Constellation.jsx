@@ -1,16 +1,22 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { postConstellation } from '../../redux/action/constellations'
-import { getSingleCharacter } from '../../redux/action/characters'
-import { useDispatch } from 'react-redux'
+import { getCharacter, getSingleCharacter } from '../../redux/action/characters'
+import { useDispatch, useSelector } from 'react-redux'
 
-const Constellation = ({ idCharacter }) => {
+const Constellation = () => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
+
+  //GET CHARACTER
+  const characterData = useSelector((state) => state.character.list)
+  useEffect(() => {
+    dispatch(getCharacter())
+  }, [dispatch])
 
   //SAVE CONSTELLATION
   const [constellation, setConstellation] = useState({
     name: '',
-    character_id: idCharacter,
+    character_id: '',
   })
 
   const handleSave = async (e) => {
@@ -58,6 +64,38 @@ const Constellation = ({ idCharacter }) => {
                     />
                   </div>
                 </div>
+                <div className="sm:col-span-3 pt-5">
+                  <label
+                    htmlFor="character"
+                    className="block text-sm font-medium leading-6 text-left"
+                  >
+                    Personaggio
+                  </label>
+                  <div className="mt-2">
+                    <select
+                      id="character"
+                      name="character"
+                      autoComplete="character-name"
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                      //value={place.region_id}
+                      onChange={(e) => {
+                        setConstellation({
+                          ...constellation,
+                          character_id: e.target.value,
+                        })
+                      }}
+                    >
+                      <option>Seleziona un personaggio</option>
+                      {characterData.content &&
+                        characterData.content.map((character) => (
+                          <option key={character.id} value={character.id}>
+                            {character.name}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                </div>
+                <div></div>
               </div>
               <div className="mt-6 flex items-center  gap-x-6">
                 <button
@@ -87,6 +125,7 @@ const Constellation = ({ idCharacter }) => {
             </div>
           </form>
         </div>
+        {/* FINE CREA CONSTELLATION */}
       </div>
     </div>
   )
