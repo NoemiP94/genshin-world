@@ -6,6 +6,8 @@ export const PUT_CHARACTER = 'PUT_CHARACTER'
 export const DELETE_CHARACTER = 'DELETE_CHARACTER'
 export const ADD_MATERIAL = 'ADD_MATERIAL'
 export const REMOVE_MATERIAL = 'REMOVE_MATERIAL'
+export const ADD_ARTIFACTSET = 'ADD_ARTIFACTSET'
+export const REMOVE_ARTIFACTSET = 'REMOVE_ARTIFACTSET'
 
 export const postCharacter = (character, token) => {
   return async (dispatch) => {
@@ -212,6 +214,69 @@ export const removeMaterial = (idCharacter, idMaterial, token) => {
         dispatch({
           type: REMOVE_MATERIAL,
           payload: idMaterial,
+        })
+        console.log(res.ok)
+      } else {
+        throw new Error("Errore durante l'eliminazione")
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+//http://localhost:3001/character/{characterId}/artifactset/{artifactSetId}
+export const addArtifactSetToCharacter = (
+  character,
+  idCharacter,
+  idArtifactSet,
+  token
+) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/character/${idCharacter}/artifactset/${idArtifactSet}`,
+        {
+          method: 'POST',
+          body: JSON.stringify(character),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      if (res.ok) {
+        const data = await res.json()
+        dispatch({
+          type: ADD_ARTIFACTSET,
+          payload: data,
+        })
+        console.log(res.ok)
+      } else {
+        throw new Error('Salvataggio fallito!')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const removeArtifactSet = (idCharacter, idArtifactSet, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/character/${idCharacter}/artifactset/${idArtifactSet}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      if (res.ok) {
+        dispatch({
+          type: REMOVE_ARTIFACTSET,
+          payload: idArtifactSet,
         })
         console.log(res.ok)
       } else {

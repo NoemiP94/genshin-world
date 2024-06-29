@@ -1,10 +1,12 @@
 import {
+  ADD_ARTIFACTSET,
   ADD_MATERIAL,
   DELETE_CHARACTER,
   GET_CHARACTER,
   GET_POST_CHARACTER_IMG,
   POST_CHARACTER,
   PUT_CHARACTER,
+  REMOVE_ARTIFACTSET,
   REMOVE_MATERIAL,
   SINGLE_CHARACTER,
 } from '../action/characters'
@@ -60,9 +62,24 @@ const characterReducer = (state = initialState, action) => {
       return {
         ...state,
         character: {
-          ...state.weapon,
+          ...state.character,
           ascensionMaterials: state.character.ascensionMaterials.filter(
             (mater) => mater.id !== action.payload
+          ),
+        },
+      }
+    case ADD_ARTIFACTSET:
+      return {
+        ...state,
+        character: action.payload,
+      }
+    case REMOVE_ARTIFACTSET:
+      return {
+        ...state,
+        character: {
+          ...state.character.artifactSetList,
+          artifactSetList: state.character.artifactSetList.filter(
+            (artifact) => artifact.id !== action.payload
           ),
         },
       }
