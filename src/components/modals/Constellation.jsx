@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import {
+  deleteConstellation,
   getConstellation,
   postConstellation,
   updateConstellation,
@@ -63,6 +64,17 @@ const Constellation = () => {
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
+    }
+  }
+
+  //DELETE CONSTELLATION
+  const handleDelete = async (constellation) => {
+    try {
+      await dispatch(deleteConstellation(constellation.id, token))
+      dispatch(getConstellation())
+      console.log('Arma eliminata con successo!')
+    } catch (error) {
+      console.log("Errore nell'eliminazione", error)
     }
   }
 
@@ -216,9 +228,9 @@ const Constellation = () => {
                       viewBox="0 0 24 24"
                       fill="#dc2626"
                       className="size-8 mx-2"
-                      //   onClick={() => {
-                      //     handleDelete(weapon)
-                      //   }}
+                      onClick={() => {
+                        handleDelete(constellation)
+                      }}
                     >
                       <path
                         fillRule="evenodd"

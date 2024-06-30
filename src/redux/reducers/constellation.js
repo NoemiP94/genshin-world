@@ -1,4 +1,5 @@
 import {
+  DELETE_CONSTELLATION,
   GET_CONSTELLATION,
   POST_CONSTELLATION,
   PUT_CONSTELLATION,
@@ -26,6 +27,13 @@ const constellationReducer = (state = initialState, action) => {
       return {
         ...state,
         update: action.payload,
+      }
+    case DELETE_CONSTELLATION:
+      return {
+        ...state,
+        constellation: state.list.filter(
+          (constellation) => constellation.id !== action.payload
+        ),
       }
     default:
       return state

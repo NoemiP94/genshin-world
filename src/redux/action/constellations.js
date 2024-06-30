@@ -1,6 +1,7 @@
 export const POST_CONSTELLATION = 'POST_CONSTELLATION'
 export const GET_CONSTELLATION = 'GET_CONSTELLATION'
 export const PUT_CONSTELLATION = 'PUT_CONSTELLATION'
+export const DELETE_CONSTELLATION = 'DELETE_CONSTELLATION'
 
 export const postConstellation = (constellation, token) => {
   return async (dispatch) => {
@@ -74,6 +75,29 @@ export const updateConstellation = (id, updateConstellation, token) => {
         alert('Modifica effettuata con successo!')
       } else {
         throw new Error('Errore durante la modifica')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const deleteConstellation = (id, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/constellation/' + id, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      if (res.ok) {
+        dispatch({
+          type: DELETE_CONSTELLATION,
+          payload: id,
+        })
+      } else {
+        throw new Error("Errore durante l'eliminazione")
       }
     } catch (error) {
       console.log('Error', error)
