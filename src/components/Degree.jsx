@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getConstellation } from '../redux/action/constellations'
-import { postDegree } from '../redux/action/degrees'
+import { getDegree, postDegree } from '../redux/action/degrees'
 
 const Degree = () => {
   const dispatch = useDispatch()
@@ -25,12 +25,18 @@ const Degree = () => {
     e.preventDefault()
     try {
       await dispatch(postDegree(degree, token))
-      //await dispatch(getDegree())
+      await dispatch(getDegree())
       await dispatch(getConstellation())
     } catch (error) {
       console.log('Errore creazione place: ', error)
     }
   }
+
+  //GET DEGREE
+  const degreeData = useSelector((state) => state.degree.list)
+  useEffect(() => {
+    dispatch(getDegree())
+  }, [dispatch])
 
   return (
     <div>

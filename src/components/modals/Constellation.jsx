@@ -8,6 +8,7 @@ import {
 import { getCharacter, getSingleCharacter } from '../../redux/action/characters'
 import { useDispatch, useSelector } from 'react-redux'
 import Degree from '../Degree'
+import { getDegree } from '../../redux/action/degrees'
 
 const Constellation = () => {
   const dispatch = useDispatch()
@@ -79,8 +80,14 @@ const Constellation = () => {
     }
   }
 
+  //GET DEGREE
+  const degreeData = useSelector((state) => state.degree.list)
+  useEffect(() => {
+    dispatch(getDegree())
+  }, [dispatch])
+
   return (
-    <div className="h-screen">
+    <div>
       <h4 className="mt-5 text-xl font-bold">Gestione Costellazione</h4>
       <div className="container my-6 w-full flex">
         {/* CREA CONSTELLATION */}
@@ -196,26 +203,21 @@ const Constellation = () => {
                     </p>
 
                     <p>- Lista gradi: </p>
-                    <div className="mt-2">
-                      <div className="flex">
-                        <p>Aggiungi grado</p>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="#15803d"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="#15803d"
-                          className="size-6 mx-2"
-                          //onClick={() => handlePlusButton(weapon.id)}
-                        >
-                          {' '}
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M12 4.5v15m7.5-7.5h-15"
-                          />
-                        </svg>
-                      </div>
+                    <div className="mt-2 h-20  overflow-y-scroll ">
+                      {constellation.degreesList.length > 0
+                        ? constellation.degreesList.map((degree) => (
+                            <a className="italic py-2" key={degree.id}>
+                              <div className="flex  p-2 ">
+                                <div className="pe-5 ps-5 text-sm">
+                                  - C {degree.level}
+                                </div>
+                                <div className="pe-5 ps-5 text-sm">
+                                  {degree.name}
+                                </div>
+                              </div>
+                            </a>
+                          ))
+                        : null}
                     </div>
                   </div>
                   <svg
