@@ -73,8 +73,9 @@ const Constellation = () => {
   const handleDelete = async (constellation) => {
     try {
       await dispatch(deleteConstellation(constellation.id, token))
-      dispatch(getConstellation())
-      console.log('Arma eliminata con successo!')
+      await dispatch(getConstellation())
+      await dispatch(getCharacter())
+      console.log('Costellazione eliminata con successo!')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
     }

@@ -113,7 +113,7 @@ const Character = () => {
                       id="name"
                       autoComplete="name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      value={character.name}
+                      //value={character.name}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -137,7 +137,7 @@ const Character = () => {
                       id="voice"
                       autoComplete="voice"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      value={character.voice}
+                      //value={character.voice}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -161,7 +161,7 @@ const Character = () => {
                       id="birthday"
                       autoComplete="birthday"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      value={character.birthday}
+                      //value={character.birthday}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -185,7 +185,7 @@ const Character = () => {
                       id="affiliate"
                       autoComplete="birthday"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      value={character.affiliate}
+                      //value={character.affiliate}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -208,7 +208,7 @@ const Character = () => {
                       name="stars"
                       autoComplete="stars-name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      value={character.stars}
+                      //value={character.stars}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -217,7 +217,6 @@ const Character = () => {
                       }}
                     >
                       <option>Seleziona stelle</option>
-
                       <option>FOUR</option>
                       <option>FIVE</option>
                     </select>
@@ -236,7 +235,7 @@ const Character = () => {
                       name="vision"
                       autoComplete="vision-name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      value={character.visionType}
+                      //value={character.visionType}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -268,7 +267,7 @@ const Character = () => {
                       name="weaponType"
                       autoComplete="weaponType-name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      value={character.weaponType}
+                      //value={character.weaponType}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -298,7 +297,7 @@ const Character = () => {
                       name="vision"
                       autoComplete="vision-name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      value={character.region_id.name}
+                      //value={character.region_id.name}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -329,7 +328,7 @@ const Character = () => {
                       name="about"
                       rows={5}
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 "
-                      value={character.description}
+                      //value={character.description}
                       onChange={(e) => {
                         setCharacter({
                           ...character,

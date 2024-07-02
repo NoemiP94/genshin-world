@@ -203,12 +203,15 @@ const SingleCharacter = () => {
               - Descrizione:{' '}
               <span className="italic">{singleCharacter.description}</span>
             </p>
-            <p>
-              - Costellazione:{' '}
-              <span className="italic">
-                {singleCharacter.constellation.name}
-              </span>
-            </p>
+
+            {singleCharacter.constellation ? (
+              <p>
+                - Costellazione:{' '}
+                <span className="italic">
+                  {singleCharacter.constellation.name}
+                </span>
+              </p>
+            ) : null}
           </div>
           <div>
             <div>
