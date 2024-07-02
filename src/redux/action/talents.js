@@ -1,6 +1,9 @@
 export const POST_TALENT = 'POST_TALENT'
 export const GET_TALENT = 'GET_TALENT'
 export const PUT_TALENT = 'PUT_TALENT'
+export const DELETE_TALENT = 'DELETE_TALENT'
+export const ADD_MATERIAL = 'ADD_MATERIAL'
+export const REMOVE_MATERIAL = 'REMOVE_MATERIAL'
 
 export const postTalent = (talent, token) => {
   return async (dispatch) => {
@@ -74,6 +77,87 @@ export const updateTalent = (id, updateTalent, token) => {
         alert('Modifica effettuata con successo!')
       } else {
         throw new Error('Errore durante la modifica')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const deleteTalent = (id, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/talent/' + id, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      if (res.ok) {
+        dispatch({
+          type: DELETE_TALENT,
+          payload: id,
+        })
+      } else {
+        throw new Error("Errore durante l'eliminazione")
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+//http://localhost:3001/talent/{talentId}/material/{materialId}
+export const addMaterialToTalent = (talent, idTalent, idMaterial, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/talent/${idTalent}/material/${idMaterial}`,
+        {
+          method: 'POST',
+          body: JSON.stringify(talent),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      if (res.ok) {
+        const data = await res.json()
+        dispatch({
+          type: ADD_MATERIAL,
+          payload: data,
+        })
+        console.log(res.ok)
+      } else {
+        throw new Error('Salvataggio fallito!')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const removeMaterialTalent = (idTalent, idMaterial, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/talent/${idTalent}/material/${idMaterial}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      if (res.ok) {
+        dispatch({
+          type: REMOVE_MATERIAL,
+          payload: idMaterial,
+        })
+        console.log(res.ok)
+      } else {
+        throw new Error("Errore durante l'eliminazione")
       }
     } catch (error) {
       console.log('Error', error)

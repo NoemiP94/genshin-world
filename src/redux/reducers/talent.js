@@ -1,4 +1,11 @@
-import { GET_TALENT, POST_TALENT, PUT_TALENT } from '../action/talents'
+import {
+  ADD_MATERIAL,
+  DELETE_TALENT,
+  GET_TALENT,
+  POST_TALENT,
+  PUT_TALENT,
+  REMOVE_MATERIAL,
+} from '../action/talents'
 
 const initialState = {
   talent: null,
@@ -22,6 +29,26 @@ const talentReducer = (state = initialState, action) => {
       return {
         ...state,
         update: action.payload,
+      }
+    case DELETE_TALENT:
+      return {
+        ...state,
+        talent: state.list.filter((talent) => talent.id !== action.payload),
+      }
+    case ADD_MATERIAL:
+      return {
+        ...state,
+        talent: action.payload,
+      }
+    case REMOVE_MATERIAL:
+      return {
+        ...state,
+        talent: {
+          ...state.talent,
+          necessaryMaterials: state.talent.necessaryMaterials.filter(
+            (mater) => mater.id !== action.payload
+          ),
+        },
       }
     default:
       return state
