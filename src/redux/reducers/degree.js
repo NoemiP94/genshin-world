@@ -1,4 +1,9 @@
-import { GET_DEGREE, POST_DEGREE, PUT_DEGREE } from '../action/degrees'
+import {
+  DELETE_DEGREE,
+  GET_DEGREE,
+  POST_DEGREE,
+  PUT_DEGREE,
+} from '../action/degrees'
 
 const initialState = {
   degree: null,
@@ -22,6 +27,11 @@ const degreeReducer = (state = initialState, action) => {
       return {
         ...state,
         update: action.payload,
+      }
+    case DELETE_DEGREE:
+      return {
+        ...state,
+        degree: state.list.filter((degree) => degree.id !== action.payload),
       }
     default:
       return state

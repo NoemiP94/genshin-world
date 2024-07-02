@@ -1,6 +1,7 @@
 export const POST_DEGREE = 'POST_DEGREE'
 export const GET_DEGREE = 'GET_DEGREE'
 export const PUT_DEGREE = 'PUT_DEGREE'
+export const DELETE_DEGREE = 'DELETE_DEGREE'
 
 export const postDegree = (degree, token) => {
   return async (dispatch) => {
@@ -74,6 +75,29 @@ export const updateDegree = (id, updateDegree, token) => {
         alert('Modifica effettuata con successo!')
       } else {
         throw new Error('Errore durante la modifica')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const deleteDegree = (id, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/degree/' + id, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      if (res.ok) {
+        dispatch({
+          type: DELETE_DEGREE,
+          payload: id,
+        })
+      } else {
+        throw new Error("Errore durante l'eliminazione")
       }
     } catch (error) {
       console.log('Error', error)

@@ -8,7 +8,7 @@ import {
 import { getCharacter, getSingleCharacter } from '../../redux/action/characters'
 import { useDispatch, useSelector } from 'react-redux'
 import Degree from '../Degree'
-import { getDegree } from '../../redux/action/degrees'
+import { deleteDegree, getDegree } from '../../redux/action/degrees'
 
 const Constellation = () => {
   const dispatch = useDispatch()
@@ -106,6 +106,20 @@ const Constellation = () => {
       id: degree.id,
       constellation_id: constellation.id,
     }))
+  }
+
+  //DELETE DEGREE
+  const handleDeleteDegree = async (degreeId) => {
+    console.log('degree id delete', degreeId)
+    try {
+      await dispatch(deleteDegree(degreeId, token))
+      await dispatch(getConstellation())
+      await dispatch(getDegree())
+
+      console.log('Eliminato con successo!')
+    } catch (error) {
+      console.log("Errore nell'eliminazione", error)
+    }
   }
 
   return (
@@ -259,9 +273,9 @@ const Constellation = () => {
                                     viewBox="0 0 24 24"
                                     fill="#dc2626"
                                     className="size-4 mx-2"
-                                    // onClick={() => {
-                                    //   handleDelete(artifact)
-                                    // }}
+                                    onClick={() => {
+                                      handleDeleteDegree(degree.id)
+                                    }}
                                   >
                                     <path
                                       fillRule="evenodd"
