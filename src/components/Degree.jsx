@@ -195,7 +195,7 @@ const Degree = ({ constellation, idDegree }) => {
           </div>
         </form>
       </div>
-      {/* FINE CREAZIONE LUOGO  */}
+      {/* FINE CREAZIONE DEGREE  */}
     </div>
   )
 }

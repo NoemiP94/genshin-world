@@ -11,6 +11,7 @@ import enemyReducer from '../reducers/enemy'
 import characterReducer from '../reducers/character'
 import constellationReducer from '../reducers/constellation'
 import degreeReducer from '../reducers/degree'
+import talentReducer from '../reducers/talent'
 
 const bigReducer = combineReducers({
   login: loginReducer,
@@ -25,6 +26,7 @@ const bigReducer = combineReducers({
   character: characterReducer,
   constellation: constellationReducer,
   degree: degreeReducer,
+  talent: talentReducer,
 })
 
 const store = configureStore({
