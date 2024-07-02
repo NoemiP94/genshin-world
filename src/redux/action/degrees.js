@@ -1,5 +1,6 @@
 export const POST_DEGREE = 'POST_DEGREE'
 export const GET_DEGREE = 'GET_DEGREE'
+export const PUT_DEGREE = 'PUT_DEGREE'
 
 export const postDegree = (degree, token) => {
   return async (dispatch) => {
@@ -48,6 +49,34 @@ export const getDegree = () => {
     } catch (error) {
       console.log('Error', error)
       throw error
+    }
+  }
+}
+
+export const updateDegree = (id, updateDegree, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/degree/' + id, {
+        method: 'PUT',
+        body: JSON.stringify(updateDegree),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        console.log(data.content)
+        dispatch({
+          type: PUT_DEGREE,
+          payload: data.content,
+        })
+        alert('Modifica effettuata con successo!')
+      } else {
+        throw new Error('Errore durante la modifica')
+      }
+    } catch (error) {
+      console.log('Error', error)
     }
   }
 }

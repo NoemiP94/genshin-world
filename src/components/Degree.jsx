@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getConstellation } from '../redux/action/constellations'
-import { getDegree, postDegree } from '../redux/action/degrees'
+import { getDegree, postDegree, updateDegree } from '../redux/action/degrees'
 
-const Degree = () => {
+const Degree = ({ constellation, idDegree }) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
 
@@ -38,6 +38,20 @@ const Degree = () => {
     dispatch(getDegree())
   }, [dispatch])
 
+  //UPDATE DEGREE
+  const handleUpdate = async () => {
+    console.log('idDegree: ', idDegree)
+    try {
+      await dispatch(updateDegree(idDegree, degree, token))
+      await dispatch(getDegree())
+      await dispatch(getConstellation())
+
+      console.log('degree: ', degree)
+    } catch (error) {
+      console.log('Errore nella modifica: ', error)
+    }
+  }
+
   return (
     <div>
       {/* CREAZIONE DEGREE   */}
@@ -61,7 +75,7 @@ const Degree = () => {
                     id="name"
                     autoComplete="name"
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    //value={place.name}
+                    value={degree.name}
                     onChange={(e) => {
                       setDegree({
                         ...degree,
@@ -87,7 +101,7 @@ const Degree = () => {
                   id="level"
                   autoComplete="level"
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  //value={place.level}
+                  value={degree.level}
                   onChange={(e) => {
                     setDegree({
                       ...degree,
@@ -143,7 +157,7 @@ const Degree = () => {
                   name="about"
                   rows={5}
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300  "
-                  // value={place.description}
+                  value={degree.description}
                   onChange={(e) => {
                     setDegree({
                       ...degree,
@@ -170,10 +184,10 @@ const Degree = () => {
               <button
                 type="submit"
                 className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                // onClick={(e) => {
-                //   e.preventDefault()
-                //   handleUpdate()
-                // }}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleUpdate()
+                }}
               >
                 Salva modifiche
               </button>

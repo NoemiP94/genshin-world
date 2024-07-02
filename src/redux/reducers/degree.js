@@ -1,8 +1,9 @@
-import { GET_DEGREE, POST_DEGREE } from '../action/degrees'
+import { GET_DEGREE, POST_DEGREE, PUT_DEGREE } from '../action/degrees'
 
 const initialState = {
   degree: null,
   list: [],
+  update: '',
 }
 
 const degreeReducer = (state = initialState, action) => {
@@ -16,6 +17,11 @@ const degreeReducer = (state = initialState, action) => {
       return {
         ...state,
         list: action.payload,
+      }
+    case PUT_DEGREE:
+      return {
+        ...state,
+        update: action.payload,
       }
     default:
       return state
