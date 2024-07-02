@@ -11,8 +11,9 @@ import Weapon from './components/Weapon'
 import Domain from './components/Domain'
 import Enemy from './components/Enemy'
 import Character from './components/Character'
+
+import Constellation from './components/Constellation'
 import SingleCharacter from './components/SingleCharacter'
-import Constellation from './components/modals/Constellation'
 
 function App() {
   return (

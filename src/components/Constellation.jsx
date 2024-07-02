@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCharacter, getSingleCharacter } from '../redux/action/characters'
 import {
   deleteConstellation,
   getConstellation,
   postConstellation,
   updateConstellation,
-} from '../../redux/action/constellations'
-import { getCharacter, getSingleCharacter } from '../../redux/action/characters'
-import { useDispatch, useSelector } from 'react-redux'
-import Degree from '../Degree'
-import { deleteDegree, getDegree } from '../../redux/action/degrees'
+} from '../redux/action/constellations'
+import { deleteDegree, getDegree } from '../redux/action/degrees'
+import Degree from './Degree'
 
 const Constellation = () => {
   const dispatch = useDispatch()

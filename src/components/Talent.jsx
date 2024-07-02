@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { postTalent } from '../redux/action/talents'
-import { getCharacter, getSingleCharacter } from '../redux/action/characters'
+import { getCharacter } from '../redux/action/characters'
 
-const Talent = ({ character }) => {
+const Talent = ({ character, singleCharacter }) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
 
@@ -29,7 +29,6 @@ const Talent = ({ character }) => {
 
   return (
     <div>
-      <h5>- Gestione Talenti</h5>
       <div className="flex">
         <div>
           {/* CREAZIONE TALENT   */}
@@ -66,38 +65,6 @@ const Talent = ({ character }) => {
                     </div>
                   </div>
                 </div>
-
-                {/* <div className="sm:col-span-3 pt-5">
-                  <label
-                    htmlFor="vision"
-                    className="block text-sm font-medium leading-6 text-left"
-                  >
-                    Costellazione
-                  </label>
-                  <div className="mt-2">
-                    <select
-                      id="vision"
-                      name="vision"
-                      autoComplete="vision-name"
-                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      //value={place.region_id}
-                      //   onChange={(e) => {
-                      //     setDegree({
-                      //       ...degree,
-                      //       constellation_id: e.target.value,
-                      //     })
-                      //   }}
-                    >
-                      <option>Seleziona una costellazione</option>
-                      {/* {constellationData.content &&
-                    constellationData.content.map((constellation) => (
-                      <option key={constellation.id} value={constellation.id}>
-                        {constellation.name}
-                      </option>
-                    ))} 
-                    </select>
-                  </div>
-                </div> */}
 
                 <div className="col-span-full pt-5">
                   <label
@@ -152,7 +119,6 @@ const Talent = ({ character }) => {
           </div>
           {/* FINE CREAZIONE TALENT  */}
         </div>
-        <div>lista</div>
       </div>
     </div>
   )
