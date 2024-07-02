@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { postTalent } from '../redux/action/talents'
-import { getCharacter } from '../redux/action/characters'
+import { postTalent, updateTalent } from '../redux/action/talents'
+import { getCharacter, getSingleCharacter } from '../redux/action/characters'
 
-const Talent = ({ character, singleCharacter }) => {
+const Talent = ({ character, singleCharacter, idTalent }) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
 
@@ -20,10 +20,23 @@ const Talent = ({ character, singleCharacter }) => {
     try {
       await dispatch(postTalent(talent, token))
       await dispatch(getCharacter())
-      // await dispatch(getTalent())
       console.log('talent: ', talent)
     } catch (error) {
       console.log('Errore creazione place: ', error)
+    }
+  }
+
+  //UPDATE TALENT
+  const handleUpdate = async () => {
+    console.log('idTalent: ', idTalent)
+    try {
+      await dispatch(updateTalent(idTalent, talent, token))
+      await dispatch(getCharacter())
+      await dispatch(getSingleCharacter(character))
+
+      console.log('talent: ', talent)
+    } catch (error) {
+      console.log('Errore nella modifica: ', error)
     }
   }
 
@@ -54,7 +67,7 @@ const Talent = ({ character, singleCharacter }) => {
                         id="name"
                         autoComplete="name"
                         className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        // value={talent.name}
+                        value={talent.name}
                         onChange={(e) => {
                           setTalent({
                             ...talent,
@@ -79,7 +92,7 @@ const Talent = ({ character, singleCharacter }) => {
                       name="about"
                       rows={5}
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300  "
-                      //   value={talent.info}
+                      value={talent.info}
                       onChange={(e) => {
                         setTalent({
                           ...talent,
@@ -106,10 +119,10 @@ const Talent = ({ character, singleCharacter }) => {
                   <button
                     type="submit"
                     className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    // onClick={(e) => {
-                    //   e.preventDefault()
-                    //   handleUpdate()
-                    // }}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handleUpdate()
+                    }}
                   >
                     Salva modifiche
                   </button>

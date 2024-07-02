@@ -1,7 +1,9 @@
-import { POST_TALENT } from '../action/talents'
+import { GET_TALENT, POST_TALENT, PUT_TALENT } from '../action/talents'
 
 const initialState = {
   talent: null,
+  list: [],
+  update: '',
 }
 
 const talentReducer = (state = initialState, action) => {
@@ -10,6 +12,16 @@ const talentReducer = (state = initialState, action) => {
       return {
         ...state,
         talent: action.payload,
+      }
+    case GET_TALENT:
+      return {
+        ...state,
+        list: action.payload,
+      }
+    case PUT_TALENT:
+      return {
+        ...state,
+        update: action.payload,
       }
     default:
       return state
