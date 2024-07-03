@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getMainGoal, postMainGoal } from '../redux/action/maingoals'
+import {
+  getMainGoal,
+  postMainGoal,
+  updateMainGoal,
+} from '../redux/action/maingoals'
 import { Link } from 'react-router-dom'
 
 const MainGoal = () => {
@@ -26,6 +30,28 @@ const MainGoal = () => {
   useEffect(() => {
     dispatch(getMainGoal())
   }, [dispatch])
+
+  //UPDATE MAINGOAL
+  const [updtMainGoal, setUpdtMainGoal] = useState(null)
+  const [idMainGoal, setIdMainGoal] = useState('')
+
+  const handlePencilUpdate = (maingoal) => {
+    setUpdtMainGoal(maingoal)
+    setIdMainGoal(maingoal.id)
+    setMainGoal({
+      name: mainGoal.name,
+    })
+    console.log('Matita cliccata')
+  }
+
+  const handleUpdate = async () => {
+    try {
+      await dispatch(updateMainGoal(idMainGoal, mainGoal, token))
+      await dispatch(getMainGoal())
+    } catch (error) {
+      console.log('Errore nella modifica', error)
+    }
+  }
 
   return (
     <div>
@@ -82,10 +108,10 @@ const MainGoal = () => {
                   <button
                     type="submit"
                     className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    //   onClick={(e) => {
-                    //     e.preventDefault()
-                    //     handleUpdate()
-                    //   }}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handleUpdate()
+                    }}
                   >
                     Salva modifiche
                   </button>
@@ -100,7 +126,7 @@ const MainGoal = () => {
           <p className="text-white text-lg">Lista Main Goal</p>
           <ul
             role="list"
-            className="divide-y divide-gray-100 ms-5 overflow-y-scroll px-5 h-2/3"
+            className="divide-y divide-gray-100 ms-5 overflow-y-scroll px-5 h-1/4"
           >
             {maingoalData.content &&
               maingoalData.content.map((maingoal) => (
@@ -117,9 +143,9 @@ const MainGoal = () => {
                       viewBox="0 0 24 24"
                       fill="#facc15"
                       className="size-8 mx-2"
-                      // onClick={() => {
-                      //   handlePencilUpdate(character)
-                      // }}
+                      onClick={() => {
+                        handlePencilUpdate(maingoal)
+                      }}
                     >
                       <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
                     </svg>{' '}
