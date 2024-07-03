@@ -1,8 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { getMainGoal, getSingleMainGoal } from '../redux/action/maingoals'
 import { useEffect, useState } from 'react'
-import { getGoal, postGoal, updateGoal } from '../redux/action/goals'
+import {
+  deleteGoal,
+  getGoal,
+  postGoal,
+  updateGoal,
+} from '../redux/action/goals'
 
 const Goal = () => {
   const dispatch = useDispatch()
@@ -31,7 +36,7 @@ const Goal = () => {
     try {
       await dispatch(postGoal(goal, token))
       await dispatch(getMainGoal())
-      // await dispatch(getGoal())
+      await dispatch(getSingleMainGoal(singleMainGoal.id))
     } catch (error) {
       console.log('Errore creazione place: ', error)
     }
@@ -57,9 +62,23 @@ const Goal = () => {
     try {
       await dispatch(updateGoal(idGoal, goal, token))
       await dispatch(getMainGoal())
-      await dispatch(getGoal())
+      await dispatch(getSingleMainGoal(singleMainGoal.id))
     } catch (error) {
       console.log('Errore nella modifica', error)
+    }
+  }
+
+  //DELETE GOAL
+  const handleDelete = async (goalId) => {
+    console.log('goal id delete', goalId)
+    try {
+      await dispatch(deleteGoal(goalId, token))
+      await dispatch(getMainGoal())
+      await dispatch(getSingleMainGoal(singleMainGoal.id))
+
+      console.log('Eliminato con successo!')
+    } catch (error) {
+      console.log("Errore nell'eliminazione", error)
     }
   }
 
@@ -193,9 +212,9 @@ const Goal = () => {
                               viewBox="0 0 24 24"
                               fill="#dc2626"
                               className="size-4 mx-2"
-                              // onClick={() => {
-                              //   handleDeleteDegree(degree.id)
-                              // }}
+                              onClick={() => {
+                                handleDelete(goal.id)
+                              }}
                             >
                               <path
                                 fillRule="evenodd"
@@ -211,6 +230,14 @@ const Goal = () => {
               </ul>
             </div>
             {/* FINE LISTA GOAL */}
+            <Link
+              to={`/reserved/goals`}
+              className="text-light text-decoration-none"
+            >
+              <button className="ms-5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 my-5">
+                Indietro
+              </button>
+            </Link>
           </div>
         </>
       )}
