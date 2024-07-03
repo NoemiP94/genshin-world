@@ -14,7 +14,7 @@ const SidebarLayout = () => {
           <Link to="/reserved/domain">Domini</Link>
         </button>
         <button className="text-right py-2">
-          <Link to="/reserved/goal">Goal</Link>
+          <Link to="/reserved/goal">Obiettivi</Link>
         </button>
         <button className="text-right py-2">
           <Link to="/reserved/material">Materiali</Link>

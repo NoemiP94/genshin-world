@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  deleteMainGoal,
   getMainGoal,
   postMainGoal,
   updateMainGoal,
@@ -50,6 +51,16 @@ const MainGoal = () => {
       await dispatch(getMainGoal())
     } catch (error) {
       console.log('Errore nella modifica', error)
+    }
+  }
+
+  //DELETE MAINGOAL
+  const handleDelete = async (maingoal) => {
+    try {
+      await dispatch(deleteMainGoal(maingoal.id, token))
+      await dispatch(getMainGoal())
+    } catch (error) {
+      console.log("Errore nell'eliminazione", error)
     }
   }
 
@@ -154,9 +165,9 @@ const MainGoal = () => {
                       viewBox="0 0 24 24"
                       fill="#dc2626"
                       className="size-8 mx-2"
-                      // onClick={() => {
-                      //   handleDelete(character)
-                      // }}
+                      onClick={() => {
+                        handleDelete(maingoal)
+                      }}
                     >
                       <path
                         fillRule="evenodd"

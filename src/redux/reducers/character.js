@@ -51,9 +51,7 @@ const characterReducer = (state = initialState, action) => {
     case DELETE_CHARACTER:
       return {
         ...state,
-        character: state.list.filter(
-          (character) => character.id !== action.payload
-        ),
+        list: state.list.filter((character) => character.id !== action.payload),
       }
     case ADD_MATERIAL:
       return {

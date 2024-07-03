@@ -1,4 +1,9 @@
-import { GET_MAINGOAL, POST_MAINGOAL, PUT_MAINGOAL } from '../action/maingoals'
+import {
+  DELETE_MAINGOAL,
+  GET_MAINGOAL,
+  POST_MAINGOAL,
+  PUT_MAINGOAL,
+} from '../action/maingoals'
 
 const initialState = {
   mainGoal: null,
@@ -22,6 +27,11 @@ const mainGoalReducer = (state = initialState, action) => {
       return {
         ...state,
         update: action.payload,
+      }
+    case DELETE_MAINGOAL:
+      return {
+        ...state,
+        list: state.list.filter((maingoal) => maingoal.id !== action.payload),
       }
     default:
       return state
