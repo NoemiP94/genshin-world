@@ -14,6 +14,7 @@ import Character from './components/Character'
 
 import Constellation from './components/Constellation'
 import SingleCharacter from './components/SingleCharacter'
+import MainGoal from './components/MainGoal'
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="character" element={<Character />} />
           <Route path="character/:id" element={<SingleCharacter />} />
           <Route path="constellation" element={<Constellation />} />
+          <Route path="goal" element={<MainGoal />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>

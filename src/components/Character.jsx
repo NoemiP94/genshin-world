@@ -416,7 +416,6 @@ const Character = () => {
                       Gestisci
                     </button>
                   </Link>
-                  {/* AGGIUNGERE BOTTONE ELIMINA */}
                 </li>
               ))}
           </ul>
