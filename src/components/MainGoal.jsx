@@ -66,14 +66,14 @@ const MainGoal = () => {
 
   return (
     <div>
-      <h2 className="mt-5 text-2xl font-bold">Gestione Goal</h2>
+      <h2 className="mt-5 text-2xl font-bold">Gestione Obiettivi</h2>
       <div className="container my-6 w-full flex flex-col">
         {/* CREA MAINGOAL */}
         <div className="flex justify-center">
           <form className="w-full  text-white">
             <div className=" p-7 h-auto">
               <h2 className="font-semibold leading-7 text-lg">
-                Crea un Main Goal
+                Crea un Obiettivo
               </h2>
               <div className="flex items-center">
                 <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -134,7 +134,7 @@ const MainGoal = () => {
         {/* FINE MAINGOAL */}
         {/* LISTA MAINGOAL */}
         <div className="my-3">
-          <p className="text-white text-lg">Lista Main Goal</p>
+          <p className="text-white text-lg">Lista Obiettivi</p>
           <ul
             role="list"
             className="divide-y divide-gray-100 ms-5 overflow-y-scroll px-5 h-1/4"
@@ -146,7 +146,7 @@ const MainGoal = () => {
                   className="my-3 text-left px-5 py-3 flex justify-between items-center"
                 >
                   <p>
-                    Nome: <span className="italic">{maingoal.name}</span>
+                    Nome:<span className="italic"> {maingoal.name}</span>
                   </p>
                   <div className="flex">
                     <svg
@@ -175,9 +175,7 @@ const MainGoal = () => {
                         clipRule="evenodd"
                       />{' '}
                     </svg>
-                    <Link
-                    //   to={`/reserved/character/${character.id}`}
-                    >
+                    <Link to={`/reserved/goal/${maingoal.id}`}>
                       <button className="ms-5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                         Gestisci
                       </button>

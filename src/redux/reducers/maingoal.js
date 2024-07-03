@@ -1,6 +1,7 @@
 import {
   DELETE_MAINGOAL,
   GET_MAINGOAL,
+  GET_SINGLE_MAINGOAL,
   POST_MAINGOAL,
   PUT_MAINGOAL,
 } from '../action/maingoals'
@@ -9,6 +10,7 @@ const initialState = {
   mainGoal: null,
   list: [],
   update: '',
+  singleMainGoal: null,
 }
 
 const mainGoalReducer = (state = initialState, action) => {
@@ -32,6 +34,11 @@ const mainGoalReducer = (state = initialState, action) => {
       return {
         ...state,
         list: state.list.filter((maingoal) => maingoal.id !== action.payload),
+      }
+    case GET_SINGLE_MAINGOAL:
+      return {
+        ...state,
+        singleMainGoal: action.payload,
       }
     default:
       return state
