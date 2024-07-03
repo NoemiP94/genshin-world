@@ -33,8 +33,8 @@ function App() {
           <Route path="character" element={<Character />} />
           <Route path="character/:id" element={<SingleCharacter />} />
           <Route path="constellation" element={<Constellation />} />
-          <Route path="goal" element={<MainGoal />} />
-          <Route path="goal/:id" element={<Goal />} />
+          <Route path="goals" element={<MainGoal />} />
+          <Route path="goals/:id" element={<Goal />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>

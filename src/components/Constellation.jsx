@@ -221,8 +221,8 @@ const Constellation = () => {
         <div className="container my-6 w-full flex">
           <Degree constellation={constellation} idDegree={idDegree} />
         </div>
-        {/* INIZIO LISTA CONSTELLATION */}
       </div>{' '}
+      {/* INIZIO LISTA CONSTELLATION */}
       <div>
         <p className="text-white text-lg">Lista Costellazioni</p>
         <ul
