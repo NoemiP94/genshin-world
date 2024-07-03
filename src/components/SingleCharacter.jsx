@@ -169,78 +169,81 @@ const SingleCharacter = () => {
           <h2 className="mt-5 text-2xl font-bold">
             Dettagli {singleCharacter.name}{' '}
           </h2>
-          <div>
-            <p>
-              - Nome: <span className="italic">{singleCharacter.name}</span>
-            </p>
-            <p>
-              - Voce: <span className="italic">{singleCharacter.voice}</span>
-            </p>
-            <p>
-              - Compleanno:{' '}
-              <span className="italic">{singleCharacter.birthday}</span>
-            </p>
-            <p>
-              - Stelle: <span className="italic">{singleCharacter.stars}</span>
-            </p>
-            <p>
-              - Affiliazione:{' '}
-              <span className="italic">{singleCharacter.affiliate}</span>
-            </p>
-            <p>
-              - Visione:{' '}
-              <span className="italic">{singleCharacter.visionType}</span>
-            </p>
-            <p>
-              - Arma:{' '}
-              <span className="italic">{singleCharacter.weaponType}</span>
-            </p>
-            <p>
-              - Regione:{' '}
-              <span className="italic">{singleCharacter.region_id.name}</span>
-            </p>
-            <p>
-              - Descrizione:{' '}
-              <span className="italic">{singleCharacter.description}</span>
-            </p>
-
-            {singleCharacter.constellation ? (
+          <div className="flex">
+            <div className="mt-4 text-left ms-5">
               <p>
-                - Costellazione:{' '}
-                <span className="italic">
-                  {singleCharacter.constellation.name}
-                </span>
+                - Nome: <span className="italic">{singleCharacter.name}</span>
               </p>
-            ) : null}
-          </div>
-          <div>
-            <div>
-              {singleCharacter.image !== null ? (
-                <img
-                  src={singleCharacter.image}
-                  className="border border-yellow-600 rounded-lg w-20 mx-auto"
-                />
+              <p>
+                - Voce: <span className="italic">{singleCharacter.voice}</span>
+              </p>
+              <p>
+                - Compleanno:{' '}
+                <span className="italic">{singleCharacter.birthday}</span>
+              </p>
+              <p>
+                - Stelle:{' '}
+                <span className="italic">{singleCharacter.stars}</span>
+              </p>
+              <p>
+                - Affiliazione:{' '}
+                <span className="italic">{singleCharacter.affiliate}</span>
+              </p>
+              <p>
+                - Visione:{' '}
+                <span className="italic">{singleCharacter.visionType}</span>
+              </p>
+              <p>
+                - Arma:{' '}
+                <span className="italic">{singleCharacter.weaponType}</span>
+              </p>
+              <p>
+                - Regione:{' '}
+                <span className="italic">{singleCharacter.region_id.name}</span>
+              </p>
+              <p>
+                - Descrizione:{' '}
+                <span className="italic">{singleCharacter.description}</span>
+              </p>
+
+              {singleCharacter.constellation ? (
+                <p>
+                  - Costellazione:{' '}
+                  <span className="italic">
+                    {singleCharacter.constellation.name}
+                  </span>
+                </p>
               ) : null}
             </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="#15803d"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-8 mx-2"
-              onClick={() => showCharacterModal(singleCharacter.id)}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-              />
-            </svg>
+            <div className="flex flex-col items-center m-auto">
+              <div>
+                {singleCharacter.image !== null ? (
+                  <img
+                    src={singleCharacter.image}
+                    className="border border-yellow-600 rounded-lg w-40 mx-auto"
+                  />
+                ) : null}
+              </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="#15803d"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-8 mx-2 mt-2"
+                onClick={() => showCharacterModal(singleCharacter.id)}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                />
+              </svg>
+            </div>
           </div>
 
-          <div className="h-96 mb-28">
-            <h5>- Gestione Talenti</h5>
+          <div className="h-96 mb-28 mt-5">
+            <h5 className="font-bold my-2">Gestione Talenti</h5>
             <div className="flex">
               <Talent
                 character={singleCharacter.id}
@@ -251,7 +254,7 @@ const SingleCharacter = () => {
                 <p className="text-white text-sm">Lista Talenti</p>
                 <ul
                   role="list"
-                  className="divide-y divide-gray-100 ms-5 overflow-y-scroll px-5 h-96 "
+                  className="divide-y divide-gray-100 ms-5 overflow-y-scroll px-5 h-96 border rounded mx-2 mt-2"
                 >
                   {singleCharacter.talentList.length > 0
                     ? singleCharacter.talentList.map((tal) => (
@@ -301,7 +304,7 @@ const SingleCharacter = () => {
                                 viewBox="0 0 24 24"
                                 strokeWidth={1.5}
                                 stroke="#15803d"
-                                className="size-6 mx-2"
+                                className="size-6 mx-2 "
                                 onClick={() => handlePlusMaterialTalent(tal.id)}
                               >
                                 <path
@@ -310,7 +313,7 @@ const SingleCharacter = () => {
                                   d="M12 4.5v15m7.5-7.5h-15"
                                 />
                               </svg>
-                              <div className="flex flex-wrap overflow-y-scroll h-20 mt-2 border border-2 rounded-lg">
+                              <div className="flex flex-wrap overflow-y-scroll h-20 mt-2 border border-2 rounded-lg w-1/2">
                                 {tal.necessaryMaterials.length > 0 &&
                                   tal.necessaryMaterials.map((mater) => (
                                     <div
@@ -368,9 +371,9 @@ const SingleCharacter = () => {
           </div>
 
           {/* MATERIALS */}
-          <div>
+          <div className="mx-4">
             <div className="flex">
-              <p>- Materiali necessari per ascensione</p>
+              <p className="font-bold">- Materiali necessari per ascensione</p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="#15803d"
@@ -428,9 +431,9 @@ const SingleCharacter = () => {
           </div>
           {/* FINE MATERIALS */}
           {/* ARTIFACTS */}
-          <div>
+          <div className="mx-4 my-5">
             <div className="flex">
-              <p>- Artefatti consigliati</p>
+              <p className="font-bold">- Artefatti consigliati</p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="#15803d"
@@ -488,9 +491,9 @@ const SingleCharacter = () => {
           </div>
           {/* FINE ARTIFACTS */}
           {/* WEAPON */}
-          <div>
+          <div className="mx-4">
             <div className="flex">
-              <p>- Armi consigliate</p>
+              <p className="font-bold">- Armi consigliate</p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="#15803d"
@@ -550,7 +553,7 @@ const SingleCharacter = () => {
           to={`/reserved/character`}
           className="text-light text-decoration-none"
         >
-          <button className="ms-5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+          <button className="ms-5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 my-5">
             Indietro
           </button>
         </Link>
