@@ -1,8 +1,9 @@
-import { GET_BLOG, POST_BLOG } from '../action/blogposts'
+import { GET_BLOG, GET_POST_BLOG_IMG, POST_BLOG } from '../action/blogposts'
 
 const initialState = {
   blogpost: null,
   list: [],
+  postImage: null,
 }
 
 const blogpostReducer = (state = initialState, action) => {
@@ -16,6 +17,11 @@ const blogpostReducer = (state = initialState, action) => {
       return {
         ...state,
         list: action.payload,
+      }
+    case GET_POST_BLOG_IMG:
+      return {
+        ...state,
+        postImage: action.payload,
       }
     default:
       return state

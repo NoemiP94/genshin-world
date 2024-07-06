@@ -1,5 +1,6 @@
 export const POST_BLOG = 'POST_BLOG'
 export const GET_BLOG = 'GET_BLOG'
+export const GET_POST_BLOG_IMG = 'GET_POST_BLOG_IMG'
 
 export const postBlogpost = (blogpost, token) => {
   return async (dispatch) => {
@@ -51,3 +52,31 @@ export const getBlogpost = () => {
     }
   }
 }
+
+export const postBlogpostImage = async (id_blogpost, formImg, token) => {
+  try {
+    const res = await fetch(
+      `http://localhost:3001/blogpost/${id_blogpost}/image`,
+      {
+        method: 'POST',
+        body: formImg,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    if (res.ok) {
+      alert('Immagine salvata correttamente!')
+      return null
+    } else {
+      throw new Error('Failed to upload image')
+    }
+  } catch (error) {
+    console.log('Error', error)
+  }
+}
+
+export const getBlogpostImage = (image) => ({
+  type: GET_POST_BLOG_IMG,
+  payload: image,
+})
