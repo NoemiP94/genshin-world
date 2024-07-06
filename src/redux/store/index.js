@@ -14,6 +14,7 @@ import degreeReducer from '../reducers/degree'
 import talentReducer from '../reducers/talent'
 import mainGoalReducer from '../reducers/maingoal'
 import goalReducer from '../reducers/goal'
+import blogpostReducer from '../reducers/blogpost'
 
 const bigReducer = combineReducers({
   login: loginReducer,
@@ -31,6 +32,7 @@ const bigReducer = combineReducers({
   talent: talentReducer,
   mainGoal: mainGoalReducer,
   goal: goalReducer,
+  blogpost: blogpostReducer,
 })
 
 const store = configureStore({

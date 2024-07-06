@@ -32,7 +32,7 @@ const SidebarLayout = () => {
           <Link to="/reserved/constellation">Costellazioni</Link>
         </button>
         <button className="text-right py-2">
-          <Link to="#">Blog</Link>
+          <Link to="/reserved/blog">Blog</Link>
         </button>
         <button className="text-right py-10">
           <Link to="#">Log out</Link>
