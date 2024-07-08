@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  deleteBlogpost,
   getBlogpost,
   postBlogpost,
   updateBlogpost,
@@ -65,6 +66,17 @@ const Blogpost = () => {
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
+    }
+  }
+
+  //DELETE BLOGPOST
+  const handleDelete = async (blogpost) => {
+    try {
+      await dispatch(deleteBlogpost(blogpost.id, token))
+      dispatch(getBlogpost())
+      console.log('Set Artefatti eliminato con successo!')
+    } catch (error) {
+      console.log("Errore nell'eliminazione", error)
     }
   }
 
@@ -206,9 +218,9 @@ const Blogpost = () => {
                           viewBox="0 0 24 24"
                           fill="#dc2626"
                           className="size-6 me-1"
-                          //   onClick={() => {
-                          //     handleDelete(region)
-                          //   }}
+                          onClick={() => {
+                            handleDelete(blog)
+                          }}
                         >
                           <path
                             fillRule="evenodd"

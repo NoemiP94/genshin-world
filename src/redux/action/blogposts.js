@@ -2,6 +2,7 @@ export const POST_BLOG = 'POST_BLOG'
 export const GET_BLOG = 'GET_BLOG'
 export const GET_POST_BLOG_IMG = 'GET_POST_BLOG_IMG'
 export const PUT_BLOG = 'PUT_BLOG'
+export const DELETE_BLOG = 'DELETE_BLOG'
 
 export const postBlogpost = (blogpost, token) => {
   return async (dispatch) => {
@@ -103,6 +104,29 @@ export const updateBlogpost = (id, updateBlogpost, token) => {
         alert('Modifica effettuata con successo!')
       } else {
         throw new Error('Errore durante la modifica')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const deleteBlogpost = (id, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/blogpost/' + id, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      if (res.ok) {
+        dispatch({
+          type: DELETE_BLOG,
+          payload: id,
+        })
+      } else {
+        throw new Error("Errore durante l'eliminazione")
       }
     } catch (error) {
       console.log('Error', error)
