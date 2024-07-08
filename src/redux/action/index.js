@@ -2,6 +2,7 @@ export const POST_LOGIN = 'POST_LOGIN'
 export const GET_USERS = 'GET_USERS'
 export const REGISTER_USER = 'REGISTER_USER'
 export const DELETE_USER = 'DELETE_USER'
+export const LOGOUT = 'LOGOUT'
 
 export const postLogin = (login) => {
   return async (dispatch) => {
@@ -23,7 +24,7 @@ export const postLogin = (login) => {
         })
         localStorage.setItem('token', data.token)
         localStorage.setItem('role', data.role)
-        // localStorage.setItem('isLogged', true)
+        localStorage.setItem('isLogged', true)
         alert("Hai effettuato l'accesso correttamente!")
         return data
       } else {
@@ -108,6 +109,23 @@ export const deleteUser = (id, token) => {
       } else {
         throw new Error("Errore durante l'eliminazione")
       }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const logout = () => {
+  return async (dispatch) => {
+    try {
+      localStorage.removeItem('token')
+      localStorage.removeItem('role')
+      localStorage.removeItem('isLogged')
+      dispatch({
+        type: POST_LOGIN,
+        payload: { token: '', role: '' },
+      })
+      alert('Hai effettuato il logout con successo!')
     } catch (error) {
       console.log('Error', error)
     }

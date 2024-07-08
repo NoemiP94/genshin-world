@@ -1,6 +1,35 @@
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { logout } from '../redux/action'
 
 const SidebarLayout = () => {
+  const dispatch = useDispatch()
+  const [logOut, setLogOut] = useState(false)
+  const navigate = useNavigate()
+  const [isLogged, setIsLogged] = useState(false)
+  const [role, setRole] = useState('')
+  const location = useLocation()
+  const handleLogout = () => {
+    dispatch(logout())
+    setLogOut(true)
+  }
+
+  useEffect(() => {
+    if (logOut) {
+      navigate('/login')
+    }
+  }, [logOut, navigate])
+
+  useEffect(() => {
+    const logged = localStorage.getItem('isLogged') === 'true'
+    setIsLogged(logged)
+    console.log('isLogged:', logged)
+    const roleFromLS = localStorage.getItem('role') || ''
+    setRole(roleFromLS)
+    console.log('role:', roleFromLS)
+  }, [])
+
   return (
     <div className="bg-indigo-600 h-full">
       <div className="flex flex-col text-xl	text-right  flex-end pe-10">
@@ -34,11 +63,14 @@ const SidebarLayout = () => {
         <button className="text-right py-2">
           <Link to="/reserved/blog">Blog</Link>
         </button>
-        <button className="text-right py-2">
-          <Link to="/reserved/user">User</Link>
-        </button>
-        <button className="text-right py-10">
-          <Link to="#">Log out</Link>
+        {isLogged && role === 'ADMIN' ? (
+          <button className="text-right py-2">
+            <Link to="/reserved/user">User</Link>
+          </button>
+        ) : null}
+
+        <button className="text-right py-10" onClick={handleLogout}>
+          Log out
         </button>
       </div>
     </div>

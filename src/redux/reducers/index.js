@@ -1,4 +1,10 @@
-import { DELETE_USER, GET_USERS, POST_LOGIN, REGISTER_USER } from '../action'
+import {
+  DELETE_USER,
+  GET_USERS,
+  LOGOUT,
+  POST_LOGIN,
+  REGISTER_USER,
+} from '../action'
 
 const initialState = {
   token: '',
@@ -30,7 +36,8 @@ const loginReducer = (state = initialState, action) => {
         ...state,
         list: state.list.filter((user) => user.id !== action.payload),
       }
-
+    case LOGOUT:
+      return initialState
     default:
       return state
   }
