@@ -1,6 +1,7 @@
 export const POST_BLOG = 'POST_BLOG'
 export const GET_BLOG = 'GET_BLOG'
 export const GET_POST_BLOG_IMG = 'GET_POST_BLOG_IMG'
+export const PUT_BLOG = 'PUT_BLOG'
 
 export const postBlogpost = (blogpost, token) => {
   return async (dispatch) => {
@@ -80,3 +81,31 @@ export const getBlogpostImage = (image) => ({
   type: GET_POST_BLOG_IMG,
   payload: image,
 })
+
+export const updateBlogpost = (id, updateBlogpost, token) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/blogpost/' + id, {
+        method: 'PUT',
+        body: JSON.stringify(updateBlogpost),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        console.log(data.content)
+        dispatch({
+          type: PUT_BLOG,
+          payload: data.content,
+        })
+        alert('Modifica effettuata con successo!')
+      } else {
+        throw new Error('Errore durante la modifica')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
