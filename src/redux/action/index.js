@@ -1,6 +1,7 @@
 export const POST_LOGIN = 'POST_LOGIN'
 export const GET_USERS = 'GET_USERS'
 export const REGISTER_USER = 'REGISTER_USER'
+export const DELETE_USER = 'DELETE_USER'
 
 export const postLogin = (login) => {
   return async (dispatch) => {
@@ -83,6 +84,29 @@ export const postRegister = (register) => {
         alert('Registrazione effettuata con successo')
       } else {
         throw new Error('The register is fail')
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const deleteUser = (id, token) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch('http://localhost:3001/user/' + id, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      if (response.ok) {
+        dispatch({
+          type: DELETE_USER,
+          payload: id,
+        })
+      } else {
+        throw new Error("Errore durante l'eliminazione")
       }
     } catch (error) {
       console.log('Error', error)
