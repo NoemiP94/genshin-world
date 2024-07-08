@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBlogpost, postBlogpost } from '../redux/action/blogposts'
+import ModalImgBlogpost from './modals/ModalImgBlogpost'
 
 const Blogpost = () => {
   const dispatch = useDispatch()
@@ -150,6 +151,13 @@ const Blogpost = () => {
                         Contenuto:{' '}
                         <span className="italic">{blog.content}</span>
                       </p>
+                      {blog.image !== null ? (
+                        <img
+                          src={blog.image}
+                          alt={blog.title}
+                          className="border mx-2 w-14 border-yellow-600"
+                        />
+                      ) : null}
                     </div>
                     <div className="m-2 ">
                       <div className="flex my-1">
@@ -185,7 +193,7 @@ const Blogpost = () => {
                           strokeWidth={1.5}
                           stroke="currentColor"
                           className="size-8 mx-2"
-                          //onClick={() => showModalImg(place.id)}
+                          onClick={() => showImgBlogModal(blog.id)}
                         >
                           <path
                             strokeLinecap="round"
@@ -196,6 +204,13 @@ const Blogpost = () => {
                       </div>
                     </div>
                   </div>
+                  {showBlogImgModal && selectedBlog && (
+                    <ModalImgBlogpost
+                      showImgModal={showBlogImgModal}
+                      setShowImgModal={setShowBlogImgModal}
+                      blogId={selectedBlog}
+                    />
+                  )}
                 </li>
               ))}
           </ul>
