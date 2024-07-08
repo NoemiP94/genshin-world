@@ -34,6 +34,9 @@ const SidebarLayout = () => {
         <button className="text-right py-2">
           <Link to="/reserved/blog">Blog</Link>
         </button>
+        <button className="text-right py-2">
+          <Link to="/reserved/user">User</Link>
+        </button>
         <button className="text-right py-10">
           <Link to="#">Log out</Link>
         </button>

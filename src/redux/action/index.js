@@ -1,5 +1,6 @@
 export const POST_LOGIN = 'POST_LOGIN'
 export const GET_USERS = 'GET_USERS'
+export const REGISTER_USER = 'REGISTER_USER'
 
 export const postLogin = (login) => {
   return async (dispatch) => {
@@ -58,6 +59,33 @@ export const getAllUsers = (token) => {
       console.log('Error', error)
       alert('Errore durante il caricamento')
       throw error
+    }
+  }
+}
+
+export const postRegister = (register) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/auth/register', {
+        method: 'POST',
+        body: JSON.stringify(register),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        console.log(data)
+        dispatch({
+          type: REGISTER_USER,
+          payload: data,
+        })
+        alert('Registrazione effettuata con successo')
+      } else {
+        throw new Error('The register is fail')
+      }
+    } catch (error) {
+      console.log('Error', error)
     }
   }
 }
