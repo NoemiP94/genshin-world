@@ -4,6 +4,7 @@ export const PUT_TALENT = 'PUT_TALENT'
 export const DELETE_TALENT = 'DELETE_TALENT'
 export const ADD_MATERIAL = 'ADD_MATERIAL'
 export const REMOVE_MATERIAL = 'REMOVE_MATERIAL'
+export const GET_POST_TALENT_IMG = 'GET_POST_TALENT_IMG'
 
 export const postTalent = (talent, token) => {
   return async (dispatch) => {
@@ -164,3 +165,28 @@ export const removeMaterialTalent = (idTalent, idMaterial, token) => {
     }
   }
 }
+
+export const postTalentImage = async (id_talent, formImg, token) => {
+  try {
+    const res = await fetch(`http://localhost:3001/talent/${id_talent}/image`, {
+      method: 'POST',
+      body: formImg,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    if (res.ok) {
+      alert('Immagine salvata correttamente!')
+      return null
+    } else {
+      throw new Error('Failed to upload image')
+    }
+  } catch (error) {
+    console.log('Error', error)
+  }
+}
+
+export const getTalentImage = (image) => ({
+  type: GET_POST_TALENT_IMG,
+  payload: image,
+})

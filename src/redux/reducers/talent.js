@@ -1,6 +1,7 @@
 import {
   ADD_MATERIAL,
   DELETE_TALENT,
+  GET_POST_TALENT_IMG,
   GET_TALENT,
   POST_TALENT,
   PUT_TALENT,
@@ -11,6 +12,7 @@ const initialState = {
   talent: null,
   list: [],
   update: '',
+  postImage: null,
 }
 
 const talentReducer = (state = initialState, action) => {
@@ -49,6 +51,11 @@ const talentReducer = (state = initialState, action) => {
             (mater) => mater.id !== action.payload
           ),
         },
+      }
+    case GET_POST_TALENT_IMG:
+      return {
+        ...state,
+        postImage: action.payload,
       }
     default:
       return state
