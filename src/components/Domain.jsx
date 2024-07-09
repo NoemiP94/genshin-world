@@ -184,10 +184,10 @@ const Domain = () => {
                     }}
                   >
                     <option>Seleziona un tipo</option>
-                    <option>DominioConquista</option>
+                    <option>Dominio_della_Conquista</option>
                     <option>Manufatti</option>
-                    <option>MaterialiArmi</option>
-                    <option>MaterialiTalenti</option>
+                    <option>Materiali_per_armi</option>
+                    <option>Materiali_per_talenti</option>
                   </select>
                 </div>
               </div>

@@ -147,9 +147,10 @@ const Material = () => {
                   >
                     <option>Seleziona un tipo</option>
                     <option>Risorsa</option>
-                    <option>CiboPozioni</option>
-                    <option>Trofei</option>
-                    <option>OggettiUtili</option>
+                    <option>Cibo</option>
+                    <option>Pozione</option>
+                    <option>Trofeo</option>
+                    <option>Oggetto</option>
                   </select>
                 </div>
               </div>

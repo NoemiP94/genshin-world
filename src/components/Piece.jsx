@@ -172,11 +172,11 @@ const Piece = ({ idPiece, pieceOb }) => {
                   }}
                 >
                   <option>Seleziona un tipo</option>
-                  <option>Fiore</option>
-                  <option>Piuma</option>
-                  <option>Sabbie</option>
-                  <option>Calice</option>
-                  <option>Corona</option>
+                  <option>Fiore_della_vita</option>
+                  <option>Piuma_della_morte</option>
+                  <option>Sabbie_del_tempo</option>
+                  <option>Calice_eonotemo</option>
+                  <option>Corona_della_ragione</option>
                 </select>
               </div>
             </div>
