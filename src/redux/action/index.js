@@ -3,6 +3,7 @@ export const GET_USERS = 'GET_USERS'
 export const REGISTER_USER = 'REGISTER_USER'
 export const DELETE_USER = 'DELETE_USER'
 export const LOGOUT = 'LOGOUT'
+export const GET_POST_USER_IMG = 'GET_POST_USER_IMG'
 
 export const postLogin = (login) => {
   return async (dispatch) => {
@@ -131,3 +132,28 @@ export const logout = () => {
     }
   }
 }
+
+export const postUserImage = async (id_user, formImg, token) => {
+  try {
+    const res = await fetch(`http://localhost:3001/user/${id_user}/image`, {
+      method: 'POST',
+      body: formImg,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    if (res.ok) {
+      alert('Immagine salvata correttamente!')
+      return null
+    } else {
+      throw new Error('Failed to upload image')
+    }
+  } catch (error) {
+    console.log('Error', error)
+  }
+}
+
+export const getUserImage = (image) => ({
+  type: GET_POST_USER_IMG,
+  payload: image,
+})

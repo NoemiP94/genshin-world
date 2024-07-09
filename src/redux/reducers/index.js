@@ -1,5 +1,6 @@
 import {
   DELETE_USER,
+  GET_POST_USER_IMG,
   GET_USERS,
   LOGOUT,
   POST_LOGIN,
@@ -11,6 +12,7 @@ const initialState = {
   role: '',
   list: [],
   content: null,
+  postImage: null,
 }
 
 const loginReducer = (state = initialState, action) => {
@@ -35,6 +37,11 @@ const loginReducer = (state = initialState, action) => {
       return {
         ...state,
         list: state.list.filter((user) => user.id !== action.payload),
+      }
+    case GET_POST_USER_IMG:
+      return {
+        ...state,
+        postImage: action.payload,
       }
     case LOGOUT:
       return initialState
