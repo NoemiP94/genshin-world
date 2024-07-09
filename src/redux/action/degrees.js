@@ -2,6 +2,7 @@ export const POST_DEGREE = 'POST_DEGREE'
 export const GET_DEGREE = 'GET_DEGREE'
 export const PUT_DEGREE = 'PUT_DEGREE'
 export const DELETE_DEGREE = 'DELETE_DEGREE'
+export const GET_POST_DEGREE_IMG = 'GET_POST_DEGREE_IMG'
 
 export const postDegree = (degree, token) => {
   return async (dispatch) => {
@@ -104,3 +105,28 @@ export const deleteDegree = (id, token) => {
     }
   }
 }
+
+export const postDegreeImage = async (id_degree, formImg, token) => {
+  try {
+    const res = await fetch(`http://localhost:3001/degree/${id_degree}/image`, {
+      method: 'POST',
+      body: formImg,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    if (res.ok) {
+      alert('Immagine salvata correttamente!')
+      return null
+    } else {
+      throw new Error('Failed to upload image')
+    }
+  } catch (error) {
+    console.log('Error', error)
+  }
+}
+
+export const getDegreeImage = (image) => ({
+  type: GET_POST_DEGREE_IMG,
+  payload: image,
+})

@@ -1,6 +1,7 @@
 import {
   DELETE_DEGREE,
   GET_DEGREE,
+  GET_POST_DEGREE_IMG,
   POST_DEGREE,
   PUT_DEGREE,
 } from '../action/degrees'
@@ -9,6 +10,7 @@ const initialState = {
   degree: null,
   list: [],
   update: '',
+  postImage: null,
 }
 
 const degreeReducer = (state = initialState, action) => {
@@ -32,6 +34,11 @@ const degreeReducer = (state = initialState, action) => {
       return {
         ...state,
         degree: state.list.filter((degree) => degree.id !== action.payload),
+      }
+    case GET_POST_DEGREE_IMG:
+      return {
+        ...state,
+        postImage: action.payload,
       }
     default:
       return state
