@@ -2,6 +2,7 @@ export const POST_CONSTELLATION = 'POST_CONSTELLATION'
 export const GET_CONSTELLATION = 'GET_CONSTELLATION'
 export const PUT_CONSTELLATION = 'PUT_CONSTELLATION'
 export const DELETE_CONSTELLATION = 'DELETE_CONSTELLATION'
+export const GET_POST_CONSTELLATION_IMG = 'GET_POST_CONSTELLATION_IMG'
 
 export const postConstellation = (constellation, token) => {
   return async (dispatch) => {
@@ -104,3 +105,35 @@ export const deleteConstellation = (id, token) => {
     }
   }
 }
+
+export const postConstellationImage = async (
+  id_constellation,
+  formImg,
+  token
+) => {
+  try {
+    const res = await fetch(
+      `http://localhost:3001/constellation/${id_constellation}/image`,
+      {
+        method: 'POST',
+        body: formImg,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    if (res.ok) {
+      alert('Immagine salvata correttamente!')
+      return null
+    } else {
+      throw new Error('Failed to upload image')
+    }
+  } catch (error) {
+    console.log('Error', error)
+  }
+}
+
+export const getConstellationImage = (image) => ({
+  type: GET_POST_CONSTELLATION_IMG,
+  payload: image,
+})

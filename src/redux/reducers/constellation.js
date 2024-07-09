@@ -1,6 +1,7 @@
 import {
   DELETE_CONSTELLATION,
   GET_CONSTELLATION,
+  GET_POST_CONSTELLATION_IMG,
   POST_CONSTELLATION,
   PUT_CONSTELLATION,
 } from '../action/constellations'
@@ -9,6 +10,7 @@ const initialState = {
   constellation: null,
   list: [],
   update: '',
+  postImage: null,
 }
 
 const constellationReducer = (state = initialState, action) => {
@@ -34,6 +36,11 @@ const constellationReducer = (state = initialState, action) => {
         constellation: state.list.filter(
           (constellation) => constellation.id !== action.payload
         ),
+      }
+    case GET_POST_CONSTELLATION_IMG:
+      return {
+        ...state,
+        postImage: action.payload,
       }
     default:
       return state
