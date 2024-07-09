@@ -26,6 +26,9 @@ const Region = () => {
     vision: '',
     description: '',
     archon: '',
+    ideal: '',
+    capital: '',
+    festival: '',
   })
 
   useEffect(() => {
@@ -47,6 +50,9 @@ const Region = () => {
       vision: region.vision,
       description: region.description,
       archon: region.archon,
+      ideal: region.ideal,
+      capital: region.capital,
+      festival: region.festival,
     })
     console.log('regione passata', region)
     console.log('id regione selezionato', region.id)
@@ -241,6 +247,78 @@ const Region = () => {
                   />
                 </div>
               </div>
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="ideal"
+                  className="block text-sm font-medium leading-6 text-left"
+                >
+                  Ideale
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="ideal"
+                    id="ideal"
+                    autoComplete="ideal"
+                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    value={region.ideal}
+                    onChange={(e) => {
+                      setRegion({
+                        ...region,
+                        ideal: e.target.value,
+                      })
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="capital"
+                  className="block text-sm font-medium leading-6 text-left"
+                >
+                  Capitale
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="capital"
+                    id="capital"
+                    autoComplete="capital"
+                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    value={region.capital}
+                    onChange={(e) => {
+                      setRegion({
+                        ...region,
+                        capital: e.target.value,
+                      })
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="festival"
+                  className="block text-sm font-medium leading-6 text-left"
+                >
+                  Festival
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="festival"
+                    id="festival"
+                    autoComplete="festival"
+                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    value={region.festival}
+                    onChange={(e) => {
+                      setRegion({
+                        ...region,
+                        festival: e.target.value,
+                      })
+                    }}
+                  />
+                </div>
+              </div>
               <div className="mt-6 flex items-center justify-end gap-x-6">
                 <button
                   type="reset"
@@ -288,10 +366,34 @@ const Region = () => {
                       <p className="pt-2">
                         Nome: <span className="italic">{region.name}</span>
                       </p>
+                      <p>
+                        Descrizione:{' '}
+                        <span className="italic overflow-y-scroll h-14">
+                          {region.description}
+                        </span>
+                      </p>
                       <p className="py-2">
                         Tipo di visione:{' '}
                         <span className="italic">{region.visionType}</span>
                       </p>
+                      {region.ideal !== null ? (
+                        <p className="pt-2">
+                          Ideale: <span className="italic">{region.ideal}</span>
+                        </p>
+                      ) : null}
+                      {region.capital !== null ? (
+                        <p className="pt-2">
+                          Capitale:{' '}
+                          <span className="italic">{region.capital}</span>
+                        </p>
+                      ) : null}
+                      {region.festival !== null ? (
+                        <p className="pt-2">
+                          Festival:{' '}
+                          <span className="italic">{region.festival}</span>
+                        </p>
+                      ) : null}
+
                       <Menu
                         as="div"
                         className="relative inline-block text-left"
