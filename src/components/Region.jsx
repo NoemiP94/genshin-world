@@ -403,6 +403,12 @@ const Region = () => {
                           <span className="italic">{region.festival}</span>
                         </p>
                       ) : null}
+                      {region.image !== null ? (
+                        <img
+                          src={region.image}
+                          className="border mx-2 w-14 border-yellow-600"
+                        />
+                      ) : null}
 
                       <Menu
                         as="div"

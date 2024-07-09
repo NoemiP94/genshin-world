@@ -2,6 +2,7 @@ export const POST_ARTIFACT = 'POST_ARTIFACT'
 export const GET_ARTIFACT = 'GET_ARTIFACT'
 export const DELETE_ARTIFACT = 'DELETE_ARTIFACT'
 export const PUT_ARTIFACT = 'PUT_ARTIFACT'
+export const GET_POST_ARTIFACT_IMG = 'GET_POST_ARTIFACT_IMG'
 
 export const postArtifact = (artifact, token) => {
   return async (dispatch) => {
@@ -104,3 +105,31 @@ export const updateArtifact = (id, updateArtifact, token) => {
     }
   }
 }
+
+export const postArtifactImage = async (id_artifact, formImg, token) => {
+  try {
+    const res = await fetch(
+      `http://localhost:3001/artifactset/${id_artifact}/image`,
+      {
+        method: 'POST',
+        body: formImg,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    if (res.ok) {
+      alert('Immagine salvata correttamente!')
+      return null
+    } else {
+      throw new Error('Failed to upload image')
+    }
+  } catch (error) {
+    console.log('Error', error)
+  }
+}
+
+export const getArtifactImage = (image) => ({
+  type: GET_POST_ARTIFACT_IMG,
+  payload: image,
+})

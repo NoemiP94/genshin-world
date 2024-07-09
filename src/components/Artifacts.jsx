@@ -9,6 +9,7 @@ import {
 import Piece from './Piece'
 import { deletePiece, getPiece } from '../redux/action/pieces'
 import ModalPieceImg from './modals/ModalPieceImg'
+import ModalArtifactImg from './modals/ModalArtifactImg'
 
 const Artifacts = () => {
   const dispatch = useDispatch()
@@ -79,7 +80,7 @@ const Artifacts = () => {
     dispatch(getPiece())
   }, [dispatch])
 
-  //MODALE IMG
+  //MODALE IMG PIECE
   const [showPieceImgModal, setPieceShowImgModal] = useState(false)
   const [selectedPiece, setSelectedPiece] = useState(null)
 
@@ -90,6 +91,14 @@ const Artifacts = () => {
 
     console.log('Pezzo cliccato')
     console.log('Pezzo selezionato', selectedPiece)
+  }
+  //IMG MODAL ARTIFACT
+  const [showArtifactImgModal, setShowArtifactImgModal] = useState(false)
+  const [selectedArtifact, setSelectedArtifact] = useState(null)
+
+  const showArtifactModal = (idArtifact) => {
+    setSelectedArtifact(idArtifact)
+    setShowArtifactImgModal(true)
   }
 
   //UPDATE PIECE
@@ -285,6 +294,21 @@ const Artifacts = () => {
                     <div className="w-1/4 mt-4 mx-4 flex">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
+                        fill="#15803d"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="size-8 mx-2"
+                        onClick={() => showArtifactImgModal(artifact.id)}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                        />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         fill="#facc15"
                         className="size-8 mx-2"
@@ -395,6 +419,13 @@ const Artifacts = () => {
                     showImgModal={showPieceImgModal}
                     setShowImgModal={setPieceShowImgModal}
                     pieceId={selectedPiece}
+                  />
+                )}
+                {showArtifactImgModal && selectedArtifact && (
+                  <ModalArtifactImg
+                    showImgModal={showArtifactImgModal}
+                    setShowImgModal={setShowArtifactImgModal}
+                    artifactId={selectedArtifact}
                   />
                 )}
               </li>

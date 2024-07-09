@@ -1,6 +1,7 @@
 import {
   DELETE_ARTIFACT,
   GET_ARTIFACT,
+  GET_POST_ARTIFACT_IMG,
   POST_ARTIFACT,
   PUT_ARTIFACT,
 } from '../action/artifacts'
@@ -9,6 +10,7 @@ const initialState = {
   artifact: null,
   list: [],
   update: '',
+  postImage: null,
 }
 
 const artifactReducer = (state = initialState, action) => {
@@ -33,6 +35,11 @@ const artifactReducer = (state = initialState, action) => {
       return {
         ...state,
         update: action.payload,
+      }
+    case GET_POST_ARTIFACT_IMG:
+      return {
+        ...state,
+        postImage: action.payload,
       }
     default:
       return state
