@@ -1,5 +1,6 @@
 import {
   DELETE_REGION,
+  GET_POST_REGION_IMG,
   GET_REGION,
   POST_REGION,
   PUT_REGION,
@@ -9,6 +10,7 @@ const initialState = {
   region: null,
   list: [],
   update: '',
+  postImage: null,
 }
 
 const regionReducer = (state = initialState, action) => {
@@ -32,6 +34,11 @@ const regionReducer = (state = initialState, action) => {
       return {
         ...state,
         list: state.list.filter((region) => region.id !== action.payload),
+      }
+    case GET_POST_REGION_IMG:
+      return {
+        ...state,
+        postImage: action.payload,
       }
     default:
       return state

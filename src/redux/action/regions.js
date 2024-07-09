@@ -2,6 +2,7 @@ export const POST_REGION = 'POST_REGION'
 export const GET_REGION = 'GET_REGION'
 export const PUT_REGION = 'PUT_REGION'
 export const DELETE_REGION = 'DELETE_REGION'
+export const GET_POST_REGION_IMG = 'GET_POST_REGION_IMG'
 
 export const postRegion = (region, token) => {
   return async (dispatch) => {
@@ -104,3 +105,28 @@ export const deleteRegion = (id, token) => {
     }
   }
 }
+
+export const postRegionImage = async (id_region, formImg, token) => {
+  try {
+    const res = await fetch(`http://localhost:3001/region/${id_region}/image`, {
+      method: 'POST',
+      body: formImg,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    if (res.ok) {
+      alert('Immagine salvata correttamente!')
+      return null
+    } else {
+      throw new Error('Failed to upload image')
+    }
+  } catch (error) {
+    console.log('Error', error)
+  }
+}
+
+export const getRegionImage = (image) => ({
+  type: GET_POST_REGION_IMG,
+  payload: image,
+})
