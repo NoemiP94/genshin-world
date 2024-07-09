@@ -174,33 +174,88 @@ const SingleCharacter = () => {
               <p>
                 - Nome: <span className="italic">{singleCharacter.name}</span>
               </p>
-              <p>
-                - Voce: <span className="italic">{singleCharacter.voice}</span>
-              </p>
-              <p>
-                - Compleanno:{' '}
-                <span className="italic">{singleCharacter.birthday}</span>
-              </p>
-              <p>
-                - Stelle:{' '}
-                <span className="italic">{singleCharacter.stars}</span>
-              </p>
-              <p>
-                - Affiliazione:{' '}
-                <span className="italic">{singleCharacter.affiliate}</span>
-              </p>
-              <p>
-                - Visione:{' '}
-                <span className="italic">{singleCharacter.visionType}</span>
-              </p>
+              {singleCharacter.engVoice !== null ? (
+                <p>
+                  - Voce Inglese:{' '}
+                  <span className="italic">{singleCharacter.engVoice}</span>
+                </p>
+              ) : null}
+              {singleCharacter.japVoice !== null ? (
+                <p>
+                  - Voce Giapponese:{' '}
+                  <span className="italic">{singleCharacter.japVoice}</span>
+                </p>
+              ) : null}
+              {singleCharacter.chinVoice !== null ? (
+                <p>
+                  - Voce Cinese:{' '}
+                  <span className="italic">{singleCharacter.chinVoice}</span>
+                </p>
+              ) : null}
+              {singleCharacter.corVoice !== null ? (
+                <p>
+                  - Voce Coreana:{' '}
+                  <span className="italic">{singleCharacter.corVoice}</span>
+                </p>
+              ) : null}
+              {singleCharacter.birthday !== null ? (
+                <p>
+                  - Compleanno:{' '}
+                  <span className="italic">{singleCharacter.birthday}</span>
+                </p>
+              ) : null}
+              {singleCharacter.stars !== null ? (
+                <p>
+                  - Stelle:{' '}
+                  <span className="italic">{singleCharacter.stars}</span>
+                </p>
+              ) : null}
+              {singleCharacter.affiliate !== null ? (
+                <p>
+                  - Affiliazione:{' '}
+                  <span className="italic">{singleCharacter.affiliate}</span>
+                </p>
+              ) : null}
+              {singleCharacter.visionType !== null ? (
+                <p>
+                  - Visione:{' '}
+                  <span className="italic">{singleCharacter.visionType}</span>
+                </p>
+              ) : null}
+
               <p>
                 - Arma:{' '}
                 <span className="italic">{singleCharacter.weaponType}</span>
               </p>
-              <p>
-                - Regione:{' '}
-                <span className="italic">{singleCharacter.region_id.name}</span>
-              </p>
+              {singleCharacter.title !== null ? (
+                <p>
+                  - Titolo:{' '}
+                  <span className="italic">{singleCharacter.title}</span>
+                </p>
+              ) : null}
+              {singleCharacter.releaseVersion !== null ? (
+                <p>
+                  - Versione di rilascio:{' '}
+                  <span className="italic">
+                    {singleCharacter.releaseVersion}
+                  </span>
+                </p>
+              ) : null}
+              {singleCharacter.specialDish !== null ? (
+                <p>
+                  - Piatto speciale:{' '}
+                  <span className="italic">{singleCharacter.specialDish}</span>
+                </p>
+              ) : null}
+              {singleCharacter.region_id !== null ? (
+                <p>
+                  - Regione:{' '}
+                  <span className="italic">
+                    {singleCharacter.region_id.name}
+                  </span>
+                </p>
+              ) : null}
+
               <p>
                 - Descrizione:{' '}
                 <span className="italic">{singleCharacter.description}</span>

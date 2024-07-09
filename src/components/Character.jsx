@@ -22,7 +22,7 @@ const Character = () => {
   //SAVE CHARACTER
   const [character, setCharacter] = useState({
     name: '',
-    voice: '',
+    engVoice: '',
     birthday: '',
     stars: '',
     affiliate: '',
@@ -30,6 +30,12 @@ const Character = () => {
     description: '',
     weaponType: '',
     region_id: '',
+    title: '',
+    releaseVersion: '',
+    japVoice: '',
+    chinVoice: '',
+    corVoice: '',
+    specialDish: '',
   })
   const saveCharacter = async () => {
     try {
@@ -55,7 +61,7 @@ const Character = () => {
     setIdCharacter(character.id)
     setCharacter({
       name: character.name,
-      voice: character.voice,
+      engVoice: character.engVoice,
       birthday: character.birthday,
       stars: character.stars,
       affiliate: character.affiliate,
@@ -63,6 +69,12 @@ const Character = () => {
       description: character.description,
       weaponType: character.weaponType,
       region_id: character.region_id,
+      title: character.title,
+      releaseVersion: character.releaseVersion,
+      japVoice: character.japVoice,
+      chinVoice: character.chinVoice,
+      corVoice: character.corVoice,
+      specialDish: character.specialDish,
     })
   }
 
@@ -125,23 +137,119 @@ const Character = () => {
                 </div>
                 <div className="sm:col-span-3">
                   <label
-                    htmlFor="voice"
+                    htmlFor="title"
                     className="block text-sm font-medium leading-6 text-left"
                   >
-                    Voce
+                    Titolo
                   </label>
                   <div className="mt-2">
                     <input
                       type="text"
-                      name="voice"
-                      id="voice"
-                      autoComplete="voice"
+                      name="title"
+                      id="title"
+                      autoComplete="title"
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      //value={character.title}
+                      onChange={(e) => {
+                        setCharacter({
+                          ...character,
+                          title: e.target.value,
+                        })
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="engVoice"
+                    className="block text-sm font-medium leading-6 text-left"
+                  >
+                    Voce Inglese
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      name="engVoice"
+                      id="engVoice"
+                      autoComplete="engVoice"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       //value={character.voice}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
-                          voice: e.target.value,
+                          engVoice: e.target.value,
+                        })
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="japVoice"
+                    className="block text-sm font-medium leading-6 text-left"
+                  >
+                    Voce Giapponese
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      name="japVoice"
+                      id="japVoice"
+                      autoComplete="japVoice"
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      //value={character.japVoice}
+                      onChange={(e) => {
+                        setCharacter({
+                          ...character,
+                          japVoice: e.target.value,
+                        })
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="chinVoice"
+                    className="block text-sm font-medium leading-6 text-left"
+                  >
+                    Voce Cinese
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      name="chinVoice"
+                      id="chinVoice"
+                      autoComplete="chinVoice"
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      //value={character.chinVoice}
+                      onChange={(e) => {
+                        setCharacter({
+                          ...character,
+                          chinVoice: e.target.value,
+                        })
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="corVoice"
+                    className="block text-sm font-medium leading-6 text-left"
+                  >
+                    Voce Coreana
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      name="corVoice"
+                      id="corVoice"
+                      autoComplete="corVoice"
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      //value={character.voice}
+                      onChange={(e) => {
+                        setCharacter({
+                          ...character,
+                          corVoice: e.target.value,
                         })
                       }}
                     />
@@ -333,6 +441,54 @@ const Character = () => {
                         setCharacter({
                           ...character,
                           description: e.target.value,
+                        })
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="specialDish"
+                    className="block text-sm font-medium leading-6 text-left"
+                  >
+                    Piatto speciale
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      name="specialDish"
+                      id="specialDish"
+                      autoComplete="specialDish"
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      //value={character.specialDish}
+                      onChange={(e) => {
+                        setCharacter({
+                          ...character,
+                          specialDish: e.target.value,
+                        })
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="releaseVersion"
+                    className="block text-sm font-medium leading-6 text-left"
+                  >
+                    Versione di rilascio
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      name="releaseVersion"
+                      id="releaseVersion"
+                      autoComplete="releaseVersion"
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      //value={character.releaseVersion}
+                      onChange={(e) => {
+                        setCharacter({
+                          ...character,
+                          releaseVersion: e.target.value,
                         })
                       }}
                     />

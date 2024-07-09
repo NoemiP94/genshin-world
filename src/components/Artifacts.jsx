@@ -16,6 +16,7 @@ const Artifacts = () => {
   const [artifact, setArtifact] = useState({
     name: '',
     description: '',
+    origin: '',
   })
 
   //SAVE ARTIFACT
@@ -55,6 +56,7 @@ const Artifacts = () => {
     setArtifact({
       name: artifact.name,
       description: artifact.description,
+      origin: artifact.origin,
     })
     console.log('artifact passato: ', artifact)
     console.log('id artifact selezionato: ', artifact.id)
@@ -191,6 +193,30 @@ const Artifacts = () => {
                   />
                 </div>
               </div>
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="origin"
+                  className="block text-sm font-medium leading-6 text-left"
+                >
+                  Origine
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="origin"
+                    id="origin"
+                    autoComplete="origin"
+                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    value={artifact.origin}
+                    onChange={(e) => {
+                      setArtifact({
+                        ...artifact,
+                        origin: e.target.value,
+                      })
+                    }}
+                  />
+                </div>
+              </div>
 
               <div className="mt-6 flex items-center justify-end gap-x-6">
                 <button
@@ -248,6 +274,12 @@ const Artifacts = () => {
                         - Descrizione:{' '}
                         <span className="italic">{artifact.description}</span>
                       </p>{' '}
+                      {artifact.origin !== null ? (
+                        <p>
+                          - Origine:{' '}
+                          <span className="italic">{artifact.origin}</span>
+                        </p>
+                      ) : null}
                     </div>
 
                     <div className="w-1/4 mt-4 mx-4 flex">
