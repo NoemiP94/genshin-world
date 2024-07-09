@@ -208,11 +208,11 @@ const Users = () => {
                         <p>
                           - Nome: <span className="italic">{user.name}</span>
                         </p>
-                        <p className=" overflow-y-scroll">
+                        <p>
                           - Cognome:{' '}
                           <span className="italic">{user.surname}</span>
                         </p>{' '}
-                        <p className=" overflow-y-scroll">
+                        <p>
                           - Email: <span className="italic">{user.email}</span>
                         </p>{' '}
                         {user.image !== null ? (
