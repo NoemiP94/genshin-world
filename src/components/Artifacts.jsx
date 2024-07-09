@@ -299,7 +299,7 @@ const Artifacts = () => {
                         strokeWidth={1.5}
                         stroke="currentColor"
                         className="size-8 mx-2"
-                        onClick={() => showArtifactImgModal(artifact.id)}
+                        onClick={() => showArtifactModal(artifact.id)}
                       >
                         <path
                           strokeLinecap="round"

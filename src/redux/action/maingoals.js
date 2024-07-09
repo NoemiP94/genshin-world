@@ -3,6 +3,7 @@ export const GET_MAINGOAL = 'GET_MAINGOAL'
 export const PUT_MAINGOAL = 'PUT_MAINGOAL'
 export const DELETE_MAINGOAL = 'DELETE_MAINGOAL'
 export const GET_SINGLE_MAINGOAL = 'GET_SINGLE_MAINGOAL'
+export const GET_POST_MAINGOAL_IMG = 'GET_POST_MAINGOAL_IMG'
 
 export const postMainGoal = (mainGoal, token) => {
   return async (dispatch) => {
@@ -128,3 +129,31 @@ export const getSingleMainGoal = (id) => {
     }
   }
 }
+
+export const postMainGoalImage = async (id_mainGoal, formImg, token) => {
+  try {
+    const res = await fetch(
+      `http://localhost:3001/maingoal/${id_mainGoal}/image`,
+      {
+        method: 'POST',
+        body: formImg,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    if (res.ok) {
+      alert('Immagine salvata correttamente!')
+      return null
+    } else {
+      throw new Error('Failed to upload image')
+    }
+  } catch (error) {
+    console.log('Error', error)
+  }
+}
+
+export const getMainGoalImage = (image) => ({
+  type: GET_POST_MAINGOAL_IMG,
+  payload: image,
+})

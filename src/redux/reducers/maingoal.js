@@ -1,6 +1,7 @@
 import {
   DELETE_MAINGOAL,
   GET_MAINGOAL,
+  GET_POST_MAINGOAL_IMG,
   GET_SINGLE_MAINGOAL,
   POST_MAINGOAL,
   PUT_MAINGOAL,
@@ -11,6 +12,7 @@ const initialState = {
   list: [],
   update: '',
   singleMainGoal: null,
+  postImage: null,
 }
 
 const mainGoalReducer = (state = initialState, action) => {
@@ -39,6 +41,11 @@ const mainGoalReducer = (state = initialState, action) => {
       return {
         ...state,
         singleMainGoal: action.payload,
+      }
+    case GET_POST_MAINGOAL_IMG:
+      return {
+        ...state,
+        postImage: action.payload,
       }
     default:
       return state
