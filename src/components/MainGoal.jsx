@@ -158,6 +158,12 @@ const MainGoal = () => {
                   <p>
                     Nome:<span className="italic"> {maingoal.name}</span>
                   </p>
+                  {maingoal.image !== null ? (
+                    <img
+                      src={maingoal.image}
+                      className="border mx-2 w-14 border-yellow-600"
+                    />
+                  ) : null}
                   <div className="flex">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

@@ -371,10 +371,18 @@ const SingleCharacter = () => {
                               />
                             </svg>
                           </div>
-
+                          <p className="overflow-y-scroll h-20 mt-2">
+                            {tal.name}
+                          </p>
                           <p className="overflow-y-scroll h-20 mt-2">
                             {tal.info}
                           </p>
+                          {tal.image !== null ? (
+                            <img
+                              src={tal.image}
+                              className="border mx-2 w-14 border-yellow-600"
+                            />
+                          ) : null}
                           <div className="mt-2">
                             <div className="flex">
                               <p>- Materiali per aumento talenti:</p>

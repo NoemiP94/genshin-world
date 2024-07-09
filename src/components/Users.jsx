@@ -215,6 +215,12 @@ const Users = () => {
                         <p className=" overflow-y-scroll">
                           - Email: <span className="italic">{user.email}</span>
                         </p>{' '}
+                        {user.image !== null ? (
+                          <img
+                            src={user.image}
+                            className="border mx-2 w-14 border-yellow-600"
+                          />
+                        ) : null}
                       </div>
 
                       <div className="w-1/4 mt-4 mx-4 flex">

@@ -289,6 +289,12 @@ const Artifacts = () => {
                           <span className="italic">{artifact.origin}</span>
                         </p>
                       ) : null}
+                      {artifact.image !== null ? (
+                        <img
+                          src={artifact.image}
+                          className="border mx-2 w-14 border-yellow-600"
+                        />
+                      ) : null}
                     </div>
 
                     <div className="w-1/4 mt-4 mx-4 flex">

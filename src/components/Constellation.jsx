@@ -259,7 +259,12 @@ const Constellation = () => {
                       - Nome:
                       <span className="italic">{constellation.name}</span>
                     </p>
-
+                    {constellation.image !== null ? (
+                      <img
+                        src={constellation.image}
+                        className="border mx-2 w-14 border-yellow-600"
+                      />
+                    ) : null}
                     <p>- Lista gradi: </p>
                     <div className="mt-2 h-20  overflow-y-scroll ">
                       {constellation.degreesList.length > 0
@@ -272,6 +277,14 @@ const Constellation = () => {
                                   </div>
                                   <div className="pe-5 ps-5 text-sm">
                                     {degree.name}
+                                  </div>
+                                  <div>
+                                    {degree.image !== null ? (
+                                      <img
+                                        src={degree.image}
+                                        className="border mx-2 w-14 border-yellow-600"
+                                      />
+                                    ) : null}
                                   </div>
                                 </div>
 
