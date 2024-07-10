@@ -3,8 +3,15 @@ import { useEffect } from 'react'
 import { getMaterial } from '../../redux/action/materials'
 import { addMaterialToEnemy, getEnemy } from '../../redux/action/enemies'
 import { addMaterialToTalent, getTalent } from '../../redux/action/talents'
+import { getCharacter, getSingleCharacter } from '../../redux/action/characters'
 
-const ModalMaterialTalent = ({ showModal, setShowModal, talentId, talent }) => {
+const ModalMaterialTalent = ({
+  showModal,
+  setShowModal,
+  talentId,
+  talent,
+  character,
+}) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
 
@@ -22,6 +29,8 @@ const ModalMaterialTalent = ({ showModal, setShowModal, talentId, talent }) => {
       console.log('token: ', token)
       await dispatch(addMaterialToTalent(talent, idTalent, idMaterial, token))
       await dispatch(getTalent())
+      await dispatch(getCharacter())
+      await dispatch(getSingleCharacter(character))
     } catch (error) {
       console.log('Error', error)
     }

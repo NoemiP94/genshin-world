@@ -149,6 +149,7 @@ const SingleCharacter = () => {
   const handlePlusMaterialTalent = (idTalent) => {
     console.log('idTalent ricevuto: ', idTalent)
     setSelectedTalentMaterial(idTalent)
+    setSelectedCharacter(singleCharacter.id)
     setShowMaterialTalentModal(true)
     console.log('talent selezionato: ', selectedTalentMaterial)
   }
@@ -169,6 +170,7 @@ const SingleCharacter = () => {
 
   const showTalentModal = (idTalent) => {
     setSelectedTalent(idTalent)
+    setSelectedCharacter(singleCharacter.id)
     setShowTalentImgModal(true)
   }
 
@@ -371,9 +373,7 @@ const SingleCharacter = () => {
                               />
                             </svg>
                           </div>
-                          <p className="overflow-y-scroll h-20 mt-2">
-                            {tal.name}
-                          </p>
+
                           <p className="overflow-y-scroll h-20 mt-2">
                             {tal.info}
                           </p>
@@ -442,21 +442,26 @@ const SingleCharacter = () => {
                             </div>
                           </div>
                           {showMaterialTalentModal &&
-                            selectedTalentMaterial && (
+                            selectedTalentMaterial &&
+                            selectedCharacter && (
                               <ModalMaterialTalent
                                 showModal={showMaterialTalentModal}
                                 setShowModal={setShowMaterialTalentModal}
                                 talentId={selectedTalentMaterial}
                                 talent={tal}
+                                character={selectedCharacter}
                               />
                             )}
-                          {showTalentImgModal && selectedTalent && (
-                            <ModalTalentImg
-                              showImgModal={showTalentImgModal}
-                              setShowImgModal={setShowTalentImgModal}
-                              talentId={selectedTalent}
-                            />
-                          )}
+                          {showTalentImgModal &&
+                            selectedTalent &&
+                            selectedCharacter && (
+                              <ModalTalentImg
+                                showImgModal={showTalentImgModal}
+                                setShowImgModal={setShowTalentImgModal}
+                                talentId={selectedTalent}
+                                character={selectedCharacter}
+                              />
+                            )}
                         </li>
                       ))
                     : null}

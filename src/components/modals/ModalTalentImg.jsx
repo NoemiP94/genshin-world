@@ -5,8 +5,14 @@ import {
   GET_POST_TALENT_IMG,
   postTalentImage,
 } from '../../redux/action/talents'
+import { getCharacter, getSingleCharacter } from '../../redux/action/characters'
 
-const ModalTalentImg = ({ showImgModal, setShowImgModal, talentId }) => {
+const ModalTalentImg = ({
+  showImgModal,
+  setShowImgModal,
+  talentId,
+  character,
+}) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
   const [formImg, setFormImg] = useState(null)
@@ -45,8 +51,10 @@ const ModalTalentImg = ({ showImgModal, setShowImgModal, talentId }) => {
     }
   }
 
-  const handleSave = (id) => {
-    handleUploadImage(id)
+  const handleSave = async (id) => {
+    await handleUploadImage(id)
+    await dispatch(getCharacter())
+    await dispatch(getSingleCharacter(character))
     setShowImgModal(false)
   }
   return (

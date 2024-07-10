@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 import {
   GET_POST_REGION_IMG,
+  getRegion,
   postRegionImage,
 } from '../../redux/action/regions'
 
@@ -46,8 +47,9 @@ const ModalRegionImg = ({ showImgModal, setShowImgModal, regionId }) => {
     }
   }
 
-  const handleSave = (id) => {
-    handleUploadImage(id)
+  const handleSave = async (id) => {
+    await handleUploadImage(id)
+    await dispatch(getRegion())
     setShowImgModal(false)
   }
   return (

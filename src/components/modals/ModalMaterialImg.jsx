@@ -2,9 +2,9 @@ import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import {
   GET_POST_MATERIAL_IMG,
+  getMaterial,
   postMaterialImage,
 } from '../../redux/action/materials'
-import { getWeapon } from '../../redux/action/weapons'
 
 const ModalMaterialImg = ({ showImgModal, setShowImgModal, materialId }) => {
   const token = localStorage.getItem('token')
@@ -47,8 +47,8 @@ const ModalMaterialImg = ({ showImgModal, setShowImgModal, materialId }) => {
 
   const handleSave = async (id) => {
     handleUploadImage(id)
+    await dispatch(getMaterial())
     setShowImgModal(false)
-    await dispatch(getWeapon())
   }
   return (
     <>

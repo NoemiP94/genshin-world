@@ -3,7 +3,12 @@ import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 
 import { GET_POST_ENEMY_IMG, postEnemyImage } from '../../redux/action/enemies'
-import { GET_POST_CHARACTER_IMG } from '../../redux/action/characters'
+import {
+  GET_POST_CHARACTER_IMG,
+  getCharacter,
+  getSingleCharacter,
+  postCharacterImage,
+} from '../../redux/action/characters'
 
 const ModalCharacterImg = ({ showImgModal, setShowImgModal, characterId }) => {
   const token = localStorage.getItem('token')
@@ -20,7 +25,11 @@ const ModalCharacterImg = ({ showImgModal, setShowImgModal, characterId }) => {
         const id_character = id ? id.toString() : null
         console.log('id_character: ', id_character)
         if (id_character) {
-          const response = await postEnemyImage(id_character, formImg, token)
+          const response = await postCharacterImage(
+            id_character,
+            formImg,
+            token
+          )
           console.log('response', response)
           if (response !== null) {
             console.log('Immagine caricata correttamente', response)
@@ -44,8 +53,10 @@ const ModalCharacterImg = ({ showImgModal, setShowImgModal, characterId }) => {
     }
   }
 
-  const handleSave = (id) => {
-    handleUploadImage(id)
+  const handleSave = async (id) => {
+    await handleUploadImage(id)
+    await dispatch(getCharacter())
+    await dispatch(getSingleCharacter(id))
     setShowImgModal(false)
   }
   return (

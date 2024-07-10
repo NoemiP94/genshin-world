@@ -20,9 +20,10 @@ const Talent = ({ character, singleCharacter, idTalent }) => {
     try {
       await dispatch(postTalent(talent, token))
       await dispatch(getCharacter())
+      await dispatch(getSingleCharacter(character))
       console.log('talent: ', talent)
     } catch (error) {
-      console.log('Errore creazione place: ', error)
+      console.log('Errore creazione talent: ', error)
     }
   }
 
