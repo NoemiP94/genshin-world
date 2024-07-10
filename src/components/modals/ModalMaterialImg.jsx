@@ -46,7 +46,7 @@ const ModalMaterialImg = ({ showImgModal, setShowImgModal, materialId }) => {
   }
 
   const handleSave = async (id) => {
-    handleUploadImage(id)
+    await handleUploadImage(id)
     await dispatch(getMaterial())
     setShowImgModal(false)
   }

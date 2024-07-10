@@ -86,7 +86,7 @@ const Material = () => {
   }
 
   return (
-    <div className="h-screen">
+    <div>
       <h2 className="mt-5 text-2xl font-bold">Gestione Materiali</h2>
       <div className="container my-6 w-full flex">
         {/* CREA MATERIAL */}
