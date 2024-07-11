@@ -19,13 +19,23 @@ const Weapon = () => {
     weaponType: '',
     stars: '',
     details: '',
+    origin: '',
   })
+
+  //PAGINATION
+  const [currentPage, setCurrentPage] = useState(0)
+  const elementsPerPage = 10
+  const orderElements = 'name'
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber)
+  }
 
   //SAVE WEAPON
   const saveWeapon = async () => {
     try {
       await dispatch(postWeapon(weapon, token))
-      await dispatch(getWeapon())
+      await dispatch(getWeapon(currentPage, elementsPerPage, orderElements))
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }
@@ -34,8 +44,8 @@ const Weapon = () => {
   //GET WEAPON
   const weaponData = useSelector((state) => state.weapon.list)
   useEffect(() => {
-    dispatch(getWeapon())
-  }, [dispatch])
+    dispatch(getWeapon(currentPage, elementsPerPage, orderElements))
+  }, [dispatch, currentPage, elementsPerPage, orderElements])
 
   ///IMG MODAL
   const [showWeaponImgModal, setShowWeaponImgModal] = useState(false)
@@ -54,7 +64,7 @@ const Weapon = () => {
   const handleDelete = async (weapon) => {
     try {
       await dispatch(deleteWeapon(weapon.id, token))
-      dispatch(getWeapon())
+      dispatch(getWeapon(currentPage, elementsPerPage, orderElements))
       console.log('Arma eliminata con successo!')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
@@ -74,6 +84,7 @@ const Weapon = () => {
       weaponType: weapon.weaponType,
       stars: weapon.stars,
       details: weapon.details,
+      origin: weapon.origin,
     })
     console.log('arma passato: ', weapon)
     console.log('id arma selezionato: ', weapon.id)
@@ -83,7 +94,7 @@ const Weapon = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateWeapon(idWeapon, weapon, token))
-      dispatch(getWeapon())
+      dispatch(getWeapon(currentPage, elementsPerPage, orderElements))
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -105,14 +116,14 @@ const Weapon = () => {
   const handleRemoveMaterial = async (idWeapon, idMaterial) => {
     try {
       await dispatch(removeMaterial(idWeapon, idMaterial, token))
-      await dispatch(getWeapon())
+      await dispatch(getWeapon(currentPage, elementsPerPage, orderElements))
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
     }
   }
 
   return (
-    <div className="h-screen">
+    <div>
       <h2 className="mt-5 text-2xl font-bold">Gestione Armi</h2>
       <div className="container my-6 w-full flex">
         {/* CREA WEAPON */}
@@ -202,11 +213,11 @@ const Weapon = () => {
                     }}
                   >
                     <option>Seleziona stelle</option>
-                    <option>ONE</option>
-                    <option>TWO</option>
-                    <option>THREE</option>
-                    <option>FOUR</option>
-                    <option>FIVE</option>
+                    <option>UNO</option>
+                    <option>DUE</option>
+                    <option>TRE</option>
+                    <option>QUATTRO</option>
+                    <option>CINQUE</option>
                   </select>
                 </div>
               </div>
@@ -251,6 +262,30 @@ const Weapon = () => {
                       setWeapon({
                         ...weapon,
                         details: e.target.value,
+                      })
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-3 pt-5">
+                <label
+                  htmlFor="origin"
+                  className="block text-sm font-medium leading-6 text-left"
+                >
+                  Origine
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="origin"
+                    id="origin"
+                    autoComplete="origin"
+                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    value={weapon.origin}
+                    onChange={(e) => {
+                      setWeapon({
+                        ...weapon,
+                        origin: e.target.value,
                       })
                     }}
                   />
@@ -318,6 +353,12 @@ const Weapon = () => {
                       <p>
                         - Stelle: <span className="italic">{weapon.stars}</span>
                       </p>
+                      {weapon.origin !== null ? (
+                        <p>
+                          - Origine:{' '}
+                          <span className="italic">{weapon.origin}</span>
+                        </p>
+                      ) : null}
                       <div className="mt-2">
                         <div className="flex">
                           <p>- Materiali necessari</p>
@@ -438,6 +479,9 @@ const Weapon = () => {
                       showImgModal={showWeaponImgModal}
                       setShowImgModal={setShowWeaponImgModal}
                       weaponId={selectedWeapon}
+                      currentPage={currentPage}
+                      elementsPerPage={elementsPerPage}
+                      orderElements={orderElements}
                     />
                   )}
                   {showMaterialModal && selected && (
@@ -446,11 +490,31 @@ const Weapon = () => {
                       setShowModal={setShowMaterialModal}
                       weaponId={selected}
                       weapon={weapon}
+                      currentPageWeapon={currentPage}
+                      elementsPerPageWeapon={elementsPerPage}
+                      orderElementsWeapon={orderElements}
                     />
                   )}
                 </li>
               ))}
           </ul>
+          <div className="flex justify-center mt-4 text-white">
+            {weaponData && (
+              <div className="justify-content-center custom-page">
+                {[...Array(weaponData.totalPages).keys()].map((number) => (
+                  <button
+                    key={number}
+                    onClick={() => handlePageChange(number)}
+                    className={`custom-item border p-4 ${
+                      number === currentPage - 1 ? 'active' : ''
+                    }`}
+                  >
+                    {number + 1}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
         {/* FINE LISTA WEAPON */}
       </div>

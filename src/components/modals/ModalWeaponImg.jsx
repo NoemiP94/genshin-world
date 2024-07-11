@@ -3,6 +3,7 @@ import { useState } from 'react'
 
 import {
   GET_POST_WEAPON_IMG,
+  getWeapon,
   postWeaponImage,
 } from '../../redux/action/weapons'
 
@@ -45,8 +46,9 @@ const ModalWeaponImg = ({ showImgModal, setShowImgModal, weaponId }) => {
     }
   }
 
-  const handleSave = (id) => {
-    handleUploadImage(id)
+  const handleSave = async (id) => {
+    await handleUploadImage(id)
+    await dispatch(getWeapon())
     setShowImgModal(false)
   }
   return (

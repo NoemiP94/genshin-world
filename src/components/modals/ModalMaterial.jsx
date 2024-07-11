@@ -1,17 +1,34 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { getMaterial, getMaterialByName } from '../../redux/action/materials'
+import { getMaterial } from '../../redux/action/materials'
 import { addMaterialToWeapon, getWeapon } from '../../redux/action/weapons'
 
-const ModalMaterial = ({ showModal, setShowModal, weaponId, weapon }) => {
+const ModalMaterial = ({
+  showModal,
+  setShowModal,
+  weaponId,
+  weapon,
+  currentPageWeapon,
+  elementsPerPageWeapon,
+  orderElementsWeapon,
+}) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
+
+  //PAGINATION
+  const [currentPage, setCurrentPage] = useState(0)
+  const elementsPerPage = 10
+  const orderElements = 'name'
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber)
+  }
 
   //metodo che prende il testo dell'input e lo aggiunge all'endpoint
   const materialData = useSelector((state) => state.material.list)
   useEffect(() => {
-    dispatch(getMaterial())
-  }, [dispatch])
+    dispatch(getMaterial(currentPage, elementsPerPage, orderElements))
+  }, [dispatch, currentPage, elementsPerPage, orderElements])
 
   //quando si clicca sull'oggetto lo aggiunge
   const handleAddMaterial = async (weapon, idWeapon, idMaterial, token) => {
@@ -21,7 +38,9 @@ const ModalMaterial = ({ showModal, setShowModal, weaponId, weapon }) => {
       console.log('weapon selected: ', weapon)
       console.log('token: ', token)
       await dispatch(addMaterialToWeapon(weapon, idWeapon, idMaterial, token))
-      await dispatch(getWeapon())
+      await dispatch(
+        getWeapon(currentPageWeapon, elementsPerPageWeapon, orderElementsWeapon)
+      )
     } catch (error) {
       console.log('Error', error)
     }
@@ -64,7 +83,24 @@ const ModalMaterial = ({ showModal, setShowModal, weaponId, weapon }) => {
                       {material.name}
                     </p>
                   </div>
-                ))}
+                ))}{' '}
+            </div>{' '}
+            <div className="flex justify-center my-4 text-white">
+              {materialData && (
+                <div className="justify-content-center custom-page rounded border">
+                  {[...Array(materialData.totalPages).keys()].map((number) => (
+                    <button
+                      key={number}
+                      onClick={() => handlePageChange(number)}
+                      className={`custom-item border p-4 ${
+                        number === currentPage - 1 ? 'active' : ''
+                      }`}
+                    >
+                      {number + 1}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

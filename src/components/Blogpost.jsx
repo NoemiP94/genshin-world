@@ -7,7 +7,6 @@ import {
   updateBlogpost,
 } from '../redux/action/blogposts'
 import ModalImgBlogpost from './modals/ModalImgBlogpost'
-import Pagination from './Pagination'
 
 const Blogpost = () => {
   const dispatch = useDispatch()

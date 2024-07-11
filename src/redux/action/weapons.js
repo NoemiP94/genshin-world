@@ -34,10 +34,12 @@ export const postWeapon = (weapon, token) => {
   }
 }
 
-export const getWeapon = () => {
+export const getWeapon = (page, size, orderBy) => {
   return async (dispatch) => {
     try {
-      const res = await fetch('http://localhost:3001/weapon/getall')
+      const res = await fetch(
+        `http://localhost:3001/weapon/getall?page=${page}&size=${size}&orderBy=${orderBy}`
+      )
       console.log('res', res)
       if (res.ok) {
         const data = await res.json()

@@ -224,10 +224,7 @@ const Material = () => {
         {/* INIZIO LISTA MATERIAL */}
         <div>
           <p className="text-white text-lg">Lista Materiali</p>
-          <ul
-            role="list"
-            className="divide-y divide-gray-100 ms-5 overflow-y-scroll px-5 h-2/3"
-          >
+          <ul role="list" className="divide-y divide-gray-100 ms-5  px-5 h-2/3">
             {materialData.content &&
               materialData.content.map((material) => (
                 <li key={material.id} className="my-3 text-left px-5 py-3 ">
