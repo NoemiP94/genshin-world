@@ -17,10 +17,19 @@ const ModalWeaponCharacter = ({
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
 
+  //PAGINATION
+  const [currentPage, setCurrentPage] = useState(0)
+  const elementsPerPage = 10
+  const orderElements = 'name'
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber)
+  }
+
   const weaponData = useSelector((state) => state.weapon.list)
   useEffect(() => {
-    dispatch(getWeapon())
-  }, [dispatch])
+    dispatch(getWeapon(currentPage, elementsPerPage, orderElements))
+  }, [dispatch, currentPage, elementsPerPage, orderElements])
 
   //quando si clicca sull'oggetto lo aggiunge
   const handleAddWeapon = async (character, idCharacter, idWeapon, token) => {
@@ -77,6 +86,23 @@ const ModalWeaponCharacter = ({
                     </p>
                   </div>
                 ))}
+            </div>
+            <div className="flex justify-center my-4 text-white">
+              {weaponData && (
+                <div className="justify-content-center custom-page rounded border">
+                  {[...Array(weaponData.totalPages).keys()].map((number) => (
+                    <button
+                      key={number}
+                      onClick={() => handlePageChange(number)}
+                      className={`custom-item border p-4 ${
+                        number === currentPage - 1 ? 'active' : ''
+                      }`}
+                    >
+                      {number + 1}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

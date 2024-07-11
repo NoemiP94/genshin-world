@@ -125,9 +125,9 @@ const Weapon = () => {
   return (
     <div>
       <h2 className="mt-5 text-2xl font-bold">Gestione Armi</h2>
-      <div className="container my-6 w-full flex">
+      <div className="container my-6 w-full flex-colflex">
         {/* CREA WEAPON */}
-        <div className="w-2/4 flex justify-center">
+        <div className="w-3/4 flex justify-center">
           <form className="w-full  text-white">
             <div className=" p-7 h-auto">
               <h2 className="font-semibold leading-7 text-lg">
@@ -324,7 +324,7 @@ const Weapon = () => {
         </div>
         {/* FINE CREAZIONE WEAPON */}
         {/* INIZIO LISTA WEAPON */}
-        <div className="w-2/4">
+        <div className="mt-4">
           <p className="text-white text-lg">Lista Armi</p>
           <ul
             role="list"

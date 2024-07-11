@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getMaterial } from '../../redux/action/materials'
-import { addMaterialToEnemy, getEnemy } from '../../redux/action/enemies'
 import { addMaterialToTalent, getTalent } from '../../redux/action/talents'
 import { getCharacter, getSingleCharacter } from '../../redux/action/characters'
 
@@ -15,10 +14,18 @@ const ModalMaterialTalent = ({
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
 
+  //PAGINATION
+  const [currentPage, setCurrentPage] = useState(0)
+  const elementsPerPage = 10
+  const orderElements = 'name'
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber)
+  }
   const materialData = useSelector((state) => state.material.list)
   useEffect(() => {
-    dispatch(getMaterial())
-  }, [dispatch])
+    dispatch(getMaterial(currentPage, elementsPerPage, orderElements))
+  }, [dispatch, currentPage, elementsPerPage, orderElements])
 
   //quando si clicca sull'oggetto lo aggiunge
   const handleAddMaterial = async (talent, idTalent, idMaterial, token) => {
@@ -74,6 +81,23 @@ const ModalMaterialTalent = ({
                     </p>
                   </div>
                 ))}
+            </div>
+            <div className="flex justify-center my-4 text-white">
+              {materialData && (
+                <div className="justify-content-center custom-page rounded border">
+                  {[...Array(materialData.totalPages).keys()].map((number) => (
+                    <button
+                      key={number}
+                      onClick={() => handlePageChange(number)}
+                      className={`custom-item border p-4 ${
+                        number === currentPage - 1 ? 'active' : ''
+                      }`}
+                    >
+                      {number + 1}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
