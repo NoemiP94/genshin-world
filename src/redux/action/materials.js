@@ -33,10 +33,12 @@ export const postMaterial = (material, token) => {
   }
 }
 
-export const getMaterial = () => {
+export const getMaterial = (page, size, orderBy) => {
   return async (dispatch) => {
     try {
-      const res = await fetch('http://localhost:3001/material/getall')
+      const res = await fetch(
+        `http://localhost:3001/material/getall?page=${page}&size=${size}&orderBy=${orderBy}`
+      )
       console.log('res', res)
       if (res.ok) {
         const data = await res.json()

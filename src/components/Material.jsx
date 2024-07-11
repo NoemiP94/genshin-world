@@ -18,17 +18,26 @@ const Material = () => {
     materialType: '',
   })
 
+  //PAGINATION
+  const [currentPage, setCurrentPage] = useState(0)
+  const elementsPerPage = 10
+  const orderElements = 'name'
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber)
+  }
+
   //GET MATERIAL
   const materialData = useSelector((state) => state.material.list)
   useEffect(() => {
-    dispatch(getMaterial())
-  }, [dispatch])
+    dispatch(getMaterial(currentPage, elementsPerPage, orderElements))
+  }, [dispatch, currentPage, elementsPerPage, orderElements])
 
   //SAVE MATERIAL
   const saveMaterial = async () => {
     try {
       await dispatch(postMaterial(material, token))
-      await dispatch(getMaterial())
+      await dispatch(getMaterial(currentPage, elementsPerPage, orderElements))
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }
@@ -51,7 +60,7 @@ const Material = () => {
   const handleDelete = async (material) => {
     try {
       await dispatch(deleteMaterial(material.id, token))
-      dispatch(getMaterial())
+      dispatch(getMaterial(currentPage, elementsPerPage, orderElements))
       console.log('Materiale eliminato con successo!')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
@@ -78,7 +87,7 @@ const Material = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateMaterial(idMaterial, material, token))
-      dispatch(getMaterial())
+      dispatch(getMaterial(currentPage, elementsPerPage, orderElements))
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -88,9 +97,9 @@ const Material = () => {
   return (
     <div>
       <h2 className="mt-5 text-2xl font-bold">Gestione Materiali</h2>
-      <div className="container my-6 w-full flex">
+      <div className="container my-6 w-full flex flex-col">
         {/* CREA MATERIAL */}
-        <div className="w-2/4 flex justify-center">
+        <div className="w-3/4 flex justify-center mb-2">
           <form className="w-full  text-white">
             <div className=" p-7 h-auto">
               <h2 className="font-semibold leading-7 text-lg">
@@ -213,7 +222,7 @@ const Material = () => {
 
         {/* FINE CREAZIONE MATERIAL */}
         {/* INIZIO LISTA MATERIAL */}
-        <div className="w-2/4">
+        <div>
           <p className="text-white text-lg">Lista Materiali</p>
           <ul
             role="list"
@@ -296,14 +305,34 @@ const Material = () => {
                       showImgModal={showImgModal}
                       setShowImgModal={setShowImgModal}
                       materialId={selectedMaterial}
+                      currentPage={currentPage}
+                      elementsPerPage={elementsPerPage}
+                      orderElements={orderElements}
                     />
                   )}
                 </li>
               ))}
-          </ul>
+          </ul>{' '}
+          <div className="flex justify-center mt-4 text-white">
+            {materialData && (
+              <div className="justify-content-center custom-page">
+                {[...Array(materialData.totalPages).keys()].map((number) => (
+                  <button
+                    key={number}
+                    onClick={() => handlePageChange(number)}
+                    className={`custom-item border p-4 ${
+                      number === currentPage - 1 ? 'active' : ''
+                    }`}
+                  >
+                    {number + 1}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
         {/* FINE LISTA LUOGHI */}
-      </div>
+      </div>{' '}
     </div>
   )
 }

@@ -6,7 +6,14 @@ import {
   postMaterialImage,
 } from '../../redux/action/materials'
 
-const ModalMaterialImg = ({ showImgModal, setShowImgModal, materialId }) => {
+const ModalMaterialImg = ({
+  showImgModal,
+  setShowImgModal,
+  materialId,
+  currentPage,
+  elementsPerPage,
+  orderElements,
+}) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
   const [formImg, setFormImg] = useState(null)
@@ -47,7 +54,7 @@ const ModalMaterialImg = ({ showImgModal, setShowImgModal, materialId }) => {
 
   const handleSave = async (id) => {
     await handleUploadImage(id)
-    await dispatch(getMaterial())
+    await dispatch(getMaterial(currentPage, elementsPerPage, orderElements))
     setShowImgModal(false)
   }
   return (
