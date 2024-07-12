@@ -557,12 +557,12 @@ const SingleCharacter = () => {
                     key={artifact.id}
                     className="flex flex-col mx-4 my-2 items-center w-16"
                   >
-                    {/* {mater.image !== null ? (
-                                  <img
-                                    src={mater.image}
-                                    className="w-14 border border-yellow-600 rounded-lg w-14 mx-auto"
-                                  />
-                                ) : null} */}
+                    {artifact.image !== null ? (
+                      <img
+                        src={artifact.image}
+                        className="w-14 border border-yellow-600 rounded-lg w-14 mx-auto"
+                      />
+                    ) : null}
                     <p className="text-center pt-1 truncate hover:text-clip w-14">
                       {artifact.name}
                     </p>

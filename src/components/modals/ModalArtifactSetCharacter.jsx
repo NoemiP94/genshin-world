@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import {
   addArtifactSetToCharacter,
   getCharacter,
@@ -16,9 +16,18 @@ const ModalArtifactSetCharacter = ({
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
 
+  //PAGINATION
+  const [currentPage, setCurrentPage] = useState(0)
+  const elementsPerPage = 10
+  const orderElements = 'name'
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber)
+  }
+
   const artifactData = useSelector((state) => state.artifact.list)
   useEffect(() => {
-    dispatch(getArtifact())
+    dispatch(getArtifact(currentPage, elementsPerPage, orderElements))
   }, [dispatch])
 
   //quando si clicca sull'oggetto lo aggiunge
@@ -75,17 +84,34 @@ const ModalArtifactSetCharacter = ({
                       )
                     }
                   >
-                    {/* {artifact.image !== null ? (
+                    {artifact.image !== null ? (
                       <img
                         src={artifact.image}
                         className="w-14 border border-yellow-600 rounded-lg w-20 mx-auto"
                       />
-                    ) : null} */}
+                    ) : null}
                     <p className="text-center pt-1 truncate hover:text-clip w-20">
                       {artifact.name}
                     </p>
                   </div>
                 ))}
+            </div>
+            <div className="flex justify-center my-4 text-white">
+              {artifactData && (
+                <div className="justify-content-center custom-page rounded border">
+                  {[...Array(artifactData.totalPages).keys()].map((number) => (
+                    <button
+                      key={number}
+                      onClick={() => handlePageChange(number)}
+                      className={`custom-item border p-4 ${
+                        number === currentPage - 1 ? 'active' : ''
+                      }`}
+                    >
+                      {number + 1}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
