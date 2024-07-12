@@ -3,7 +3,14 @@ import { useDispatch } from 'react-redux'
 import { postTalent, updateTalent } from '../redux/action/talents'
 import { getCharacter, getSingleCharacter } from '../redux/action/characters'
 
-const Talent = ({ character, singleCharacter, idTalent }) => {
+const Talent = ({
+  character,
+  singleCharacter,
+  idTalent,
+  currentPageCharacter,
+  elementsPerPageCharacter,
+  orderElementsCharacter,
+}) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
 
@@ -19,7 +26,13 @@ const Talent = ({ character, singleCharacter, idTalent }) => {
     console.log('single character: ', character)
     try {
       await dispatch(postTalent(talent, token))
-      await dispatch(getCharacter())
+      await dispatch(
+        getCharacter(
+          currentPageCharacter,
+          elementsPerPageCharacter,
+          orderElementsCharacter
+        )
+      )
       await dispatch(getSingleCharacter(character))
       console.log('talent: ', talent)
     } catch (error) {
@@ -32,7 +45,13 @@ const Talent = ({ character, singleCharacter, idTalent }) => {
     console.log('idTalent: ', idTalent)
     try {
       await dispatch(updateTalent(idTalent, talent, token))
-      await dispatch(getCharacter())
+      await dispatch(
+        getCharacter(
+          currentPageCharacter,
+          elementsPerPageCharacter,
+          orderElementsCharacter
+        )
+      )
       await dispatch(getSingleCharacter(character))
 
       console.log('talent: ', talent)

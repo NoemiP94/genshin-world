@@ -39,10 +39,12 @@ export const postCharacter = (character, token) => {
   }
 }
 
-export const getCharacter = () => {
+export const getCharacter = (page, size, orderBy) => {
   return async (dispatch) => {
     try {
-      const res = await fetch('http://localhost:3001/character/getall')
+      const res = await fetch(
+        `http://localhost:3001/character/getall?page=${page}&size=${size}&orderBy=${orderBy}`
+      )
       console.log('res', res)
       if (res.ok) {
         const data = await res.json()

@@ -13,11 +13,44 @@ const Character = () => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
 
+  //PAGINATION REGION
+  const [currentPageRegion, setCurrentPageRegion] = useState(0)
+  const elementsPerPageRegion = 10
+  const orderElementsRegion = 'name'
+
+  //PAGINATION CHARACTER
+  const [currentPageCharacter, setCurrentPageCharacter] = useState(0)
+  const elementsPerPageCharacter = 10
+  const orderElementsCharacter = 'name'
+
+  const handlePageChangeCharacter = (pageNumber) => {
+    setCurrentPageCharacter(pageNumber)
+  }
+
   //GET REGION
   const regionData = useSelector((state) => state.region.list)
   useEffect(() => {
-    dispatch(getRegion())
-  }, [dispatch])
+    dispatch(
+      getRegion(currentPageRegion, elementsPerPageRegion, orderElementsRegion)
+    )
+  }, [dispatch, currentPageRegion, elementsPerPageRegion, orderElementsRegion])
+
+  //GET CHARACTER
+  const characterData = useSelector((state) => state.character.list)
+  useEffect(() => {
+    dispatch(
+      getCharacter(
+        currentPageCharacter,
+        elementsPerPageCharacter,
+        orderElementsCharacter
+      )
+    )
+  }, [
+    dispatch,
+    currentPageCharacter,
+    elementsPerPageCharacter,
+    orderElementsCharacter,
+  ])
 
   //SAVE CHARACTER
   const [character, setCharacter] = useState({
@@ -40,17 +73,17 @@ const Character = () => {
   const saveCharacter = async () => {
     try {
       await dispatch(postCharacter(character, token))
-      await dispatch(getCharacter())
+      await dispatch(
+        getCharacter(
+          currentPageCharacter,
+          elementsPerPageCharacter,
+          orderElementsCharacter
+        )
+      )
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }
   }
-
-  //GET CHARACTER
-  const characterData = useSelector((state) => state.character.list)
-  useEffect(() => {
-    dispatch(getCharacter())
-  }, [dispatch])
 
   //UPDATE CHARACTER
   const [updtCharacter, setUpdtCharacter] = useState(null)
@@ -81,7 +114,13 @@ const Character = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateCharacter(idCharacter, character, token))
-      dispatch(getCharacter())
+      dispatch(
+        getCharacter(
+          currentPageCharacter,
+          elementsPerPageCharacter,
+          orderElementsCharacter
+        )
+      )
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -92,7 +131,13 @@ const Character = () => {
   const handleDelete = async (character) => {
     try {
       await dispatch(deleteCharacter(character.id, token))
-      dispatch(getCharacter())
+      dispatch(
+        getCharacter(
+          currentPageCharacter,
+          elementsPerPageCharacter,
+          orderElementsCharacter
+        )
+      )
       console.log('Personaggio eliminato con successo!')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
@@ -575,6 +620,23 @@ const Character = () => {
                 </li>
               ))}
           </ul>
+          <div className="flex justify-center mt-4 text-white">
+            {characterData && (
+              <div className="justify-content-center custom-page">
+                {[...Array(characterData.totalPages).keys()].map((number) => (
+                  <button
+                    key={number}
+                    onClick={() => handlePageChangeCharacter(number)}
+                    className={`custom-item border p-4 ${
+                      number === currentPageCharacter - 1 ? 'active' : ''
+                    }`}
+                  >
+                    {number + 1}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
         {/* FINE LISTA CHARACTER */}
       </div>

@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import {
-  addArtifactSetToCharacter,
   addWeaponToCharacter,
   getCharacter,
   getSingleCharacter,
@@ -13,6 +12,9 @@ const ModalWeaponCharacter = ({
   setShowModal,
   characterId,
   character,
+  currentPageCharacter,
+  elementsPerPageCharacter,
+  orderElementsCharacter,
 }) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
@@ -41,7 +43,13 @@ const ModalWeaponCharacter = ({
       await dispatch(
         addWeaponToCharacter(character, idCharacter, idWeapon, token)
       )
-      await dispatch(getCharacter())
+      await dispatch(
+        getCharacter(
+          currentPageCharacter,
+          elementsPerPageCharacter,
+          orderElementsCharacter
+        )
+      )
       await dispatch(getSingleCharacter(idCharacter))
     } catch (error) {
       console.log('Error', error)
@@ -55,7 +63,7 @@ const ModalWeaponCharacter = ({
           <div className="bg-slate-700 border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none">
             <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
               <h3 className="text-3xl font=semibold text-black">
-                Aggiungi Set Artefatti
+                Aggiungi Arma
               </h3>
               <button
                 className="bg-transparent border-0 text-black float-right"

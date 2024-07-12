@@ -10,6 +10,9 @@ const ModalMaterialTalent = ({
   talentId,
   talent,
   character,
+  currentPageCharacter,
+  elementsPerPageCharacter,
+  orderElementsCharacter,
 }) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
@@ -36,7 +39,13 @@ const ModalMaterialTalent = ({
       console.log('token: ', token)
       await dispatch(addMaterialToTalent(talent, idTalent, idMaterial, token))
       await dispatch(getTalent())
-      await dispatch(getCharacter())
+      await dispatch(
+        getCharacter(
+          currentPageCharacter,
+          elementsPerPageCharacter,
+          orderElementsCharacter
+        )
+      )
       await dispatch(getSingleCharacter(character))
     } catch (error) {
       console.log('Error', error)

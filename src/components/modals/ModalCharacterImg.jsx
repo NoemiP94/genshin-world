@@ -10,7 +10,14 @@ import {
   postCharacterImage,
 } from '../../redux/action/characters'
 
-const ModalCharacterImg = ({ showImgModal, setShowImgModal, characterId }) => {
+const ModalCharacterImg = ({
+  showImgModal,
+  setShowImgModal,
+  characterId,
+  currentPageCharacter,
+  elementsPerPageCharacter,
+  orderElementsCharacter,
+}) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
   const [formImg, setFormImg] = useState(null)
@@ -55,7 +62,13 @@ const ModalCharacterImg = ({ showImgModal, setShowImgModal, characterId }) => {
 
   const handleSave = async (id) => {
     await handleUploadImage(id)
-    await dispatch(getCharacter())
+    await dispatch(
+      getCharacter(
+        currentPageCharacter,
+        elementsPerPageCharacter,
+        orderElementsCharacter
+      )
+    )
     await dispatch(getSingleCharacter(id))
     setShowImgModal(false)
   }

@@ -12,6 +12,9 @@ const ModalArtifactSetCharacter = ({
   setShowModal,
   characterId,
   character,
+  currentPageCharacter,
+  elementsPerPageCharacter,
+  orderElementsCharacter,
 }) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
@@ -45,7 +48,13 @@ const ModalArtifactSetCharacter = ({
       await dispatch(
         addArtifactSetToCharacter(character, idCharacter, idArtifactSet, token)
       )
-      await dispatch(getCharacter())
+      await dispatch(
+        getCharacter(
+          currentPageCharacter,
+          elementsPerPageCharacter,
+          orderElementsCharacter
+        )
+      )
       await dispatch(getSingleCharacter(idCharacter))
     } catch (error) {
       console.log('Error', error)

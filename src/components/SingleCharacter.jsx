@@ -25,6 +25,11 @@ const SingleCharacter = () => {
     (state) => state.character.singleCharacter
   )
 
+  //PAGINATION CHARACTER
+  const [currentPageCharacter, setCurrentPageCharacter] = useState(0)
+  const elementsPerPageCharacter = 10
+  const orderElementsCharacter = 'name'
+
   useEffect(() => {
     dispatch(getSingleCharacter(id))
   }, [dispatch, id])
@@ -59,7 +64,13 @@ const SingleCharacter = () => {
   const handleRemoveMaterial = async (idCharacter, idMaterial) => {
     try {
       await dispatch(removeMaterial(idCharacter, idMaterial, token))
-      await dispatch(getCharacter())
+      await dispatch(
+        getCharacter(
+          currentPageCharacter,
+          elementsPerPageCharacter,
+          orderElementsCharacter
+        )
+      )
       await dispatch(getSingleCharacter(idCharacter))
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
@@ -80,7 +91,13 @@ const SingleCharacter = () => {
   const handleRemoveArtifactSet = async (idCharacter, idArtifactSet) => {
     try {
       await dispatch(removeArtifactSet(idCharacter, idArtifactSet, token))
-      await dispatch(getCharacter())
+      await dispatch(
+        getCharacter(
+          currentPageCharacter,
+          elementsPerPageCharacter,
+          orderElementsCharacter
+        )
+      )
       await dispatch(getSingleCharacter(idCharacter))
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
@@ -100,7 +117,13 @@ const SingleCharacter = () => {
   const handleRemoveWeapon = async (idCharacter, idWeapon) => {
     try {
       await dispatch(removeWeapon(idCharacter, idWeapon, token))
-      await dispatch(getCharacter())
+      await dispatch(
+        getCharacter(
+          currentPageCharacter,
+          elementsPerPageCharacter,
+          orderElementsCharacter
+        )
+      )
       await dispatch(getSingleCharacter(idCharacter))
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
@@ -133,7 +156,13 @@ const SingleCharacter = () => {
     console.log('talent id delete', talentId)
     try {
       await dispatch(deleteTalent(talentId, token))
-      await dispatch(getCharacter())
+      await dispatch(
+        getCharacter(
+          currentPageCharacter,
+          elementsPerPageCharacter,
+          orderElementsCharacter
+        )
+      )
       await dispatch(getSingleCharacter(singleCharacter.id))
 
       console.log('Eliminato con successo!')
@@ -316,6 +345,9 @@ const SingleCharacter = () => {
                 character={singleCharacter.id}
                 singleCharacter={singleCharacter}
                 idTalent={idTalent}
+                currentPageCharacter={currentPageCharacter}
+                elementsPerPageCharacter={elementsPerPageCharacter}
+                orderElementsCharacter={orderElementsCharacter}
               />{' '}
               <div>
                 <p className="text-white text-sm">Lista Talenti</p>
@@ -326,7 +358,13 @@ const SingleCharacter = () => {
                   {singleCharacter.talentList.length > 0
                     ? singleCharacter.talentList.map((tal) => (
                         <li key={tal.id} className="my-3 text-left px-5 py-3">
-                          <div className="flex">
+                          <div className="flex items-center">
+                            {tal.image !== null ? (
+                              <img
+                                src={tal.image}
+                                className="border mx-2 w-14 border-yellow-600"
+                              />
+                            ) : null}
                             <p className="me-4">{tal.name}</p>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -347,7 +385,7 @@ const SingleCharacter = () => {
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 24 24"
                               fill="#facc15"
-                              className="size-4 mx-2"
+                              className="size-6 mx-2"
                               onClick={() => {
                                 handleUpdateTalentButton(
                                   tal,
@@ -361,7 +399,7 @@ const SingleCharacter = () => {
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 24 24"
                               fill="#dc2626"
-                              className="size-4 mx-2"
+                              className="size-6 mx-2"
                               onClick={() => {
                                 handleDeleteTalent(tal.id)
                               }}
@@ -377,12 +415,7 @@ const SingleCharacter = () => {
                           <p className="overflow-y-scroll h-20 mt-2">
                             {tal.info}
                           </p>
-                          {tal.image !== null ? (
-                            <img
-                              src={tal.image}
-                              className="border mx-2 w-14 border-yellow-600"
-                            />
-                          ) : null}
+
                           <div className="mt-2">
                             <div className="flex">
                               <p>- Materiali per aumento talenti:</p>
@@ -450,6 +483,11 @@ const SingleCharacter = () => {
                                 talentId={selectedTalentMaterial}
                                 talent={tal}
                                 character={selectedCharacter}
+                                currentPageCharacter={currentPageCharacter}
+                                elementsPerPageCharacter={
+                                  elementsPerPageCharacter
+                                }
+                                orderElementsCharacter={orderElementsCharacter}
                               />
                             )}
                           {showTalentImgModal &&
@@ -460,6 +498,11 @@ const SingleCharacter = () => {
                                 setShowImgModal={setShowTalentImgModal}
                                 talentId={selectedTalent}
                                 character={selectedCharacter}
+                                currentPageCharacter={currentPageCharacter}
+                                elementsPerPageCharacter={
+                                  elementsPerPageCharacter
+                                }
+                                orderElementsCharacter={orderElementsCharacter}
                               />
                             )}
                         </li>
@@ -662,6 +705,9 @@ const SingleCharacter = () => {
             showImgModal={showCharacterImgModal}
             setShowImgModal={setShowCharacterImgModal}
             characterId={selectedCharacter}
+            currentPageCharacter={currentPageCharacter}
+            elementsPerPageCharacter={elementsPerPageCharacter}
+            orderElementsCharacter={orderElementsCharacter}
           />
         )}
         {showMaterialCharacterModal && selectedCharacterMaterial && (
@@ -670,6 +716,9 @@ const SingleCharacter = () => {
             setShowModal={setShowMaterialCharacterModal}
             characterId={selectedCharacterMaterial}
             character={singleCharacter}
+            currentPageCharacter={currentPageCharacter}
+            elementsPerPageCharacter={elementsPerPageCharacter}
+            orderElementsCharacter={orderElementsCharacter}
           />
         )}
         {showArtifactSetModal && selectedCharacterArtifactSet && (
@@ -678,6 +727,9 @@ const SingleCharacter = () => {
             setShowModal={setShowArtifactSetModal}
             characterId={selectedCharacterArtifactSet}
             character={singleCharacter}
+            currentPageCharacter={currentPageCharacter}
+            elementsPerPageCharacter={elementsPerPageCharacter}
+            orderElementsCharacter={orderElementsCharacter}
           />
         )}
         {showWeaponModal && selectedCharacterWeapon && (
@@ -686,6 +738,9 @@ const SingleCharacter = () => {
             setShowModal={setShowWeaponModal}
             characterId={selectedCharacterWeapon}
             character={singleCharacter}
+            currentPageCharacter={currentPageCharacter}
+            elementsPerPageCharacter={elementsPerPageCharacter}
+            orderElementsCharacter={orderElementsCharacter}
           />
         )}
       </div>

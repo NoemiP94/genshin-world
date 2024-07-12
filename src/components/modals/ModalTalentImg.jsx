@@ -12,6 +12,9 @@ const ModalTalentImg = ({
   setShowImgModal,
   talentId,
   character,
+  currentPageCharacter,
+  elementsPerPageCharacter,
+  orderElementsCharacter,
 }) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
@@ -53,7 +56,13 @@ const ModalTalentImg = ({
 
   const handleSave = async (id) => {
     await handleUploadImage(id)
-    await dispatch(getCharacter())
+    await dispatch(
+      getCharacter(
+        currentPageCharacter,
+        elementsPerPageCharacter,
+        orderElementsCharacter
+      )
+    )
     await dispatch(getSingleCharacter(character))
     setShowImgModal(false)
   }
