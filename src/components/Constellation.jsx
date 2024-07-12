@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCharacter, getSingleCharacter } from '../redux/action/characters'
+import { getCharacter } from '../redux/action/characters'
 import {
   deleteConstellation,
   getConstellation,
@@ -16,10 +16,25 @@ const Constellation = () => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
 
+  //PAGINATION CHARACTER
+  const [currentPageCharacter, setCurrentPageCharacter] = useState(0)
+  const elementsPerPageCharacter = 10 //modificare per visualizzare tutti i personaggi oppure mettere la paginazione nel dropdown
+  const orderElementsCharacter = 'name'
+
+  const handlePageChangeCharacter = (pageNumber) => {
+    setCurrentPageCharacter(pageNumber)
+  }
+
   //GET CHARACTER
   const characterData = useSelector((state) => state.character.list)
   useEffect(() => {
-    dispatch(getCharacter())
+    dispatch(
+      getCharacter(
+        currentPageCharacter,
+        elementsPerPageCharacter,
+        orderElementsCharacter
+      )
+    )
   }, [dispatch])
 
   //SAVE CONSTELLATION
@@ -32,7 +47,13 @@ const Constellation = () => {
     e.preventDefault()
     try {
       await dispatch(postConstellation(constellation, token))
-      await dispatch(getSingleCharacter())
+      await dispatch(
+        getCharacter(
+          currentPageCharacter,
+          elementsPerPageCharacter,
+          orderElementsCharacter
+        )
+      )
       await dispatch(getConstellation())
     } catch (error) {
       console.log('Errore creazione place: ', error)
@@ -64,7 +85,14 @@ const Constellation = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateConstellation(idConstellation, constellation, token))
-      dispatch(getConstellation())
+      await dispatch(getConstellation())
+      await dispatch(
+        getCharacter(
+          currentPageCharacter,
+          elementsPerPageCharacter,
+          orderElementsCharacter
+        )
+      )
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -76,7 +104,13 @@ const Constellation = () => {
     try {
       await dispatch(deleteConstellation(constellation.id, token))
       await dispatch(getConstellation())
-      await dispatch(getCharacter())
+      await dispatch(
+        getCharacter(
+          currentPageCharacter,
+          elementsPerPageCharacter,
+          orderElementsCharacter
+        )
+      )
       console.log('Costellazione eliminata con successo!')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
@@ -147,11 +181,11 @@ const Constellation = () => {
   return (
     <div>
       <h4 className="mt-5 text-xl font-bold">Gestione Costellazione</h4>
-      <div className="container my-6 w-full flex">
+      <div className="container mb-6 w-full flex">
         {/* CREA CONSTELLATION */}
         <div className="w-2/4 flex justify-center">
           <form className="w-full  text-white">
-            <div className=" p-7 h-auto">
+            <div className=" ps-7 pt-4 h-auto">
               <h6 className="font-semibold leading-7 text-sm">Crea/Modifica</h6>
               <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-3">
@@ -178,36 +212,36 @@ const Constellation = () => {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-3 pt-5">
-                  <label
-                    htmlFor="character"
-                    className="block text-sm font-medium leading-6 text-left"
+              </div>{' '}
+              <div className="sm:col-span-3 pt-5">
+                <label
+                  htmlFor="character"
+                  className="block text-sm font-medium leading-6 text-left"
+                >
+                  Personaggio
+                </label>
+                <div className="mt-2">
+                  <select
+                    id="character"
+                    name="character"
+                    autoComplete="character-name"
+                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                    // value={constellation.character_id.name}
+                    onChange={(e) => {
+                      setConstellation({
+                        ...constellation,
+                        character_id: e.target.value,
+                      })
+                    }}
                   >
-                    Personaggio
-                  </label>
-                  <div className="mt-2">
-                    <select
-                      id="character"
-                      name="character"
-                      autoComplete="character-name"
-                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      // value={constellation.character_id.name}
-                      onChange={(e) => {
-                        setConstellation({
-                          ...constellation,
-                          character_id: e.target.value,
-                        })
-                      }}
-                    >
-                      <option>Seleziona un personaggio</option>
-                      {characterData.content &&
-                        characterData.content.map((character) => (
-                          <option key={character.id} value={character.id}>
-                            {character.name}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
+                    <option>Seleziona un personaggio</option>
+                    {characterData.content &&
+                      characterData.content.map((character) => (
+                        <option key={character.id} value={character.id}>
+                          {character.name}
+                        </option>
+                      ))}
+                  </select>
                 </div>
               </div>
               <div className="mt-6 flex items-center  gap-x-6">
@@ -239,7 +273,7 @@ const Constellation = () => {
           </form>
         </div>
         {/* FINE CREA CONSTELLATION */}{' '}
-        <div className="container my-6 w-full flex">
+        <div className="container mb-6 w-full flex">
           <Degree constellation={constellation} idDegree={idDegree} />
         </div>
       </div>{' '}
@@ -257,21 +291,16 @@ const Constellation = () => {
                   <div className="w-3/4 ">
                     <p>
                       - Nome:
-                      <span className="italic">{constellation.name}</span>
+                      <span className="italic"> {constellation.name}</span>
                     </p>
-                    {constellation.image !== null ? (
-                      <img
-                        src={constellation.image}
-                        className="border mx-2 w-14 border-yellow-600"
-                      />
-                    ) : null}
+
                     <p>- Lista gradi: </p>
                     <div className="mt-2 h-20  overflow-y-scroll ">
                       {constellation.degreesList.length > 0
                         ? constellation.degreesList.map((degree) => (
-                            <a className="italic py-2" key={degree.id}>
-                              <div className="flex  p-2 items-center justify-between">
-                                <div className="flex">
+                            <a className="italic" key={degree.id}>
+                              <div className=" flex p-2 items-center justify-between">
+                                <div className="flex items-center">
                                   <div className="pe-5 ps-5 text-sm">
                                     - C {degree.level}
                                   </div>
@@ -288,7 +317,7 @@ const Constellation = () => {
                                   </div>
                                 </div>
 
-                                <div className="w-1/4 mt-4 mx-4 flex">
+                                <div className=" mt-4 mx-4 flex items-center">
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="#15803d"
@@ -308,7 +337,7 @@ const Constellation = () => {
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                     fill="#facc15"
-                                    className="size-4 mx-2"
+                                    className="size-6 mx-2"
                                     onClick={() => {
                                       handleUpdateDegreeButton(
                                         degree,
@@ -322,7 +351,7 @@ const Constellation = () => {
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                     fill="#dc2626"
-                                    className="size-4 mx-2"
+                                    className="size-6 mx-2"
                                     onClick={() => {
                                       handleDeleteDegree(degree.id)
                                     }}
@@ -347,47 +376,59 @@ const Constellation = () => {
                         : null}
                     </div>
                   </div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="#15803d"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-8 mx-2"
-                    onClick={() => showConstellationModal(constellation.id)}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                    />{' '}
-                  </svg>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="#facc15"
-                    className="size-8 mx-2"
-                    onClick={() => {
-                      handlePencilUpdate(constellation)
-                    }}
-                  >
-                    <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
-                  </svg>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="#dc2626"
-                    className="size-8 mx-2"
-                    onClick={() => {
-                      handleDelete(constellation)
-                    }}
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <div className="flex flex-col items-center">
+                    <div className="flex">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="#15803d"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="size-8 mx-2"
+                        onClick={() => showConstellationModal(constellation.id)}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                        />{' '}
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="#facc15"
+                        className="size-8 mx-2"
+                        onClick={() => {
+                          handlePencilUpdate(constellation)
+                        }}
+                      >
+                        <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="#dc2626"
+                        className="size-8 mx-2"
+                        onClick={() => {
+                          handleDelete(constellation)
+                        }}
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      {constellation.image !== null ? (
+                        <img
+                          src={constellation.image}
+                          className="border mt-3 mx-2 w-20 border-yellow-600"
+                        />
+                      ) : null}
+                    </div>
+                  </div>
                 </div>
                 {showConstellationImgModal && selectedConstellation && (
                   <ModalConstellationImg

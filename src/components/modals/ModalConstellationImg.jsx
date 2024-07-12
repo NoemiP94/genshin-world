@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import {
   GET_POST_CONSTELLATION_IMG,
+  getConstellation,
   postConstellationImage,
 } from '../../redux/action/constellations'
 
@@ -53,8 +54,9 @@ const ModalConstellationImg = ({
     }
   }
 
-  const handleSave = (id) => {
-    handleUploadImage(id)
+  const handleSave = async (id) => {
+    await handleUploadImage(id)
+    await dispatch(getConstellation())
     setShowImgModal(false)
   }
   return (

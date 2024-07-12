@@ -32,6 +32,7 @@ export const postDegree = (degree, token) => {
   }
 }
 
+//ordinare per grado (da 1 a 6)
 export const getDegree = () => {
   return async (dispatch) => {
     try {

@@ -3,8 +3,10 @@ import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import {
   GET_POST_DEGREE_IMG,
+  getDegree,
   postDegreeImage,
 } from '../../redux/action/degrees'
+import { getConstellation } from '../../redux/action/constellations'
 
 const ModalDegreeImg = ({ showImgModal, setShowImgModal, degreeId }) => {
   const token = localStorage.getItem('token')
@@ -45,8 +47,10 @@ const ModalDegreeImg = ({ showImgModal, setShowImgModal, degreeId }) => {
     }
   }
 
-  const handleSave = (id) => {
-    handleUploadImage(id)
+  const handleSave = async (id) => {
+    await handleUploadImage(id)
+    await dispatch(getDegree())
+    await dispatch(getConstellation())
     setShowImgModal(false)
   }
   return (
