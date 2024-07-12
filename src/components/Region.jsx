@@ -44,7 +44,7 @@ const Region = () => {
     dispatch(
       getPlace(currentPagePlace, elementsPerPagePlace, orderElementsPlace)
     )
-  }, [dispatch])
+  }, [dispatch, currentPagePlace, elementsPerPagePlace, orderElementsPlace])
 
   const [region, setRegion] = useState({
     name: '',

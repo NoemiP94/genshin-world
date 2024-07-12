@@ -35,7 +35,7 @@ const Artifacts = () => {
   const artifactData = useSelector((state) => state.artifact.list)
   useEffect(() => {
     dispatch(getArtifact(currentPage, elementsPerPage, orderElements))
-  }, [dispatch])
+  }, [dispatch, currentPage, elementsPerPage, orderElements])
 
   //SAVE ARTIFACT
   const saveArtifact = async () => {

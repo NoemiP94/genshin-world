@@ -15,9 +15,36 @@ const Domain = () => {
   const token = localStorage.getItem('token')
   const regionData = useSelector((state) => state.region.list)
 
+  //PAGINATION REGION
+  const [currentPageRegion, setCurrentPageRegion] = useState(0)
+  const elementsPerPageRegion = 10
+  const orderElementsRegion = 'name'
+
+  const handlePageChangeRegion = (pageNumber) => {
+    setCurrentPageRegion(pageNumber)
+  }
   useEffect(() => {
-    dispatch(getRegion())
-  }, [dispatch])
+    dispatch(
+      getRegion(currentPageRegion, elementsPerPageRegion, orderElementsRegion)
+    )
+  }, [dispatch, currentPageRegion, elementsPerPageRegion, orderElementsRegion])
+
+  //PAGINATION DOMAIN
+  const [currentPageDomain, setCurrentPageDomain] = useState(0)
+  const elementsPerPageDomain = 5
+  const orderElementsDomain = 'name'
+
+  const handlePageChangeDomain = (pageNumber) => {
+    setCurrentPageDomain(pageNumber)
+  }
+
+  //GET DOMAIN
+  const domainData = useSelector((state) => state.domain.list)
+  useEffect(() => {
+    dispatch(
+      getDomain(currentPageDomain, elementsPerPageDomain, orderElementsDomain)
+    )
+  }, [dispatch, currentPageDomain, elementsPerPageDomain, orderElementsDomain])
 
   //CREATE DOMAIN
   const [domain, setDomain] = useState(null)
@@ -25,17 +52,13 @@ const Domain = () => {
     try {
       await dispatch(postDomain(domain, token))
       console.log(domain)
-      await dispatch(getDomain())
+      await dispatch(
+        getDomain(currentPageDomain, elementsPerPageDomain, orderElementsDomain)
+      )
     } catch (error) {
       console.log('Errore creazione dominio: ', error)
     }
   }
-
-  //GET DOMAIN
-  const domainData = useSelector((state) => state.domain.list)
-  useEffect(() => {
-    dispatch(getDomain())
-  }, [dispatch])
 
   //UPDATE DOMAIN
   const [updtDomain, setUpdtDomain] = useState(null)
@@ -58,7 +81,9 @@ const Domain = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateDomain(idDomain, domain, token))
-      dispatch(getDomain())
+      dispatch(
+        getDomain(currentPageDomain, elementsPerPageDomain, orderElementsDomain)
+      )
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -69,7 +94,9 @@ const Domain = () => {
   const handleDelete = async (domain) => {
     try {
       await dispatch(deleteDomain(domain.id, token))
-      dispatch(getDomain())
+      dispatch(
+        getDomain(currentPageDomain, elementsPerPageDomain, orderElementsDomain)
+      )
       console.log('Dominio eliminato con successo!')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
@@ -91,18 +118,20 @@ const Domain = () => {
   const handleRemoveMaterial = async (idDomain, idMaterial) => {
     try {
       await dispatch(removeMaterial(idDomain, idMaterial, token))
-      await dispatch(getDomain())
+      await dispatch(
+        getDomain(currentPageDomain, elementsPerPageDomain, orderElementsDomain)
+      )
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
     }
   }
 
   return (
-    <div className="h-screen">
+    <div>
       <h2 className="mt-5 text-2xl font-bold">Gestione Domini</h2>
-      <div className="container my-6 w-full flex">
+      <div className="container my-6 w-full flex flex-col">
         {/* CREA DOMAIN */}
-        <div className="w-2/4 flex justify-center">
+        <div className="flex justify-center">
           <form className="w-full  text-white">
             <div className=" p-7 h-auto">
               <h2 className="font-semibold leading-7 text-lg">
@@ -223,7 +252,7 @@ const Domain = () => {
                 </div>
               </div>
 
-              <div className="mt-6 flex items-center justify-end gap-x-6">
+              <div className="mt-6 flex gap-x-6">
                 <button
                   type="reset"
                   className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
@@ -256,7 +285,7 @@ const Domain = () => {
         </div>
         {/* FINE CREAZIONE DOMAIN */}
         {/* INIZIO LISTA DOMAIN */}
-        <div className="w-2/4">
+        <div>
           <p className="text-white text-lg">Lista Domini</p>
           <ul
             role="list"
@@ -381,11 +410,31 @@ const Domain = () => {
                       setShowModal={setShowMaterialModal}
                       domainId={selected}
                       domain={domain}
+                      currentPageDomain={currentPageDomain}
+                      elementsPerPageDomain={elementsPerPageDomain}
+                      orderElementsDomain={orderElementsDomain}
                     />
                   )}
                 </li>
               ))}
           </ul>
+          <div className="flex justify-center mt-4 text-white">
+            {domainData && (
+              <div className="justify-content-center custom-page">
+                {[...Array(domainData.totalPages).keys()].map((number) => (
+                  <button
+                    key={number}
+                    onClick={() => handlePageChangeDomain(number)}
+                    className={`custom-item border p-4 ${
+                      number === currentPageDomain - 1 ? 'active' : ''
+                    }`}
+                  >
+                    {number + 1}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
         {/* FINE LISTA DOMAIN */}
       </div>

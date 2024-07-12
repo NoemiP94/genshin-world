@@ -21,7 +21,7 @@ const Place = ({
 
   useEffect(() => {
     dispatch(getRegion(currentPage, elementsPerPage, orderElements))
-  }, [dispatch])
+  }, [dispatch, currentPage, elementsPerPage, orderElements])
 
   const [place, setPlace] = useState(null)
   const placeData = useSelector((state) => state.place.list)
@@ -29,7 +29,7 @@ const Place = ({
     dispatch(
       getPlace(currentPagePlace, elementsPerPagePlace, orderElementsPlace)
     )
-  }, [dispatch])
+  }, [dispatch, currentPagePlace, elementsPerPagePlace, orderElementsPlace])
   const handleSave = async (e) => {
     e.preventDefault()
     try {
@@ -252,7 +252,7 @@ const Place = ({
                   key={number}
                   onClick={() => handlePageChangePlace(number)}
                   className={`custom-item border p-4 ${
-                    number === currentPage - 1 ? 'active' : ''
+                    number === currentPagePlace - 1 ? 'active' : ''
                   }`}
                 >
                   {number + 1}

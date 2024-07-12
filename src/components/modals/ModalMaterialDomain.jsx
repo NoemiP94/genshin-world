@@ -3,7 +3,15 @@ import { useEffect, useState } from 'react'
 import { getMaterial } from '../../redux/action/materials'
 import { addMaterialToDomain, getDomain } from '../../redux/action/domains'
 
-const ModalMaterialDomain = ({ showModal, setShowModal, domainId, domain }) => {
+const ModalMaterialDomain = ({
+  showModal,
+  setShowModal,
+  domainId,
+  domain,
+  currentPageDomain,
+  elementsPerPageDomain,
+  orderElementsDomain,
+}) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
 
@@ -29,7 +37,9 @@ const ModalMaterialDomain = ({ showModal, setShowModal, domainId, domain }) => {
       console.log('domain selected: ', domain)
       console.log('token: ', token)
       await dispatch(addMaterialToDomain(domain, idDomain, idMaterial, token))
-      await dispatch(getDomain())
+      await dispatch(
+        getDomain(currentPageDomain, elementsPerPageDomain, orderElementsDomain)
+      )
     } catch (error) {
       console.log('Error', error)
     }

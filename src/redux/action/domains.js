@@ -33,10 +33,12 @@ export const postDomain = (domain, token) => {
   }
 }
 
-export const getDomain = () => {
+export const getDomain = (page, size, orderBy) => {
   return async (dispatch) => {
     try {
-      const res = await fetch('http://localhost:3001/domain/getall')
+      const res = await fetch(
+        `http://localhost:3001/domain/getall?page=${page}&size=${size}&orderBy=${orderBy}`
+      )
       console.log('res', res)
       if (res.ok) {
         const data = await res.json()

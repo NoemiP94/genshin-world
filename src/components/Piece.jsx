@@ -7,11 +7,20 @@ const Piece = ({ idPiece, pieceOb }) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
 
+  //PAGINATION
+  const [currentPage, setCurrentPage] = useState(0)
+  const elementsPerPage = 10
+  const orderElements = 'name'
+
+  // const handlePageChange = (pageNumber) => {
+  //   setCurrentPage(pageNumber)
+  // }
+
   //GET ARTIFACT
   const artifactData = useSelector((state) => state.artifact.list)
   useEffect(() => {
-    dispatch(getArtifact())
-  }, [dispatch])
+    dispatch(getArtifact(currentPage, elementsPerPage, orderElements))
+  }, [dispatch, currentPage, elementsPerPage, orderElements])
 
   //SAVE PIECE
   const [piece, setPiece] = useState({
@@ -34,7 +43,7 @@ const Piece = ({ idPiece, pieceOb }) => {
 
     try {
       await dispatch(postPiece(piece, token))
-      await dispatch(getArtifact())
+      await dispatch(getArtifact(currentPage, elementsPerPage, orderElements))
       await dispatch(getPiece())
     } catch (error) {
       console.log('Errore creazione place: ', error)
@@ -51,7 +60,7 @@ const Piece = ({ idPiece, pieceOb }) => {
     try {
       await dispatch(updatePiece(idPiece, piece, token))
       await dispatch(getPiece())
-      await dispatch(getArtifact())
+      await dispatch(getArtifact(currentPage, elementsPerPage, orderElements))
       //console.log('idPiece: ', idPiece)
       console.log('modificato')
       console.log('piece: ', piece)
