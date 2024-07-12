@@ -57,10 +57,12 @@ export const getImage = (image) => ({
   payload: image,
 })
 
-export const getPlace = () => {
+export const getPlace = (page, size, orderBy) => {
   return async (dispatch) => {
     try {
-      const res = await fetch('http://localhost:3001/place/getall')
+      const res = await fetch(
+        `http://localhost:3001/place/getall?page=${page}&size=${size}&orderBy=${orderBy}`
+      )
       if (res.ok) {
         const data = await res.json()
         dispatch({

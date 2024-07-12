@@ -10,6 +10,10 @@ const Place = ({
   currentPage,
   elementsPerPage,
   orderElements,
+  currentPagePlace,
+  elementsPerPagePlace,
+  orderElementsPlace,
+  handlePageChangePlace,
 }) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
@@ -22,14 +26,18 @@ const Place = ({
   const [place, setPlace] = useState(null)
   const placeData = useSelector((state) => state.place.list)
   useEffect(() => {
-    dispatch(getPlace())
+    dispatch(
+      getPlace(currentPagePlace, elementsPerPagePlace, orderElementsPlace)
+    )
   }, [dispatch])
   const handleSave = async (e) => {
     e.preventDefault()
     try {
       await dispatch(postPlace(place, token))
       await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
-      await dispatch(getPlace())
+      await dispatch(
+        getPlace(currentPagePlace, elementsPerPagePlace, orderElementsPlace)
+      )
     } catch (error) {
       console.log('Errore creazione place: ', error)
     }
@@ -39,7 +47,9 @@ const Place = ({
     console.log('idPlace: ', idPlace)
     try {
       await dispatch(updatePlace(idPlace, place, token))
-      await dispatch(getPlace())
+      await dispatch(
+        getPlace(currentPagePlace, elementsPerPagePlace, orderElementsPlace)
+      )
       await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
 
       console.log('place: ', place)
@@ -226,11 +236,31 @@ const Place = ({
                     showImgModal={showImgModal}
                     setShowImgModal={setShowImgModal}
                     placeId={selectedPlace}
+                    currentPagePlace={currentPagePlace}
+                    elementsPerPagePlace={elementsPerPagePlace}
+                    orderElementsPlace={orderElementsPlace}
                   />
                 )}
               </li>
             ))}
         </ul>
+        <div className="flex justify-center mt-4 text-white">
+          {placeData && (
+            <div className="justify-content-center custom-page">
+              {[...Array(placeData.totalPages).keys()].map((number) => (
+                <button
+                  key={number}
+                  onClick={() => handlePageChangePlace(number)}
+                  className={`custom-item border p-4 ${
+                    number === currentPage - 1 ? 'active' : ''
+                  }`}
+                >
+                  {number + 1}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
       {/* FINE LISTA LUOGHI */}
     </div>

@@ -18,7 +18,9 @@ function classNames(...classes) {
 
 const Region = () => {
   const dispatch = useDispatch()
-  //PAGINATION
+  const token = localStorage.getItem('token')
+
+  //PAGINATION REGION
   const [currentPage, setCurrentPage] = useState(0)
   const elementsPerPage = 3
   const orderElements = 'name'
@@ -27,10 +29,23 @@ const Region = () => {
     setCurrentPage(pageNumber)
   }
 
+  //PAGINATION PLACE
+  const [currentPagePlace, setCurrentPagePlace] = useState(0)
+  const elementsPerPagePlace = 3
+  const orderElementsPlace = 'name'
+
+  const handlePageChangePlace = (pageNumber) => {
+    setCurrentPagePlace(pageNumber)
+  }
+
+  //GET PLACE
   const placeData = useSelector((state) => state.place.list)
   useEffect(() => {
-    dispatch(getPlace())
+    dispatch(
+      getPlace(currentPagePlace, elementsPerPagePlace, orderElementsPlace)
+    )
   }, [dispatch])
+
   const [region, setRegion] = useState({
     name: '',
     vision: '',
@@ -49,8 +64,6 @@ const Region = () => {
   const data = useSelector((state) => state.region.list)
   const [updtRegion, setUpdtRegion] = useState(null)
   const [idRegion, setIdRegion] = useState('')
-
-  const token = localStorage.getItem('token')
 
   const handlePencilUpdate = (region) => {
     setUpdtRegion(region)
@@ -129,7 +142,9 @@ const Region = () => {
     console.log('place id delete', placeId)
     try {
       await dispatch(deletePlace(placeId, token))
-      await dispatch(getPlace())
+      await dispatch(
+        getPlace(currentPagePlace, elementsPerPagePlace, orderElementsPlace)
+      )
       await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
       console.log('Eliminato con successo!')
     } catch (error) {
@@ -569,6 +584,10 @@ const Region = () => {
           currentPage={currentPage}
           elementsPerPage={elementsPerPage}
           orderElements={orderElements}
+          handlePageChangePlace={handlePageChangePlace}
+          currentPagePlace={currentPagePlace}
+          elementsPerPagePlace={elementsPerPagePlace}
+          orderElementsPlace={orderElementsPlace}
         />
       </div>
     </div>

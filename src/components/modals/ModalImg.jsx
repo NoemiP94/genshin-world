@@ -6,7 +6,14 @@ import {
 } from '../../redux/action/places'
 import { useState } from 'react'
 
-const ModalImg = ({ showImgModal, setShowImgModal, placeId }) => {
+const ModalImg = ({
+  showImgModal,
+  setShowImgModal,
+  placeId,
+  currentPagePlace,
+  elementsPerPagePlace,
+  orderElementsPlace,
+}) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
   const [formImg, setFormImg] = useState(null)
@@ -33,8 +40,6 @@ const ModalImg = ({ showImgModal, setShowImgModal, placeId }) => {
             })
 
             alert('immagine caricata')
-
-            //dispatch(getPlace())
           } else {
             console.log('Image upload successful, but no URL returned')
           }
@@ -47,8 +52,11 @@ const ModalImg = ({ showImgModal, setShowImgModal, placeId }) => {
     }
   }
 
-  const handleSave = (id) => {
-    handleUploadImage(id)
+  const handleSave = async (id) => {
+    await handleUploadImage(id)
+    await dispatch(
+      getPlace(currentPagePlace, elementsPerPagePlace, orderElementsPlace)
+    )
     setShowImgModal(false)
   }
   return (
