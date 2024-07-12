@@ -18,6 +18,15 @@ function classNames(...classes) {
 
 const Region = () => {
   const dispatch = useDispatch()
+  //PAGINATION
+  const [currentPage, setCurrentPage] = useState(0)
+  const elementsPerPage = 3
+  const orderElements = 'name'
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber)
+  }
+
   const placeData = useSelector((state) => state.place.list)
   useEffect(() => {
     dispatch(getPlace())
@@ -33,8 +42,8 @@ const Region = () => {
   })
 
   useEffect(() => {
-    dispatch(getRegion())
-  }, [dispatch])
+    dispatch(getRegion(currentPage, elementsPerPage, orderElements))
+  }, [dispatch, currentPage, elementsPerPage, orderElements])
 
   const [showModal, setShowModal] = useState(false)
   const data = useSelector((state) => state.region.list)
@@ -64,7 +73,7 @@ const Region = () => {
   const saveRegion = async () => {
     try {
       await dispatch(postRegion(region, token))
-      await dispatch(getRegion())
+      await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }
@@ -75,7 +84,7 @@ const Region = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateRegion(idRegion, region, token))
-      dispatch(getRegion())
+      dispatch(getRegion(currentPage, elementsPerPage, orderElements))
       console.log('Modificato con successo!')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -87,7 +96,7 @@ const Region = () => {
   const handleDelete = async (region) => {
     try {
       await dispatch(deleteRegion(region.id, token))
-      dispatch(getRegion())
+      dispatch(getRegion(currentPage, elementsPerPage, orderElements))
       console.log('Eliminato con successo')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
@@ -121,7 +130,7 @@ const Region = () => {
     try {
       await dispatch(deletePlace(placeId, token))
       await dispatch(getPlace())
-      await dispatch(getRegion())
+      await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
       console.log('Eliminato con successo!')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
@@ -140,7 +149,7 @@ const Region = () => {
   return (
     <div>
       <h2 className="mt-5 text-2xl font-bold">Gestione Regioni di Teyvat</h2>
-      <div className="container my-6  w-full flex h-1/2">
+      <div className="container my-4  w-full flex h-1/2">
         {/* INIZIO CREA REGIONE */}
         <div className="w-2/4 flex justify-center">
           <form className="w-full  text-white">
@@ -525,16 +534,42 @@ const Region = () => {
                       showImgModal={showRegionImgModal}
                       setShowImgModal={setShowRegionImgModal}
                       regionId={selectedRegion}
+                      currentPage={currentPage}
+                      elementsPerPage={elementsPerPage}
+                      orderElements={orderElements}
                     />
                   )}
                 </li>
               ))}
           </ul>
+          <div className="flex justify-center mt-4 text-white">
+            {data && (
+              <div className="justify-content-center custom-page">
+                {[...Array(data.totalPages).keys()].map((number) => (
+                  <button
+                    key={number}
+                    onClick={() => handlePageChange(number)}
+                    className={`custom-item border p-4 ${
+                      number === currentPage - 1 ? 'active' : ''
+                    }`}
+                  >
+                    {number + 1}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>{' '}
         {/* FINE REGION */}{' '}
       </div>{' '}
-      <div className="mt-10 container h-1/2">
-        <Place region={region} idPlace={idPlace} />
+      <div className="container h-1/2">
+        <Place
+          region={region}
+          idPlace={idPlace}
+          currentPage={currentPage}
+          elementsPerPage={elementsPerPage}
+          orderElements={orderElements}
+        />
       </div>
     </div>
   )

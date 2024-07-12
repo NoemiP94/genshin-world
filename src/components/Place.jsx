@@ -4,13 +4,19 @@ import { getRegion } from '../redux/action/regions'
 import { getPlace, postPlace, updatePlace } from '../redux/action/places'
 import ModalImg from './modals/ModalImg'
 
-const Place = ({ region, idPlace }) => {
+const Place = ({
+  region,
+  idPlace,
+  currentPage,
+  elementsPerPage,
+  orderElements,
+}) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
   const regionData = useSelector((state) => state.region.list)
 
   useEffect(() => {
-    dispatch(getRegion())
+    dispatch(getRegion(currentPage, elementsPerPage, orderElements))
   }, [dispatch])
 
   const [place, setPlace] = useState(null)
@@ -22,7 +28,7 @@ const Place = ({ region, idPlace }) => {
     e.preventDefault()
     try {
       await dispatch(postPlace(place, token))
-      await dispatch(getRegion())
+      await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
       await dispatch(getPlace())
     } catch (error) {
       console.log('Errore creazione place: ', error)
@@ -34,7 +40,7 @@ const Place = ({ region, idPlace }) => {
     try {
       await dispatch(updatePlace(idPlace, place, token))
       await dispatch(getPlace())
-      await dispatch(getRegion())
+      await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
 
       console.log('place: ', place)
     } catch (error) {

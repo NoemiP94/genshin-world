@@ -32,10 +32,12 @@ export const postRegion = (region, token) => {
   }
 }
 
-export const getRegion = () => {
+export const getRegion = (page, size, orderBy) => {
   return async (dispatch) => {
     try {
-      const res = await fetch('http://localhost:3001/region/getall')
+      const res = await fetch(
+        `http://localhost:3001/region/getall?page=${page}&size=${size}&orderBy=${orderBy}`
+      )
       console.log('res', res)
       if (res.ok) {
         const data = await res.json()

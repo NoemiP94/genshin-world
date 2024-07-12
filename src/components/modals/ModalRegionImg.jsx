@@ -8,7 +8,14 @@ import {
   postRegionImage,
 } from '../../redux/action/regions'
 
-const ModalRegionImg = ({ showImgModal, setShowImgModal, regionId }) => {
+const ModalRegionImg = ({
+  showImgModal,
+  setShowImgModal,
+  regionId,
+  currentPage,
+  elementsPerPage,
+  orderElements,
+}) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
   const [formImg, setFormImg] = useState(null)
@@ -49,7 +56,7 @@ const ModalRegionImg = ({ showImgModal, setShowImgModal, regionId }) => {
 
   const handleSave = async (id) => {
     await handleUploadImage(id)
-    await dispatch(getRegion())
+    await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
     setShowImgModal(false)
   }
   return (
