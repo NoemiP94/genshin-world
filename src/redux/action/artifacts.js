@@ -32,10 +32,12 @@ export const postArtifact = (artifact, token) => {
   }
 }
 
-export const getArtifact = () => {
+export const getArtifact = (page, size, orderBy) => {
   return async (dispatch) => {
     try {
-      const res = await fetch('http://localhost:3001/artifactset/getall')
+      const res = await fetch(
+        `http://localhost:3001/artifactset/getall?page=${page}&size=${size}&orderBy=${orderBy}`
+      )
       console.log('res', res)
       if (res.ok) {
         const data = await res.json()

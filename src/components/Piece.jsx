@@ -65,13 +65,13 @@ const Piece = ({ idPiece, pieceOb }) => {
       {/* CREAZIONE PEZZO   */}
       <div className="flex justify-center ">
         <form className="w-full text-white ">
-          <div className="p-7 h-auto">
+          <div className="ps-10 h-auto">
             <h2 className="font-semibold leading-7 text-lg">
               Crea un Pezzo dell&apos;Artefatto
             </h2>
 
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-3 pt-5">
+            <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-3 ">
                 <label
                   htmlFor="set"
                   className="block text-sm font-medium leading-6 text-left"
@@ -102,29 +102,29 @@ const Piece = ({ idPiece, pieceOb }) => {
                   </select>
                 </div>
               </div>
-              <div className="sm:col-span-3">
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium leading-6 text-left"
-                >
-                  Nome
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    autoComplete="name"
-                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    //value={newPiece.name}
-                    onChange={(e) => {
-                      setPiece({
-                        ...piece,
-                        name: e.target.value,
-                      })
-                    }}
-                  />
-                </div>
+            </div>
+            <div className="sm:col-span-3">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium leading-6 text-left"
+              >
+                Nome
+              </label>
+              <div className="mt-2">
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  autoComplete="name"
+                  className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  //value={newPiece.name}
+                  onChange={(e) => {
+                    setPiece({
+                      ...piece,
+                      name: e.target.value,
+                    })
+                  }}
+                />
               </div>
             </div>
             <div className="col-span-full pt-5">

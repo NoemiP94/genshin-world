@@ -3,10 +3,18 @@ import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import {
   GET_POST_ARTIFACT_IMG,
+  getArtifact,
   postArtifactImage,
 } from '../../redux/action/artifacts'
 
-const ModalArtifactImg = ({ showImgModal, setShowImgModal, artifactId }) => {
+const ModalArtifactImg = ({
+  showImgModal,
+  setShowImgModal,
+  artifactId,
+  currentPage,
+  elementsPerPage,
+  orderElements,
+}) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
   const [formImg, setFormImg] = useState(null)
@@ -45,8 +53,9 @@ const ModalArtifactImg = ({ showImgModal, setShowImgModal, artifactId }) => {
     }
   }
 
-  const handleSave = (id) => {
-    handleUploadImage(id)
+  const handleSave = async (id) => {
+    await handleUploadImage(id)
+    await dispatch(getArtifact(currentPage, elementsPerPage, orderElements))
     setShowImgModal(false)
   }
   return (
