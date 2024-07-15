@@ -33,10 +33,12 @@ export const postMainGoal = (mainGoal, token) => {
   }
 }
 
-export const getMainGoal = () => {
+export const getMainGoal = (page, size, orderBy) => {
   return async (dispatch) => {
     try {
-      const res = await fetch('http://localhost:3001/maingoal/getall')
+      const res = await fetch(
+        `http://localhost:3001/maingoal/getall?page=${page}&size=${size}&orderBy=${orderBy}`
+      )
       console.log('res', res)
       if (res.ok) {
         const data = await res.json()

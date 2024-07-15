@@ -13,6 +13,15 @@ const MainGoal = () => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
 
+  //PAGINATION MAIN GOAL
+  const [currentPage, setCurrentPage] = useState(0)
+  const elementsPerPage = 10
+  const orderElements = 'name'
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber)
+  }
+
   //SAVE MAINGOAL
   const [mainGoal, setMainGoal] = useState({
     name: '',
@@ -21,7 +30,7 @@ const MainGoal = () => {
   const saveMainGoal = async () => {
     try {
       await dispatch(postMainGoal(mainGoal, token))
-      await dispatch(getMainGoal())
+      await dispatch(getMainGoal(currentPage, elementsPerPage, orderElements))
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }
@@ -30,8 +39,8 @@ const MainGoal = () => {
   //GET MAINGOAL
   const maingoalData = useSelector((state) => state.mainGoal.list)
   useEffect(() => {
-    dispatch(getMainGoal())
-  }, [dispatch])
+    dispatch(getMainGoal(currentPage, elementsPerPage, orderElements))
+  }, [dispatch, currentPage, elementsPerPage, orderElements])
 
   //UPDATE MAINGOAL
   const [updtMainGoal, setUpdtMainGoal] = useState(null)
@@ -49,7 +58,7 @@ const MainGoal = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateMainGoal(idMainGoal, mainGoal, token))
-      await dispatch(getMainGoal())
+      await dispatch(getMainGoal(currentPage, elementsPerPage, orderElements))
     } catch (error) {
       console.log('Errore nella modifica', error)
     }
@@ -59,7 +68,7 @@ const MainGoal = () => {
   const handleDelete = async (maingoal) => {
     try {
       await dispatch(deleteMainGoal(maingoal.id, token))
-      await dispatch(getMainGoal())
+      await dispatch(getMainGoal(currentPage, elementsPerPage, orderElements))
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
     }
@@ -217,11 +226,31 @@ const MainGoal = () => {
                       showImgModal={showMainGoalImgModal}
                       setShowImgModal={setShowMainGoalImgModal}
                       mainGoalId={selectedMainGoal}
+                      currentPage={currentPage}
+                      elementsPerPage={elementsPerPage}
+                      orderElements={orderElements}
                     />
                   )}
                 </li>
               ))}
           </ul>
+          <div className="flex justify-center mt-4 text-white">
+            {maingoalData && (
+              <div className="justify-content-center custom-page">
+                {[...Array(maingoalData.totalPages).keys()].map((number) => (
+                  <button
+                    key={number}
+                    onClick={() => handlePageChange(number)}
+                    className={`custom-item border p-4 ${
+                      number === currentPage - 1 ? 'active' : ''
+                    }`}
+                  >
+                    {number + 1}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
         {/* FINE LISTA MAINGOAL */}
       </div>

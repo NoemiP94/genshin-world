@@ -3,17 +3,25 @@ import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import {
   GET_POST_MAINGOAL_IMG,
+  getMainGoal,
   postMainGoalImage,
 } from '../../redux/action/maingoals'
 
-const ModalMainGoalImg = ({ showImgModal, setShowImgModal, mainGoalId }) => {
+const ModalMainGoalImg = ({
+  showImgModal,
+  setShowImgModal,
+  mainGoalId,
+  currentPage,
+  elementsPerPage,
+  orderElements,
+}) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
   const [formImg, setFormImg] = useState(null)
 
   const handleUploadImage = async (id) => {
     try {
-      console.log('cliccato'), console.log('id nemico', id)
+      console.log('cliccato'), console.log('id main goal', id)
       console.log(mainGoalId)
 
       if (formImg) {
@@ -45,8 +53,9 @@ const ModalMainGoalImg = ({ showImgModal, setShowImgModal, mainGoalId }) => {
     }
   }
 
-  const handleSave = (id) => {
-    handleUploadImage(id)
+  const handleSave = async (id) => {
+    await handleUploadImage(id)
+    await dispatch(getMainGoal(currentPage, elementsPerPage, orderElements))
     setShowImgModal(false)
   }
   return (
