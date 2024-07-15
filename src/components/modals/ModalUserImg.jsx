@@ -1,8 +1,20 @@
 import { useDispatch } from 'react-redux'
 
 import { useState } from 'react'
+import {
+  GET_POST_USER_IMG,
+  getAllUsers,
+  postUserImage,
+} from '../../redux/action'
 
-const ModalUserImg = ({ showImgModal, setShowImgModal, userId }) => {
+const ModalUserImg = ({
+  showImgModal,
+  setShowImgModal,
+  userId,
+  currentPage,
+  elementsPerPage,
+  orderElements,
+}) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
   const [formImg, setFormImg] = useState(null)
@@ -17,14 +29,14 @@ const ModalUserImg = ({ showImgModal, setShowImgModal, userId }) => {
         const id_user = id ? id.toString() : null
         console.log('id_user: ', id_user)
         if (id_user) {
-          const response = await postRegionImage(id_user, formImg, token)
+          const response = await postUserImage(id_user, formImg, token)
           console.log('response', response)
           if (response !== null) {
             console.log('Immagine caricata correttamente', response)
             console.log('id user', id)
             console.log('altro id user', id_user)
             dispatch({
-              type: GET_POST_REGION_IMG,
+              type: GET_POST_USER_IMG,
               payload: response.url,
             })
 
@@ -41,8 +53,11 @@ const ModalUserImg = ({ showImgModal, setShowImgModal, userId }) => {
     }
   }
 
-  const handleSave = (id) => {
-    handleUploadImage(id)
+  const handleSave = async (id) => {
+    await handleUploadImage(id)
+    await dispatch(
+      getAllUsers(token, currentPage, elementsPerPage, orderElements)
+    )
     setShowImgModal(false)
   }
   return (

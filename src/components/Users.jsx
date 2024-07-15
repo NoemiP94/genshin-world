@@ -7,6 +7,15 @@ const Users = () => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
 
+  //PAGINATION
+  const [currentPage, setCurrentPage] = useState(0)
+  const elementsPerPage = 10
+  const orderElements = 'name'
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber)
+  }
+
   //SAVE USER
   const [register, setRegister] = useState({
     name: '',
@@ -18,7 +27,7 @@ const Users = () => {
   const handleSave = async () => {
     try {
       await dispatch(postRegister(register))
-      dispatch(getAllUsers(token))
+      dispatch(getAllUsers(token, currentPage, elementsPerPage, orderElements))
     } catch (error) {
       console.log("Errore nell'aggiornamento", error)
     }
@@ -27,14 +36,14 @@ const Users = () => {
   //GET USERS
   const userData = useSelector((state) => state.login.list)
   useEffect(() => {
-    dispatch(getAllUsers(token))
-  }, [dispatch])
+    dispatch(getAllUsers(token, currentPage, elementsPerPage, orderElements))
+  }, [dispatch, currentPage, elementsPerPage, orderElements])
 
   //DELETE USER
   const handleDelete = async (user) => {
     try {
       await dispatch(deleteUser(user.id, token))
-      dispatch(getAllUsers(token))
+      dispatch(getAllUsers(token, currentPage, elementsPerPage, orderElements))
       console.log('Eliminato con successo')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
@@ -177,7 +186,7 @@ const Users = () => {
                 >
                   Salva
                 </button>
-                <button
+                {/* <button
                   type="submit"
                   className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   //   onClick={(e) => {
@@ -186,7 +195,7 @@ const Users = () => {
                   //   }}
                 >
                   Salva modifiche
-                </button>
+                </button> */}
               </div>
             </div>
           </form>
@@ -215,15 +224,9 @@ const Users = () => {
                         <p>
                           - Email: <span className="italic">{user.email}</span>
                         </p>{' '}
-                        {user.image !== null ? (
-                          <img
-                            src={user.image}
-                            className="border mx-2 w-14 border-yellow-600"
-                          />
-                        ) : null}
                       </div>
 
-                      <div className="w-1/4 mt-4 mx-4 flex">
+                      <div className="w-1/4 mt-4 mx-4 flex items-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="#15803d"
@@ -254,6 +257,14 @@ const Users = () => {
                             clipRule="evenodd"
                           />
                         </svg>
+                        <div className="ms-5">
+                          {user.image !== null ? (
+                            <img
+                              src={user.image}
+                              className="w-14 border border-yellow-600 rounded-lg w-14 mx-auto"
+                            />
+                          ) : null}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -262,11 +273,31 @@ const Users = () => {
                       showImgModal={showUserImgModal}
                       setShowImgModal={setShowUserImgModal}
                       userId={selectedUser}
+                      currentPage={currentPage}
+                      elementsPerPage={elementsPerPage}
+                      orderElements={orderElements}
                     />
                   )}
                 </li>
               ))}
           </ul>
+          <div className="flex justify-center mt-4 text-white">
+            {userData && (
+              <div className="justify-content-center custom-page">
+                {[...Array(userData.totalPages).keys()].map((number) => (
+                  <button
+                    key={number}
+                    onClick={() => handlePageChange(number)}
+                    className={`custom-item border p-4 ${
+                      number === currentPage - 1 ? 'active' : ''
+                    }`}
+                  >
+                    {number + 1}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
         {/* FINE LISTA USER */}
       </div>

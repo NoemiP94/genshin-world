@@ -40,14 +40,17 @@ export const postLogin = (login) => {
   }
 }
 
-export const getAllUsers = (token) => {
+export const getAllUsers = (token, page, size, orderBy) => {
   return async (dispatch) => {
     try {
-      const res = await fetch('http://localhost:3001/user/getall', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      const res = await fetch(
+        `http://localhost:3001/user/getall?page=${page}&size=${size}&orderBy=${orderBy}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       if (res.ok) {
         const data = await res.json()
         dispatch({
