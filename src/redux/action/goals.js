@@ -34,7 +34,7 @@ export const postGoal = (goal, token) => {
 export const getGoal = () => {
   return async (dispatch) => {
     try {
-      const res = await fetch('http://localhost:3001/goal/getall')
+      const res = await fetch(`http://localhost:3001/goal/getall`)
       console.log('res', res)
       if (res.ok) {
         const data = await res.json()

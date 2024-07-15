@@ -14,6 +14,11 @@ const Goal = () => {
   const token = localStorage.getItem('token')
   const { id } = useParams()
 
+  //PAGINATION MAIN GOAL
+  const [currentPageMainGoal, setCurrentPageMainGoal] = useState(0)
+  const elementsPerPageMainGoal = 10
+  const orderElementsMainGoal = 'name'
+
   const singleMainGoal = useSelector((state) => state.mainGoal.singleMainGoal)
   useEffect(() => {
     dispatch(getSingleMainGoal(id))
@@ -35,7 +40,13 @@ const Goal = () => {
     e.preventDefault()
     try {
       await dispatch(postGoal(goal, token))
-      await dispatch(getMainGoal())
+      await dispatch(
+        getMainGoal(
+          currentPageMainGoal,
+          elementsPerPageMainGoal,
+          orderElementsMainGoal
+        )
+      )
       await dispatch(getSingleMainGoal(singleMainGoal.id))
     } catch (error) {
       console.log('Errore creazione place: ', error)
@@ -61,7 +72,13 @@ const Goal = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateGoal(idGoal, goal, token))
-      await dispatch(getMainGoal())
+      await dispatch(
+        getMainGoal(
+          currentPageMainGoal,
+          elementsPerPageMainGoal,
+          orderElementsMainGoal
+        )
+      )
       await dispatch(getSingleMainGoal(singleMainGoal.id))
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -73,7 +90,13 @@ const Goal = () => {
     console.log('goal id delete', goalId)
     try {
       await dispatch(deleteGoal(goalId, token))
-      await dispatch(getMainGoal())
+      await dispatch(
+        getMainGoal(
+          currentPageMainGoal,
+          elementsPerPageMainGoal,
+          orderElementsMainGoal
+        )
+      )
       await dispatch(getSingleMainGoal(singleMainGoal.id))
 
       console.log('Eliminato con successo!')
@@ -88,7 +111,7 @@ const Goal = () => {
         <>
           <h2 className="mt-5 text-2xl font-bold">
             Gestione singoli obiettivi per:
-            {singleMainGoal.name}
+            <span> {singleMainGoal.name}</span>
           </h2>
           <div>
             {/* CREA GOAL */}
@@ -191,7 +214,7 @@ const Goal = () => {
                             <div className="pe-5 ps-5 text-sm">
                               - Nome: {goal.name}
                             </div>
-                            <div className="pe-5 ps-5 text-sm">
+                            <div className="pe-5 ps-5 text-sm text-start">
                               - Descrizione: {goal.description}
                             </div>
                           </div>
