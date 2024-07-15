@@ -21,7 +21,7 @@ const ModalMaterialCharacter = ({
 
   //PAGINATION
   const [currentPage, setCurrentPage] = useState(0)
-  const elementsPerPage = 10
+  const elementsPerPage = 12
   const orderElements = 'name'
 
   const handlePageChange = (pageNumber) => {
@@ -77,7 +77,7 @@ const ModalMaterialCharacter = ({
                 <span className="text-black h-6 w-6 text-xl block py-0">x</span>
               </button>
             </div>
-            <div className="relative p-6 flex flex-wrap overflow-y-scroll border m-4 rounded-xl border-slate-900 border-2">
+            <div className="relative p-6 flex flex-wrap  border m-4 rounded-xl border-slate-900 border-2">
               {/* mostrare tutti i materiali */}
               {materialData.content &&
                 materialData.content.map((material) => (

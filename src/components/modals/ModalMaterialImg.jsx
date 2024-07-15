@@ -20,7 +20,7 @@ const ModalMaterialImg = ({
 
   const handleUploadImage = async (id) => {
     try {
-      console.log('cliccato'), console.log('id luogo', id)
+      console.log('cliccato'), console.log('id material', id)
       console.log(materialId)
 
       if (formImg) {

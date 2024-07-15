@@ -34,10 +34,12 @@ export const postEnemy = (enemy, token) => {
   }
 }
 
-export const getEnemy = () => {
+export const getEnemy = (page, size, orderBy) => {
   return async (dispatch) => {
     try {
-      const res = await fetch('http://localhost:3001/enemy/getall')
+      const res = await fetch(
+        `http://localhost:3001/enemy/getall?page=${page}&size=${size}&orderBy=${orderBy}`
+      )
       console.log('res', res)
       if (res.ok) {
         const data = await res.json()

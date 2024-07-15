@@ -3,23 +3,42 @@ import { useEffect, useState } from 'react'
 import { getMaterial } from '../../redux/action/materials'
 import { addMaterialToEnemy, getEnemy } from '../../redux/action/enemies'
 
-const ModalMaterialEnemy = ({ showModal, setShowModal, enemyId, enemy }) => {
+const ModalMaterialEnemy = ({
+  showModal,
+  setShowModal,
+  enemyId,
+  enemy,
+  currentPage,
+  elementsPerPage,
+  orderElements,
+}) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
 
-  //PAGINATION
-  const [currentPage, setCurrentPage] = useState(0)
-  const elementsPerPage = 10
-  const orderElements = 'name'
+  //PAGINATION MATERIAL
+  const [currentPageMaterial, setCurrentPageMaterial] = useState(0)
+  const elementsPerPageMaterial = 12
+  const orderElementsMaterial = 'name'
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber)
+  const handlePageChangeMaterial = (pageNumber) => {
+    setCurrentPageMaterial(pageNumber)
   }
 
   const materialData = useSelector((state) => state.material.list)
   useEffect(() => {
-    dispatch(getMaterial(currentPage, elementsPerPage, orderElements))
-  }, [dispatch, currentPage, elementsPerPage, orderElements])
+    dispatch(
+      getMaterial(
+        currentPageMaterial,
+        elementsPerPageMaterial,
+        orderElementsMaterial
+      )
+    )
+  }, [
+    dispatch,
+    currentPageMaterial,
+    elementsPerPageMaterial,
+    orderElementsMaterial,
+  ])
 
   //quando si clicca sull'oggetto lo aggiunge
   const handleAddMaterial = async (enemy, idEnemy, idMaterial, token) => {
@@ -29,7 +48,7 @@ const ModalMaterialEnemy = ({ showModal, setShowModal, enemyId, enemy }) => {
       console.log('enemy selected: ', enemy)
       console.log('token: ', token)
       await dispatch(addMaterialToEnemy(enemy, idEnemy, idMaterial, token))
-      await dispatch(getEnemy())
+      await dispatch(getEnemy(currentPage, elementsPerPage, orderElements))
     } catch (error) {
       console.log('Error', error)
     }
@@ -51,7 +70,7 @@ const ModalMaterialEnemy = ({ showModal, setShowModal, enemyId, enemy }) => {
                 <span className="text-black h-6 w-6 text-xl block py-0">x</span>
               </button>
             </div>
-            <div className="relative p-6 flex flex-wrap overflow-y-scroll border m-4 rounded-xl border-slate-900 border-2">
+            <div className="relative p-6 flex flex-wrap  border m-4 rounded-xl border-slate-900 border-2">
               {/* mostrare tutti i materiali */}
               {materialData.content &&
                 materialData.content.map((material) => (
@@ -80,9 +99,9 @@ const ModalMaterialEnemy = ({ showModal, setShowModal, enemyId, enemy }) => {
                   {[...Array(materialData.totalPages).keys()].map((number) => (
                     <button
                       key={number}
-                      onClick={() => handlePageChange(number)}
+                      onClick={() => handlePageChangeMaterial(number)}
                       className={`custom-item border p-4 ${
-                        number === currentPage - 1 ? 'active' : ''
+                        number === currentPageMaterial - 1 ? 'active' : ''
                       }`}
                     >
                       {number + 1}

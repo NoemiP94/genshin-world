@@ -14,6 +14,15 @@ const Enemy = () => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
 
+  //PAGINATION
+  const [currentPage, setCurrentPage] = useState(0)
+  const elementsPerPage = 10
+  const orderElements = 'name'
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber)
+  }
+
   //SAVE ENEMY
   const [enemy, setEnemy] = useState({
     name: '',
@@ -25,7 +34,7 @@ const Enemy = () => {
   const saveEnemy = async () => {
     try {
       await dispatch(postEnemy(enemy, token))
-      //   await dispatch(getEnemy())
+      await dispatch(getEnemy(currentPage, elementsPerPage, orderElements))
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }
@@ -35,8 +44,8 @@ const Enemy = () => {
   const enemyData = useSelector((state) => state.enemy.list)
   useEffect(() => {
     console.log(enemyData)
-    dispatch(getEnemy())
-  }, [dispatch])
+    dispatch(getEnemy(currentPage, elementsPerPage, orderElements))
+  }, [dispatch, currentPage, elementsPerPage, orderElements])
 
   //IMG MODAL
   const [showEnemyImgModal, setShowEnemyImgModal] = useState(false)
@@ -68,7 +77,7 @@ const Enemy = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateEnemy(idEnemy, enemy, token))
-      dispatch(getEnemy())
+      dispatch(getEnemy(currentPage, elementsPerPage, orderElements))
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -79,7 +88,7 @@ const Enemy = () => {
   const handleDelete = async (enemy) => {
     try {
       await dispatch(deleteEnemy(enemy.id, token))
-      dispatch(getEnemy())
+      dispatch(getEnemy(currentPage, elementsPerPage, orderElements))
       console.log('Nemico eliminata con successo!')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
@@ -101,18 +110,18 @@ const Enemy = () => {
   const handleRemoveMaterial = async (idEnemy, idMaterial) => {
     try {
       await dispatch(removeMaterial(idEnemy, idMaterial, token))
-      await dispatch(getEnemy())
+      await dispatch(getEnemy(currentPage, elementsPerPage, orderElements))
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
     }
   }
 
   return (
-    <div className="h-screen">
+    <div>
       <h2 className="mt-5 text-2xl font-bold">Gestione Nemici</h2>
-      <div className="container my-6 w-full flex">
+      <div className="container my-6 w-full flex flex-col">
         {/* CREA ENEMY */}
-        <div className="w-2/4 flex justify-center">
+        <div className="w-3/4 flex justify-center">
           <form className="w-full  text-white">
             <div className=" p-7 h-auto">
               <h2 className="font-semibold leading-7 text-lg">
@@ -250,7 +259,7 @@ const Enemy = () => {
         </div>
         {/* FINE CREAZIONE ENEMY */}
         {/* INIZIO LISTA ENEMY */}
-        <div className="w-2/4">
+        <div className="mt-3">
           <p className="text-white text-lg">Lista Nemici</p>
           <ul
             role="list"
@@ -341,7 +350,7 @@ const Enemy = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="w-1/4 mt-4 mx-4 flex flex-col">
+                    <div className="w-1/4 mt-4 mx-4 flex flex-col items-center">
                       <div className="flex mb-4">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -401,6 +410,9 @@ const Enemy = () => {
                       showImgModal={showEnemyImgModal}
                       setShowImgModal={setShowEnemyImgModal}
                       enemyId={selectedEnemy}
+                      currentPage={currentPage}
+                      elementsPerPage={elementsPerPage}
+                      orderElements={orderElements}
                     />
                   )}
                   {showMaterialEnemyModal && selectedEnemyMaterial && (
@@ -409,11 +421,31 @@ const Enemy = () => {
                       setShowModal={setShowMaterialEnemyModal}
                       enemyId={selectedEnemyMaterial}
                       enemy={enemy}
+                      currentPage={currentPage}
+                      elementsPerPage={elementsPerPage}
+                      orderElements={orderElements}
                     />
                   )}
                 </li>
               ))}
           </ul>
+          <div className="flex justify-center mt-4 text-white">
+            {enemyData && (
+              <div className="justify-content-center custom-page">
+                {[...Array(enemyData.totalPages).keys()].map((number) => (
+                  <button
+                    key={number}
+                    onClick={() => handlePageChange(number)}
+                    className={`custom-item border p-4 ${
+                      number === currentPage - 1 ? 'active' : ''
+                    }`}
+                  >
+                    {number + 1}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
         {/* FINE LISTA ENEMY */}
       </div>

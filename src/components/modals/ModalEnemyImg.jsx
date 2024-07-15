@@ -2,9 +2,20 @@ import { useDispatch } from 'react-redux'
 
 import { useState } from 'react'
 
-import { GET_POST_ENEMY_IMG, postEnemyImage } from '../../redux/action/enemies'
+import {
+  GET_POST_ENEMY_IMG,
+  getEnemy,
+  postEnemyImage,
+} from '../../redux/action/enemies'
 
-const ModalEnemyImg = ({ showImgModal, setShowImgModal, enemyId }) => {
+const ModalEnemyImg = ({
+  showImgModal,
+  setShowImgModal,
+  enemyId,
+  currentPage,
+  elementsPerPage,
+  orderElements,
+}) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
   const [formImg, setFormImg] = useState(null)
@@ -43,8 +54,9 @@ const ModalEnemyImg = ({ showImgModal, setShowImgModal, enemyId }) => {
     }
   }
 
-  const handleSave = (id) => {
-    handleUploadImage(id)
+  const handleSave = async (id) => {
+    await handleUploadImage(id)
+    await dispatch(getEnemy(currentPage, elementsPerPage, orderElements))
     setShowImgModal(false)
   }
   return (
