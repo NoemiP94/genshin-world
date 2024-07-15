@@ -4,6 +4,7 @@ import {
   GET_POST_BLOG_IMG,
   POST_BLOG,
   PUT_BLOG,
+  SINGLE_BLOG,
 } from '../action/blogposts'
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
   list: [],
   postImage: null,
   update: '',
+  singleBlogpost: null,
 }
 
 const blogpostReducer = (state = initialState, action) => {
@@ -39,6 +41,11 @@ const blogpostReducer = (state = initialState, action) => {
       return {
         ...state,
         list: state.list.filter((blog) => blog.id !== action.payload),
+      }
+    case SINGLE_BLOG:
+      return {
+        ...state,
+        singleBlogpost: action.payload,
       }
     default:
       return state

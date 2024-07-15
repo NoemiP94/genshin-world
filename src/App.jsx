@@ -18,6 +18,7 @@ import MainGoal from './components/MainGoal'
 import Goal from './components/Goal'
 import Blogpost from './components/Blogpost'
 import Users from './components/Users'
+import BlogpostDetail from './components/BlogpostDetail'
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="goals" element={<MainGoal />} />
           <Route path="goals/:id" element={<Goal />} />
           <Route path="blog" element={<Blogpost />} />
+          <Route path="blog/:id" element={<BlogpostDetail />} />
           <Route path="user" element={<Users />} />
         </Route>
         <Route path="/login" element={<Login />} />

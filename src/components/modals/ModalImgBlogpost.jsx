@@ -1,16 +1,20 @@
 import { useDispatch } from 'react-redux'
-import {
-  GET_POST_PLACE_IMG,
-  getPlace,
-  postImage,
-} from '../../redux/action/places'
 import { useState } from 'react'
 import {
   GET_POST_BLOG_IMG,
+  getBlogpost,
+  getSingleBlogpost,
   postBlogpostImage,
 } from '../../redux/action/blogposts'
 
-const ModalImgBlogpost = ({ showImgModal, setShowImgModal, blogId }) => {
+const ModalImgBlogpost = ({
+  showImgModal,
+  setShowImgModal,
+  blogId,
+  currentPage,
+  elementsPerPage,
+  orderElements,
+}) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
   const [formImg, setFormImg] = useState(null)
@@ -48,8 +52,10 @@ const ModalImgBlogpost = ({ showImgModal, setShowImgModal, blogId }) => {
     }
   }
 
-  const handleSave = (id) => {
-    handleUploadImage(id)
+  const handleSave = async (id) => {
+    await handleUploadImage(id)
+    await dispatch(getBlogpost(currentPage, elementsPerPage, orderElements))
+    await dispatch(getSingleBlogpost(id))
     setShowImgModal(false)
   }
   return (

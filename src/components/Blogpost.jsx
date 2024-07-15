@@ -7,10 +7,20 @@ import {
   updateBlogpost,
 } from '../redux/action/blogposts'
 import ModalImgBlogpost from './modals/ModalImgBlogpost'
+import { Link } from 'react-router-dom'
 
 const Blogpost = () => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
+
+  //PAGINATION
+  const [currentPage, setCurrentPage] = useState(0)
+  const elementsPerPage = 10
+  const orderElements = 'date'
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber)
+  }
 
   //SAVE BLOGPOST
   const [blogpost, setBlogpost] = useState({
@@ -21,7 +31,7 @@ const Blogpost = () => {
   const saveBlogpost = async () => {
     try {
       await dispatch(postBlogpost(blogpost, token))
-      await dispatch(getBlogpost())
+      await dispatch(getBlogpost(currentPage, elementsPerPage, orderElements))
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }
@@ -30,18 +40,8 @@ const Blogpost = () => {
   //GET BLOGPOST
   const blogData = useSelector((state) => state.blogpost.list)
   useEffect(() => {
-    dispatch(getBlogpost())
-  }, [dispatch])
-
-  //MODAL IMG
-  const [showBlogImgModal, setShowBlogImgModal] = useState(false)
-  const [selectedBlog, setSelectedBlog] = useState(null)
-
-  const showImgBlogModal = (idBlog) => {
-    console.log('Id blog ricevuto: ', idBlog)
-    setSelectedBlog(idBlog)
-    setShowBlogImgModal(true)
-  }
+    dispatch(getBlogpost(currentPage, elementsPerPage, orderElements))
+  }, [dispatch, currentPage, elementsPerPage, orderElements])
 
   //UPDATE BLOGPOST
   const [updtBlog, setUpdtBlog] = useState(null)
@@ -62,7 +62,7 @@ const Blogpost = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateBlogpost(idBlog, blogpost, token))
-      dispatch(getBlogpost())
+      dispatch(getBlogpost(currentPage, elementsPerPage, orderElements))
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -73,7 +73,7 @@ const Blogpost = () => {
   const handleDelete = async (blogpost) => {
     try {
       await dispatch(deleteBlogpost(blogpost.id, token))
-      dispatch(getBlogpost())
+      dispatch(getBlogpost(currentPage, elementsPerPage, orderElements))
       console.log('Set Artefatti eliminato con successo!')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
@@ -184,30 +184,19 @@ const Blogpost = () => {
             {blogData.content &&
               blogData.content.map((blog) => (
                 <li key={blog.id} className="my-3 text-left px-5">
-                  <div className="flex justify-between	">
+                  <div className="flex justify-between items-center">
                     <div>
                       <p className="pt-2">
                         Titolo: <span className="italic">{blog.title}</span>
                       </p>
-                      <p className="py-2">
-                        Contenuto:{' '}
-                        <span className="italic">{blog.content}</span>
-                      </p>
-                      {blog.image !== null ? (
-                        <img
-                          src={blog.image}
-                          alt={blog.title}
-                          className="border mx-2 w-14 border-yellow-600"
-                        />
-                      ) : null}
                     </div>
                     <div className="m-2 ">
-                      <div className="flex my-1">
+                      <div className="flex my-1 items-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                           fill="#facc15"
-                          className="size-6 me-1"
+                          className="size-6 me-5"
                           onClick={() => handlePencilUpdate(blog)}
                         >
                           <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
@@ -228,34 +217,35 @@ const Blogpost = () => {
                             clipRule="evenodd"
                           />
                         </svg>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="#15803d"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="size-8 mx-2"
-                          onClick={() => showImgBlogModal(blog.id)}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                          />
-                        </svg>
+
+                        <Link to={`/reserved/blog/${blog.id}`}>
+                          <button className="ms-5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            Gestisci
+                          </button>
+                        </Link>
                       </div>
                     </div>
                   </div>
-                  {showBlogImgModal && selectedBlog && (
-                    <ModalImgBlogpost
-                      showImgModal={showBlogImgModal}
-                      setShowImgModal={setShowBlogImgModal}
-                      blogId={selectedBlog}
-                    />
-                  )}
                 </li>
               ))}
           </ul>
+          <div className="flex justify-center mt-4 text-white">
+            {blogData && (
+              <div className="justify-content-center custom-page">
+                {[...Array(blogData.totalPages).keys()].map((number) => (
+                  <button
+                    key={number}
+                    onClick={() => handlePageChange(number)}
+                    className={`custom-item border p-4 ${
+                      number === currentPage - 1 ? 'active' : ''
+                    }`}
+                  >
+                    {number + 1}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>{' '}
         {/* FINE LISTA BLOG */}
       </div>

@@ -3,6 +3,7 @@ export const GET_BLOG = 'GET_BLOG'
 export const GET_POST_BLOG_IMG = 'GET_POST_BLOG_IMG'
 export const PUT_BLOG = 'PUT_BLOG'
 export const DELETE_BLOG = 'DELETE_BLOG'
+export const SINGLE_BLOG = 'SINGLE_BLOG'
 
 export const postBlogpost = (blogpost, token) => {
   return async (dispatch) => {
@@ -32,10 +33,12 @@ export const postBlogpost = (blogpost, token) => {
   }
 }
 
-export const getBlogpost = () => {
+export const getBlogpost = (page, size, orderBy) => {
   return async (dispatch) => {
     try {
-      const res = await fetch('http://localhost:3001/blogpost/getall')
+      const res = await fetch(
+        `http://localhost:3001/blogpost/getall?page=${page}&size=${size}&orderBy=${orderBy}`
+      )
       console.log('res', res)
       if (res.ok) {
         const data = await res.json()
@@ -127,6 +130,29 @@ export const deleteBlogpost = (id, token) => {
         })
       } else {
         throw new Error("Errore durante l'eliminazione")
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+}
+
+export const getSingleBlogpost = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch('http://localhost:3001/blogpost/detail/' + id, {
+        method: 'GET',
+      })
+      if (res.ok) {
+        const data = await res.json()
+        console.log(data)
+        dispatch({
+          type: SINGLE_BLOG,
+          payload: data,
+        })
+        console.log('Detail has been loaded correctly')
+      } else {
+        throw new Error('Detail load is fail')
       }
     } catch (error) {
       console.log('Error', error)
