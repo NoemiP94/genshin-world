@@ -3,15 +3,32 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getConstellation } from '../redux/action/constellations'
 import { getDegree, postDegree, updateDegree } from '../redux/action/degrees'
 
-const Degree = ({ constellation, idDegree }) => {
+const Degree = ({
+  constellation,
+  idDegree,
+  currentPageConstellation,
+  elementsPerPageConstellation,
+  orderElementsConstellation,
+}) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
 
   //GET CONSTELLATION
   const constellationData = useSelector((state) => state.constellation.list)
   useEffect(() => {
-    dispatch(getConstellation())
-  }, [dispatch])
+    dispatch(
+      getConstellation(
+        currentPageConstellation,
+        elementsPerPageConstellation,
+        orderElementsConstellation
+      )
+    )
+  }, [
+    dispatch,
+    currentPageConstellation,
+    elementsPerPageConstellation,
+    orderElementsConstellation,
+  ])
 
   //SAVE DEGREE
   const [degree, setDegree] = useState({
@@ -26,7 +43,13 @@ const Degree = ({ constellation, idDegree }) => {
     try {
       await dispatch(postDegree(degree, token))
       await dispatch(getDegree())
-      await dispatch(getConstellation())
+      await dispatch(
+        getConstellation(
+          currentPageConstellation,
+          elementsPerPageConstellation,
+          orderElementsConstellation
+        )
+      )
     } catch (error) {
       console.log('Errore creazione place: ', error)
     }
@@ -44,7 +67,13 @@ const Degree = ({ constellation, idDegree }) => {
     try {
       await dispatch(updateDegree(idDegree, degree, token))
       await dispatch(getDegree())
-      await dispatch(getConstellation())
+      await dispatch(
+        getConstellation(
+          currentPageConstellation,
+          elementsPerPageConstellation,
+          orderElementsConstellation
+        )
+      )
 
       console.log('degree: ', degree)
     } catch (error) {

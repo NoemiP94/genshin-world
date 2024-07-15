@@ -8,7 +8,14 @@ import {
 } from '../../redux/action/degrees'
 import { getConstellation } from '../../redux/action/constellations'
 
-const ModalDegreeImg = ({ showImgModal, setShowImgModal, degreeId }) => {
+const ModalDegreeImg = ({
+  showImgModal,
+  setShowImgModal,
+  degreeId,
+  currentPageConstellation,
+  elementsPerPageConstellation,
+  orderElementsConstellation,
+}) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
   const [formImg, setFormImg] = useState(null)
@@ -21,7 +28,7 @@ const ModalDegreeImg = ({ showImgModal, setShowImgModal, degreeId }) => {
       if (formImg) {
         console.log('formImg', formImg)
         const id_degree = id ? id.toString() : null
-        console.log('id_region: ', id_degree)
+        console.log('id_degree: ', id_degree)
         if (id_degree) {
           const response = await postDegreeImage(id_degree, formImg, token)
           console.log('response', response)
@@ -50,7 +57,13 @@ const ModalDegreeImg = ({ showImgModal, setShowImgModal, degreeId }) => {
   const handleSave = async (id) => {
     await handleUploadImage(id)
     await dispatch(getDegree())
-    await dispatch(getConstellation())
+    await dispatch(
+      getConstellation(
+        currentPageConstellation,
+        elementsPerPageConstellation,
+        orderElementsConstellation
+      )
+    )
     setShowImgModal(false)
   }
   return (

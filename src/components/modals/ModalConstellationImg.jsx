@@ -11,6 +11,9 @@ const ModalConstellationImg = ({
   showImgModal,
   setShowImgModal,
   constellationId,
+  currentPageConstellation,
+  elementsPerPageConstellation,
+  orderElementsConstellation,
 }) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
@@ -56,7 +59,13 @@ const ModalConstellationImg = ({
 
   const handleSave = async (id) => {
     await handleUploadImage(id)
-    await dispatch(getConstellation())
+    await dispatch(
+      getConstellation(
+        currentPageConstellation,
+        elementsPerPageConstellation,
+        orderElementsConstellation
+      )
+    )
     setShowImgModal(false)
   }
   return (

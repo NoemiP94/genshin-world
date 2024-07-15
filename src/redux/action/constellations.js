@@ -32,10 +32,12 @@ export const postConstellation = (constellation, token) => {
   }
 }
 
-export const getConstellation = () => {
+export const getConstellation = (page, size, orderBy) => {
   return async (dispatch) => {
     try {
-      const res = await fetch('http://localhost:3001/constellation/getall')
+      const res = await fetch(
+        `http://localhost:3001/constellation/getall?page=${page}&size=${size}&orderBy=${orderBy}`
+      )
       console.log('res', res)
       if (res.ok) {
         const data = await res.json()

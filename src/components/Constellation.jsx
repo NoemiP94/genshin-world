@@ -16,6 +16,15 @@ const Constellation = () => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
 
+  //PAGINATION CONSTELLATION
+  const [currentPageConstellation, setCurrentPageConstellation] = useState(0)
+  const elementsPerPageConstellation = 10
+  const orderElementsConstellation = 'name'
+
+  const handlePageChangeConstellation = (pageNumber) => {
+    setCurrentPageConstellation(pageNumber)
+  }
+
   //PAGINATION CHARACTER
   const [currentPageCharacter, setCurrentPageCharacter] = useState(0)
   const elementsPerPageCharacter = 10 //modificare per visualizzare tutti i personaggi oppure mettere la paginazione nel dropdown
@@ -35,7 +44,12 @@ const Constellation = () => {
         orderElementsCharacter
       )
     )
-  }, [dispatch])
+  }, [
+    dispatch,
+    currentPageCharacter,
+    elementsPerPageCharacter,
+    orderElementsCharacter,
+  ])
 
   //SAVE CONSTELLATION
   const [constellation, setConstellation] = useState({
@@ -54,7 +68,13 @@ const Constellation = () => {
           orderElementsCharacter
         )
       )
-      await dispatch(getConstellation())
+      await dispatch(
+        getConstellation(
+          currentPageConstellation,
+          elementsPerPageConstellation,
+          orderElementsConstellation
+        )
+      )
     } catch (error) {
       console.log('Errore creazione place: ', error)
     }
@@ -63,8 +83,19 @@ const Constellation = () => {
   //GET CONSTELLATION
   const constellationData = useSelector((state) => state.constellation.list)
   useEffect(() => {
-    dispatch(getConstellation())
-  }, [dispatch])
+    dispatch(
+      getConstellation(
+        currentPageConstellation,
+        elementsPerPageConstellation,
+        orderElementsConstellation
+      )
+    )
+  }, [
+    dispatch,
+    currentPageConstellation,
+    elementsPerPageConstellation,
+    orderElementsConstellation,
+  ])
 
   //UPDATE CONSTELLATION
   const [updtConstellation, setUpdtConstellation] = useState(null)
@@ -85,7 +116,13 @@ const Constellation = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateConstellation(idConstellation, constellation, token))
-      await dispatch(getConstellation())
+      await dispatch(
+        getConstellation(
+          currentPageConstellation,
+          elementsPerPageConstellation,
+          orderElementsConstellation
+        )
+      )
       await dispatch(
         getCharacter(
           currentPageCharacter,
@@ -103,7 +140,13 @@ const Constellation = () => {
   const handleDelete = async (constellation) => {
     try {
       await dispatch(deleteConstellation(constellation.id, token))
-      await dispatch(getConstellation())
+      await dispatch(
+        getConstellation(
+          currentPageConstellation,
+          elementsPerPageConstellation,
+          orderElementsConstellation
+        )
+      )
       await dispatch(
         getCharacter(
           currentPageCharacter,
@@ -150,7 +193,13 @@ const Constellation = () => {
     console.log('degree id delete', degreeId)
     try {
       await dispatch(deleteDegree(degreeId, token))
-      await dispatch(getConstellation())
+      await dispatch(
+        getConstellation(
+          currentPageConstellation,
+          elementsPerPageConstellation,
+          orderElementsConstellation
+        )
+      )
       await dispatch(getDegree())
 
       console.log('Eliminato con successo!')
@@ -274,7 +323,13 @@ const Constellation = () => {
         </div>
         {/* FINE CREA CONSTELLATION */}{' '}
         <div className="container mb-6 w-full flex">
-          <Degree constellation={constellation} idDegree={idDegree} />
+          <Degree
+            constellation={constellation}
+            idDegree={idDegree}
+            currentPageConstellation={currentPageConstellation}
+            elementsPerPageConstellation={elementsPerPageConstellation}
+            orderElementsConstellation={orderElementsConstellation}
+          />
         </div>
       </div>{' '}
       {/* INIZIO LISTA CONSTELLATION */}
@@ -369,6 +424,15 @@ const Constellation = () => {
                                   showImgModal={showDegreeImgModal}
                                   setShowImgModal={setShowDegreeImgModal}
                                   degreeId={selectedDegree}
+                                  currentPageConstellation={
+                                    currentPageConstellation
+                                  }
+                                  elementsPerPageConstellation={
+                                    elementsPerPageConstellation
+                                  }
+                                  orderElementsConstellation={
+                                    orderElementsConstellation
+                                  }
                                 />
                               )}
                             </a>
@@ -435,11 +499,31 @@ const Constellation = () => {
                     showImgModal={showConstellationImgModal}
                     setShowImgModal={setShowConstellationImgModal}
                     constellationId={selectedConstellation}
+                    currentPageConstellation={currentPageConstellation}
+                    elementsPerPageConstellation={elementsPerPageConstellation}
+                    orderElementsConstellation={orderElementsConstellation}
                   />
                 )}
               </li>
             ))}
         </ul>
+        <div className="flex justify-center my-4 text-white">
+          {constellationData && (
+            <div className="justify-content-center custom-page">
+              {[...Array(constellationData.totalPages).keys()].map((number) => (
+                <button
+                  key={number}
+                  onClick={() => handlePageChangeConstellation(number)}
+                  className={`custom-item border p-4 ${
+                    number === currentPageConstellation - 1 ? 'active' : ''
+                  }`}
+                >
+                  {number + 1}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

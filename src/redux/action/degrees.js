@@ -36,7 +36,7 @@ export const postDegree = (degree, token) => {
 export const getDegree = () => {
   return async (dispatch) => {
     try {
-      const res = await fetch('http://localhost:3001/degree/getall')
+      const res = await fetch(`http://localhost:3001/degree/getall`)
       console.log('res', res)
       if (res.ok) {
         const data = await res.json()
