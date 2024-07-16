@@ -56,6 +56,18 @@ const Region = () => {
     festival: '',
   })
 
+  const handleReset = () => {
+    setRegion({
+      name: '',
+      vision: '',
+      description: '',
+      archon: '',
+      ideal: '',
+      capital: '',
+      festival: '',
+    })
+  }
+
   useEffect(() => {
     dispatch(getRegion(currentPage, elementsPerPage, orderElements))
   }, [dispatch, currentPage, elementsPerPage, orderElements])
@@ -87,6 +99,7 @@ const Region = () => {
     try {
       await dispatch(postRegion(region, token))
       await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
+      await handleReset()
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }
@@ -97,7 +110,8 @@ const Region = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateRegion(idRegion, region, token))
-      dispatch(getRegion(currentPage, elementsPerPage, orderElements))
+      await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
+      await handleReset()
       console.log('Modificato con successo!')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -359,6 +373,7 @@ const Region = () => {
                 <button
                   type="reset"
                   className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                  onClick={handleReset}
                 >
                   Svuota
                 </button>

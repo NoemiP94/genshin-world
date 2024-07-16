@@ -6,7 +6,7 @@ import {
   postBlogpost,
   updateBlogpost,
 } from '../redux/action/blogposts'
-import ModalImgBlogpost from './modals/ModalImgBlogpost'
+//import ModalImgBlogpost from './modals/ModalImgBlogpost'
 import { Link } from 'react-router-dom'
 
 const Blogpost = () => {
@@ -28,10 +28,18 @@ const Blogpost = () => {
     content: '',
   })
 
+  const handleReset = () => {
+    setBlogpost({
+      title: '',
+      content: '',
+    })
+  }
+
   const saveBlogpost = async () => {
     try {
       await dispatch(postBlogpost(blogpost, token))
       await dispatch(getBlogpost(currentPage, elementsPerPage, orderElements))
+      await handleReset()
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }
@@ -62,7 +70,8 @@ const Blogpost = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateBlogpost(idBlog, blogpost, token))
-      dispatch(getBlogpost(currentPage, elementsPerPage, orderElements))
+      await dispatch(getBlogpost(currentPage, elementsPerPage, orderElements))
+      await handleReset()
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -148,6 +157,7 @@ const Blogpost = () => {
                 <button
                   type="reset"
                   className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                  onClick={handleReset}
                 >
                   Svuota
                 </button>

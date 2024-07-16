@@ -1,5 +1,6 @@
 export const POST_REGION = 'POST_REGION'
 export const GET_REGION = 'GET_REGION'
+export const GET_ALL_REGION = 'GET_ALL_REGION'
 export const PUT_REGION = 'PUT_REGION'
 export const DELETE_REGION = 'DELETE_REGION'
 export const GET_POST_REGION_IMG = 'GET_POST_REGION_IMG'
@@ -44,6 +45,31 @@ export const getRegion = (page, size, orderBy) => {
         console.log('fetch', data)
         dispatch({
           type: GET_REGION,
+          payload: data,
+        })
+        console.log('List loaded')
+      } else {
+        throw new Error('Loading of list is failed')
+      }
+    } catch (error) {
+      console.log('Error', error)
+      throw error
+    }
+  }
+}
+
+export const getAllRegions = (orderBy) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/region/getall?orderBy=${orderBy}`
+      )
+      console.log('res', res)
+      if (res.ok) {
+        const data = await res.json()
+        console.log('fetch', data)
+        dispatch({
+          type: GET_ALL_REGION,
           payload: data,
         })
         console.log('List loaded')

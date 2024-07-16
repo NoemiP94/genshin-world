@@ -1,40 +1,58 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getRegion } from '../redux/action/regions'
+import { getAllRegions, getRegion } from '../redux/action/regions'
 import { getPlace, postPlace, updatePlace } from '../redux/action/places'
 import ModalImg from './modals/ModalImg'
 
 const Place = ({
   region,
   idPlace,
-  currentPage,
-  elementsPerPage,
-  orderElements,
   currentPagePlace,
   elementsPerPagePlace,
   orderElementsPlace,
   handlePageChangePlace,
+  currentPage,
+  elementsPerPage,
+  orderElements,
 }) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
-  const regionData = useSelector((state) => state.region.list)
+  const regionData = useSelector((state) => state.region.allList)
+
+  //PAGINATION REGION
+  const orderElementsRegion = 'name'
 
   useEffect(() => {
-    dispatch(getRegion(currentPage, elementsPerPage, orderElements))
-  }, [dispatch, currentPage, elementsPerPage, orderElements])
+    dispatch(getAllRegions(orderElementsRegion))
+  }, [dispatch, orderElementsRegion])
 
-  const [place, setPlace] = useState(null)
+  const [place, setPlace] = useState({
+    name: '',
+    description: '',
+    region_id: '',
+  })
   const placeData = useSelector((state) => state.place.list)
+
+  const handleReset = () => {
+    setPlace({
+      name: '',
+      description: '',
+      region_id: '',
+    })
+  }
+
   useEffect(() => {
     dispatch(
       getPlace(currentPagePlace, elementsPerPagePlace, orderElementsPlace)
     )
   }, [dispatch, currentPagePlace, elementsPerPagePlace, orderElementsPlace])
-  const handleSave = async (e) => {
-    e.preventDefault()
+
+  const handleSave = async () => {
     try {
       await dispatch(postPlace(place, token))
+      await handleReset()
       await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
+
       await dispatch(
         getPlace(currentPagePlace, elementsPerPagePlace, orderElementsPlace)
       )
@@ -51,7 +69,7 @@ const Place = ({
         getPlace(currentPagePlace, elementsPerPagePlace, orderElementsPlace)
       )
       await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
-
+      await handleReset()
       console.log('place: ', place)
     } catch (error) {
       console.log('Errore nella modifica: ', error)
@@ -167,6 +185,7 @@ const Place = ({
               <button
                 type="reset"
                 className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                onClick={handleReset}
               >
                 Svuota
               </button>
