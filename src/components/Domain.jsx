@@ -46,6 +46,14 @@ const Domain = () => {
     )
   }, [dispatch, currentPageDomain, elementsPerPageDomain, orderElementsDomain])
 
+  const handleDisplayData = (data) => {
+    const words = data.split('_')
+    const formattedData = words
+      .map((word) => word.charAt(0) + word.slice(1))
+      .join(' ')
+    return formattedData
+  }
+
   //CREATE DOMAIN
   const [domain, setDomain] = useState(null)
   const handleSave = async () => {
@@ -213,10 +221,19 @@ const Domain = () => {
                     }}
                   >
                     <option>Seleziona un tipo</option>
-                    <option>Dominio_della_Conquista</option>
+                    <option
+                      label="Dominio della Conquista"
+                      value={'Dominio_della_Conquista'}
+                    />
                     <option>Manufatti</option>
-                    <option>Materiali_per_armi</option>
-                    <option>Materiali_per_talenti</option>
+                    <option
+                      label="Materiali per armi"
+                      value={'Materiali_per_armi'}
+                    />
+                    <option
+                      label="Materiali per talenti"
+                      value={'Materiali_per_talenti'}
+                    />
                   </select>
                 </div>
               </div>
@@ -306,7 +323,10 @@ const Domain = () => {
 
                       <p>
                         - Tipo:{' '}
-                        <span className="italic"> {domain.domainType} </span>
+                        <span className="italic" onChange={handleDisplayData}>
+                          {' '}
+                          {handleDisplayData(domain.domainType)}{' '}
+                        </span>
                       </p>
                       <p>
                         - Regione:{' '}
