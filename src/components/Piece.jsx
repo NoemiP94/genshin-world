@@ -12,10 +12,6 @@ const Piece = ({ idPiece, pieceOb }) => {
   const elementsPerPage = 10
   const orderElements = 'name'
 
-  // const handlePageChange = (pageNumber) => {
-  //   setCurrentPage(pageNumber)
-  // }
-
   //GET ARTIFACT
   const artifactData = useSelector((state) => state.artifact.list)
   useEffect(() => {

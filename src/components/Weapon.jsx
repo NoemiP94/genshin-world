@@ -47,6 +47,12 @@ const Weapon = () => {
     dispatch(getWeapon(currentPage, elementsPerPage, orderElements))
   }, [dispatch, currentPage, elementsPerPage, orderElements])
 
+  const handleDisplayData = (data) => {
+    const words = data.toLowerCase()
+    const formattedData = words.charAt(0).toUpperCase() + words.slice(1)
+    return formattedData
+  }
+
   ///IMG MODAL
   const [showWeaponImgModal, setShowWeaponImgModal] = useState(false)
   const [selectedWeapon, setSelectedWeapon] = useState(null)
@@ -213,11 +219,11 @@ const Weapon = () => {
                     }}
                   >
                     <option>Seleziona stelle</option>
-                    <option>UNO</option>
-                    <option>DUE</option>
-                    <option>TRE</option>
-                    <option>QUATTRO</option>
-                    <option>CINQUE</option>
+                    <option label="Uno" value={'UNO'} />
+                    <option label="Due" value={'DUE'} />
+                    <option label="Tre" value={'TRE'} />
+                    <option label="Quattro" value={'QUATTRO'} />
+                    <option label="Cinque" value={'CINQUE'} />
                   </select>
                 </div>
               </div>
@@ -351,7 +357,10 @@ const Weapon = () => {
                         <span className="italic">{weapon.weaponType}</span>
                       </p>
                       <p>
-                        - Stelle: <span className="italic">{weapon.stars}</span>
+                        - Stelle:{' '}
+                        <span className="italic">
+                          {handleDisplayData(weapon.stars)}
+                        </span>
                       </p>
                       {weapon.origin !== null ? (
                         <p>
