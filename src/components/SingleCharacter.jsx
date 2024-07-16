@@ -25,6 +25,12 @@ const SingleCharacter = () => {
     (state) => state.character.singleCharacter
   )
 
+  const handleDisplayData = (data) => {
+    const words = data.toLowerCase()
+    const formattedData = words.charAt(0).toUpperCase() + words.slice(1)
+    return formattedData
+  }
+
   //PAGINATION CHARACTER
   const [currentPageCharacter, setCurrentPageCharacter] = useState(0)
   const elementsPerPageCharacter = 10
@@ -248,7 +254,9 @@ const SingleCharacter = () => {
               {singleCharacter.stars !== null ? (
                 <p>
                   - Stelle:{' '}
-                  <span className="italic">{singleCharacter.stars}</span>
+                  <span className="italic">
+                    {handleDisplayData(singleCharacter.stars)}
+                  </span>
                 </p>
               ) : null}
               {singleCharacter.affiliate !== null ? (

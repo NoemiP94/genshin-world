@@ -370,8 +370,8 @@ const Character = () => {
                       }}
                     >
                       <option>Seleziona stelle</option>
-                      <option>QUATTRO</option>
-                      <option>CINQUE</option>
+                      <option label="Quattro" value={'QUATTRO'} />
+                      <option label="Cinque" value={'CINQUE'} />
                     </select>
                   </div>
                 </div>
