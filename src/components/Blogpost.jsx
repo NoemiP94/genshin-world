@@ -98,11 +98,12 @@ const Blogpost = () => {
                     htmlFor="title"
                     className="block text-sm font-medium leading-6 text-left"
                   >
-                    Titolo
+                    Titolo *
                   </label>
                   <div className="mt-2">
                     <input
                       type="text"
+                      required
                       name="title"
                       id="title"
                       autoComplete="title"
@@ -124,11 +125,12 @@ const Blogpost = () => {
                   htmlFor="content"
                   className="block text-sm font-medium text-left"
                 >
-                  Contenuto
+                  Contenuto *
                 </label>
                 <div className="mt-2">
                   <textarea
                     id="content"
+                    required
                     name="content"
                     rows={5}
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 "

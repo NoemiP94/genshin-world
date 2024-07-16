@@ -78,11 +78,12 @@ const Talent = ({
                       htmlFor="name"
                       className="block text-sm font-medium leading-6 text-left"
                     >
-                      Nome
+                      Nome *
                     </label>
                     <div className="mt-2">
                       <input
                         type="text"
+                        required
                         name="name"
                         id="name"
                         autoComplete="name"
@@ -104,11 +105,12 @@ const Talent = ({
                     htmlFor="about"
                     className="block text-sm font-medium leading-6 text-left"
                   >
-                    Info
+                    Info *
                   </label>
                   <div className="mt-2">
                     <textarea
                       id="about"
+                      required
                       name="about"
                       rows={5}
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300  "

@@ -101,11 +101,12 @@ const MainGoal = () => {
                       htmlFor="name"
                       className="block text-sm font-medium leading-6 text-left"
                     >
-                      Nome
+                      Nome *
                     </label>
                     <div className="mt-2">
                       <input
                         type="text"
+                        required
                         name="name"
                         id="name"
                         autoComplete="name"

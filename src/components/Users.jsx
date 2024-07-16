@@ -77,11 +77,12 @@ const Users = () => {
                     htmlFor="name"
                     className="block text-sm font-medium leading-6 text-left"
                   >
-                    Nome
+                    Nome *
                   </label>
                   <div className="mt-2">
                     <input
                       type="text"
+                      required
                       name="name"
                       id="name"
                       autoComplete="name"
@@ -101,11 +102,12 @@ const Users = () => {
                     htmlFor="surname"
                     className="block text-sm font-medium leading-6 text-left"
                   >
-                    Cognome
+                    Cognome *
                   </label>
                   <div className="mt-2">
                     <input
                       type="text"
+                      required
                       name="surname"
                       id="surname"
                       autoComplete="surname"
@@ -127,11 +129,12 @@ const Users = () => {
                     htmlFor="email"
                     className="block text-sm font-medium leading-6 text-left"
                   >
-                    Email
+                    Email *
                   </label>
                   <div className="mt-2">
                     <input
                       type="email"
+                      required
                       name="email"
                       id="email"
                       autoComplete="email"
@@ -151,11 +154,12 @@ const Users = () => {
                     htmlFor="password"
                     className="block text-sm font-medium leading-6 text-left"
                   >
-                    Password
+                    Password *
                   </label>
                   <div className="mt-2">
                     <input
                       type="password"
+                      required
                       name="password"
                       id="password"
                       autoComplete="password"
