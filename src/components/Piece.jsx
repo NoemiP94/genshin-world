@@ -181,11 +181,17 @@ const Piece = ({ idPiece, pieceOb }) => {
                   }}
                 >
                   <option>Seleziona un tipo</option>
-                  <option>Fiore_della_vita</option>
-                  <option>Piuma_della_morte</option>
-                  <option>Sabbie_del_tempo</option>
-                  <option>Calice_eonotemo</option>
-                  <option>Corona_della_ragione</option>
+                  <option label="Fiore della vita" value={'Fiore_della_vita'} />
+                  <option
+                    label="Piuma della morte"
+                    value={'Piuma_della_morte'}
+                  />
+                  <option label="Sabbie del tempo" value={'Sabbie_del_tempo'} />
+                  <option label="Calice eonotemo" value={'Calice_eonotemo'} />
+                  <option
+                    label="Corona della ragione"
+                    value={'Corona_della_ragione'}
+                  />
                 </select>
               </div>
             </div>
