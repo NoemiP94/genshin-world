@@ -29,6 +29,14 @@ const Region = () => {
     setCurrentPage(pageNumber)
   }
 
+  const [selectedRegionForPlace, setSelectedRegionForPlace] = useState(null)
+
+  const handlePlusButtonPlace = async (idRegion) => {
+    console.log('idRegion ricevuto: ', idRegion)
+    await setSelectedRegionForPlace(idRegion)
+    console.log('Regione selezionata: ', selectedRegionForPlace)
+  }
+
   //PAGINATION PLACE
   const [currentPagePlace, setCurrentPagePlace] = useState(0)
   const elementsPerPagePlace = 3
@@ -130,25 +138,11 @@ const Region = () => {
     }
   }
 
-  // //UPDATE PLACE
-  // const [place, setPlace] = useState(null)
-  // const [newPlace, setNewPlace] = useState(null)
-  // const [idPlace, setIdPlace] = useState('')
+  //UPDATE PLACE
+  //qua devo mandare a Place l'intero place il suo id della regione
+  //la modifica verrà fatta poi nel componente Place
+  // const handleUpdateButton = async (place, selectedRegionForPlace) => {
 
-  // const handleUpdateButton = async (place, region) => {
-  //   console.log('Bottone modifica cliccato')
-  //   console.log('Place da modificare: ', place)
-  //   console.log('id region: ', region)
-  //   setNewPlace(place)
-  //   setIdPlace(place.id)
-  //   console.log('idPlace: ', idPlace)
-  //   setPlace((prevPlace) => ({
-  //     ...prevPlace,
-  //     name: place.name,
-  //     description: place.description,
-  //     id: place.id,
-  //     region_id: region.id,
-  //   }))
   // }
 
   //DELETE PLACE
@@ -473,7 +467,18 @@ const Region = () => {
                                     <a className="italic py-2">
                                       <div className="flex justify-between">
                                         <div className="pe-5">{place.name}</div>
-                                        <div>
+                                        <div className="flex">
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            fill="#facc15"
+                                            className="size-6 me-1"
+                                            // onClick={() =>
+                                            //   handleUpdateButton(place, selectedRegionForPlace)
+                                            // }
+                                          >
+                                            <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
+                                          </svg>
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24"
@@ -559,6 +564,21 @@ const Region = () => {
                           </svg>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
+                            fill="#15803d"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="#15803d"
+                            className="size-6 mx-2"
+                            onClick={() => handlePlusButtonPlace(region.id)}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 4.5v15m7.5-7.5h-15"
+                            />
+                          </svg>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="#facc15"
                             className="size-6 me-1"
@@ -628,8 +648,7 @@ const Region = () => {
       </div>{' '}
       <div className="container">
         <Place
-          region={region.id}
-          // idPlace={idPlace}
+          selectedRegionForPlace={selectedRegionForPlace}
           currentPage={currentPage}
           elementsPerPage={elementsPerPage}
           orderElements={orderElements}

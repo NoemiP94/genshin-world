@@ -60,7 +60,7 @@ const SingleCharacter = () => {
     useState(null)
 
   const handlePlusButton = (idCharacter) => {
-    console.log('idWeapon ricevuto: ', idCharacter)
+    console.log('idCharacter ricevuto: ', idCharacter)
     setSelectedCharacterMaterial(idCharacter)
     setShowMaterialCharacterModal(true)
     console.log('personaggio selezionato: ', selectedCharacterMaterial)
