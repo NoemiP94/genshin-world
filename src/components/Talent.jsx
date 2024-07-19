@@ -21,6 +21,14 @@ const Talent = ({
     character_id: character,
   })
 
+  const handleReset = () => {
+    setTalent({
+      name: '',
+      info: '',
+      character_id: character,
+    })
+  }
+
   const handleSave = async (e) => {
     e.preventDefault()
     console.log('single character: ', character)
@@ -34,6 +42,7 @@ const Talent = ({
         )
       )
       await dispatch(getSingleCharacter(character))
+      await handleReset()
       console.log('talent: ', talent)
     } catch (error) {
       console.log('Errore creazione talent: ', error)
@@ -53,7 +62,7 @@ const Talent = ({
         )
       )
       await dispatch(getSingleCharacter(character))
-
+      await handleReset()
       console.log('talent: ', talent)
     } catch (error) {
       console.log('Errore nella modifica: ', error)
@@ -128,6 +137,7 @@ const Talent = ({
                   <button
                     type="reset"
                     className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                    onClick={handleReset}
                   >
                     Svuota
                   </button>

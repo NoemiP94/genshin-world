@@ -70,6 +70,26 @@ const Character = () => {
     corVoice: '',
     specialDish: '',
   })
+
+  const handleReset = () => {
+    setCharacter({
+      name: '',
+      engVoice: '',
+      birthday: '',
+      stars: '',
+      affiliate: '',
+      visionType: '',
+      description: '',
+      weaponType: '',
+      region_id: '',
+      title: '',
+      releaseVersion: '',
+      japVoice: '',
+      chinVoice: '',
+      corVoice: '',
+      specialDish: '',
+    })
+  }
   const saveCharacter = async () => {
     try {
       await dispatch(postCharacter(character, token))
@@ -80,6 +100,7 @@ const Character = () => {
           orderElementsCharacter
         )
       )
+      await handleReset()
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }
@@ -114,13 +135,14 @@ const Character = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateCharacter(idCharacter, character, token))
-      dispatch(
+      await dispatch(
         getCharacter(
           currentPageCharacter,
           elementsPerPageCharacter,
           orderElementsCharacter
         )
       )
+      await handleReset()
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -131,7 +153,7 @@ const Character = () => {
   const handleDelete = async (character) => {
     try {
       await dispatch(deleteCharacter(character.id, token))
-      dispatch(
+      await dispatch(
         getCharacter(
           currentPageCharacter,
           elementsPerPageCharacter,
@@ -548,6 +570,7 @@ const Character = () => {
                 <button
                   type="reset"
                   className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                  onClick={handleReset}
                 >
                   Svuota
                 </button>

@@ -31,10 +31,20 @@ const Enemy = () => {
     place: '',
   })
 
+  const handleReset = () => {
+    setEnemy({
+      name: '',
+      description: '',
+      codeName: '',
+      place: '',
+    })
+  }
+
   const saveEnemy = async () => {
     try {
       await dispatch(postEnemy(enemy, token))
       await dispatch(getEnemy(currentPage, elementsPerPage, orderElements))
+      await handleReset()
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }
@@ -77,7 +87,8 @@ const Enemy = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateEnemy(idEnemy, enemy, token))
-      dispatch(getEnemy(currentPage, elementsPerPage, orderElements))
+      await dispatch(getEnemy(currentPage, elementsPerPage, orderElements))
+      await handleReset()
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -88,7 +99,7 @@ const Enemy = () => {
   const handleDelete = async (enemy) => {
     try {
       await dispatch(deleteEnemy(enemy.id, token))
-      dispatch(getEnemy(currentPage, elementsPerPage, orderElements))
+      await dispatch(getEnemy(currentPage, elementsPerPage, orderElements))
       console.log('Nemico eliminata con successo!')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
@@ -232,6 +243,7 @@ const Enemy = () => {
                 <button
                   type="reset"
                   className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                  onClick={handleReset}
                 >
                   Svuota
                 </button>
