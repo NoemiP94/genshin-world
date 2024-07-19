@@ -22,6 +22,17 @@ const Weapon = () => {
     origin: '',
   })
 
+  const handleReset = () => {
+    setWeapon({
+      name: '',
+      description: '',
+      weaponType: '',
+      stars: '',
+      details: '',
+      origin: '',
+    })
+  }
+
   //PAGINATION
   const [currentPage, setCurrentPage] = useState(0)
   const elementsPerPage = 10
@@ -36,6 +47,7 @@ const Weapon = () => {
     try {
       await dispatch(postWeapon(weapon, token))
       await dispatch(getWeapon(currentPage, elementsPerPage, orderElements))
+      await handleReset()
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }
@@ -100,7 +112,8 @@ const Weapon = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateWeapon(idWeapon, weapon, token))
-      dispatch(getWeapon(currentPage, elementsPerPage, orderElements))
+      await dispatch(getWeapon(currentPage, elementsPerPage, orderElements))
+      await handleReset()
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -306,6 +319,7 @@ const Weapon = () => {
                 <button
                   type="reset"
                   className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                  onClick={handleReset}
                 >
                   Svuota
                 </button>
