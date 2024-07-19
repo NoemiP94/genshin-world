@@ -22,6 +22,14 @@ const Artifacts = () => {
     origin: '',
   })
 
+  const handleReset = () => {
+    setArtifact({
+      name: '',
+      description: '',
+      origin: '',
+    })
+  }
+
   //PAGINATION
   const [currentPage, setCurrentPage] = useState(0)
   const elementsPerPage = 10
@@ -41,7 +49,8 @@ const Artifacts = () => {
   const saveArtifact = async () => {
     try {
       await dispatch(postArtifact(artifact, token))
-      dispatch(getArtifact(currentPage, elementsPerPage, orderElements))
+      await dispatch(getArtifact(currentPage, elementsPerPage, orderElements))
+      await handleReset()
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }
@@ -51,7 +60,7 @@ const Artifacts = () => {
   const handleDelete = async (artifact) => {
     try {
       await dispatch(deleteArtifact(artifact.id, token))
-      dispatch(getArtifact(currentPage, elementsPerPage, orderElements))
+      await dispatch(getArtifact(currentPage, elementsPerPage, orderElements))
       console.log('Set Artefatti eliminato con successo!')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
@@ -78,7 +87,8 @@ const Artifacts = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateArtifact(idArtifact, artifact, token))
-      dispatch(getArtifact(currentPage, elementsPerPage, orderElements))
+      await dispatch(getArtifact(currentPage, elementsPerPage, orderElements))
+      await handleReset()
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -243,6 +253,7 @@ const Artifacts = () => {
                 <button
                   type="reset"
                   className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                  onClick={handleReset}
                 >
                   Svuota
                 </button>

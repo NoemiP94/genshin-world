@@ -55,7 +55,21 @@ const Domain = () => {
   }
 
   //CREATE DOMAIN
-  const [domain, setDomain] = useState(null)
+  const [domain, setDomain] = useState({
+    name: '',
+    place: '',
+    domainType: '',
+    regionId: '',
+  })
+
+  const handleReset = () => {
+    setDomain({
+      name: '',
+      place: '',
+      domainType: '',
+      regionId: '',
+    })
+  }
   const handleSave = async () => {
     try {
       await dispatch(postDomain(domain, token))
@@ -63,6 +77,7 @@ const Domain = () => {
       await dispatch(
         getDomain(currentPageDomain, elementsPerPageDomain, orderElementsDomain)
       )
+      await handleReset()
     } catch (error) {
       console.log('Errore creazione dominio: ', error)
     }
@@ -89,9 +104,10 @@ const Domain = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateDomain(idDomain, domain, token))
-      dispatch(
+      await dispatch(
         getDomain(currentPageDomain, elementsPerPageDomain, orderElementsDomain)
       )
+      await handleReset()
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -277,6 +293,7 @@ const Domain = () => {
                 <button
                   type="reset"
                   className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                  onClick={handleReset}
                 >
                   Svuota
                 </button>

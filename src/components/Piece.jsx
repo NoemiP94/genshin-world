@@ -27,6 +27,16 @@ const Piece = ({ idPiece, pieceOb }) => {
     artifactSet_id: '',
   })
 
+  const handleReset = () => {
+    setPiece({
+      name: '',
+      description: '',
+      id: '',
+      pieceType: '',
+      artifactSet_id: '',
+    })
+  }
+
   const [newPiece, setNewPiece] = useState({
     name: piece.name,
     description: piece.description,
@@ -41,6 +51,7 @@ const Piece = ({ idPiece, pieceOb }) => {
       await dispatch(postPiece(piece, token))
       await dispatch(getArtifact(currentPage, elementsPerPage, orderElements))
       await dispatch(getPiece())
+      await handleReset()
     } catch (error) {
       console.log('Errore creazione place: ', error)
     }
@@ -57,7 +68,7 @@ const Piece = ({ idPiece, pieceOb }) => {
       await dispatch(updatePiece(idPiece, piece, token))
       await dispatch(getPiece())
       await dispatch(getArtifact(currentPage, elementsPerPage, orderElements))
-      //console.log('idPiece: ', idPiece)
+      await handleReset()
       console.log('modificato')
       console.log('piece: ', piece)
     } catch (error) {
@@ -200,6 +211,7 @@ const Piece = ({ idPiece, pieceOb }) => {
               <button
                 type="reset"
                 className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                onClick={handleReset}
               >
                 Svuota
               </button>
