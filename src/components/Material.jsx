@@ -18,6 +18,14 @@ const Material = () => {
     materialType: '',
   })
 
+  const handleReset = () => {
+    setMaterial({
+      name: '',
+      description: '',
+      materialType: '',
+    })
+  }
+
   //PAGINATION
   const [currentPage, setCurrentPage] = useState(0)
   const elementsPerPage = 10
@@ -38,6 +46,7 @@ const Material = () => {
     try {
       await dispatch(postMaterial(material, token))
       await dispatch(getMaterial(currentPage, elementsPerPage, orderElements))
+      await handleReset()
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }
@@ -87,7 +96,8 @@ const Material = () => {
   const handleUpdate = async () => {
     try {
       await dispatch(updateMaterial(idMaterial, material, token))
-      dispatch(getMaterial(currentPage, elementsPerPage, orderElements))
+      await dispatch(getMaterial(currentPage, elementsPerPage, orderElements))
+      await handleReset()
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -195,6 +205,7 @@ const Material = () => {
                 <button
                   type="reset"
                   className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                  onClick={handleReset}
                 >
                   Svuota
                 </button>
