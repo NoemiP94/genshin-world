@@ -130,26 +130,26 @@ const Region = () => {
     }
   }
 
-  //UPDATE PLACE
-  const [place, setPlace] = useState(null)
-  const [newPlace, setNewPlace] = useState(null)
-  const [idPlace, setIdPlace] = useState('')
+  // //UPDATE PLACE
+  // const [place, setPlace] = useState(null)
+  // const [newPlace, setNewPlace] = useState(null)
+  // const [idPlace, setIdPlace] = useState('')
 
-  const handleUpdateButton = async (place, region) => {
-    console.log('Bottone modifica cliccato')
-    console.log('Place da modificare: ', place)
-    console.log('id region: ', region)
-    setNewPlace(place)
-    setIdPlace(place.id)
-    console.log('idPlace: ', idPlace)
-    setPlace((prevPlace) => ({
-      ...prevPlace,
-      name: place.name,
-      description: place.description,
-      id: place.id,
-      region_id: region.id,
-    }))
-  }
+  // const handleUpdateButton = async (place, region) => {
+  //   console.log('Bottone modifica cliccato')
+  //   console.log('Place da modificare: ', place)
+  //   console.log('id region: ', region)
+  //   setNewPlace(place)
+  //   setIdPlace(place.id)
+  //   console.log('idPlace: ', idPlace)
+  //   setPlace((prevPlace) => ({
+  //     ...prevPlace,
+  //     name: place.name,
+  //     description: place.description,
+  //     id: place.id,
+  //     region_id: region.id,
+  //   }))
+  // }
 
   //DELETE PLACE
   const handleDeletePlace = async (placeId) => {
@@ -176,11 +176,11 @@ const Region = () => {
   }
 
   return (
-    <div>
+    <div className="container">
       <h2 className="mt-5 text-2xl font-bold">Gestione Regioni di Teyvat</h2>
-      <div className="container my-4  w-full flex h-1/2">
+      <div className="container mt-4 w-full flex flex-col">
         {/* INIZIO CREA REGIONE */}
-        <div className="w-2/4 flex justify-center">
+        <div className="flex justify-center">
           <form className="w-full  text-white">
             <div className=" p-7 h-auto">
               <h2 className="font-semibold leading-7 text-lg">
@@ -403,7 +403,7 @@ const Region = () => {
         </div>
         {/* FINE CREA REGIONE */}
         {/* INIZIO LISTA REGIONI */}
-        <div className="w-2/4">
+        <div>
           <p className="text-white text-lg">Lista regioni</p>
           <ul
             role="list"
@@ -471,24 +471,9 @@ const Region = () => {
                                 >
                                   <MenuItem className="flex">
                                     <a className="italic py-2">
-                                      <div className="flex">
+                                      <div className="flex justify-between">
                                         <div className="pe-5">{place.name}</div>
-                                        <div className="flex">
-                                          <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                            fill="#facc15"
-                                            className="size-6 me-1"
-                                            onClick={() =>
-                                              handleUpdateButton(
-                                                place,
-                                                region.id
-                                              )
-                                            }
-                                          >
-                                            <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
-                                          </svg>
-
+                                        <div>
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24"
@@ -641,10 +626,10 @@ const Region = () => {
         </div>{' '}
         {/* FINE REGION */}{' '}
       </div>{' '}
-      <div className="container h-1/2">
+      <div className="container">
         <Place
-          region={region}
-          idPlace={idPlace}
+          region={region.id}
+          // idPlace={idPlace}
           currentPage={currentPage}
           elementsPerPage={elementsPerPage}
           orderElements={orderElements}
