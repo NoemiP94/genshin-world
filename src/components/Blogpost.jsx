@@ -82,8 +82,8 @@ const Blogpost = () => {
   const handleDelete = async (blogpost) => {
     try {
       await dispatch(deleteBlogpost(blogpost.id, token))
-      dispatch(getBlogpost(currentPage, elementsPerPage, orderElements))
-      console.log('Set Artefatti eliminato con successo!')
+      await dispatch(getBlogpost(currentPage, elementsPerPage, orderElements))
+      console.log('Blogpost eliminato con successo!')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
     }

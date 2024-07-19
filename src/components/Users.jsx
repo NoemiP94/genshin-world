@@ -24,10 +24,22 @@ const Users = () => {
     password: '',
   })
 
+  const handleReset = () => {
+    setRegister({
+      name: '',
+      surname: '',
+      email: '',
+      password: '',
+    })
+  }
+
   const handleSave = async () => {
     try {
       await dispatch(postRegister(register))
-      dispatch(getAllUsers(token, currentPage, elementsPerPage, orderElements))
+      await dispatch(
+        getAllUsers(token, currentPage, elementsPerPage, orderElements)
+      )
+      await handleReset()
     } catch (error) {
       console.log("Errore nell'aggiornamento", error)
     }
@@ -43,7 +55,9 @@ const Users = () => {
   const handleDelete = async (user) => {
     try {
       await dispatch(deleteUser(user.id, token))
-      dispatch(getAllUsers(token, currentPage, elementsPerPage, orderElements))
+      await dispatch(
+        getAllUsers(token, currentPage, elementsPerPage, orderElements)
+      )
       console.log('Eliminato con successo')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
@@ -180,6 +194,7 @@ const Users = () => {
                 <button
                   type="reset"
                   className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                  onClick={handleReset}
                 >
                   Svuota
                 </button>
