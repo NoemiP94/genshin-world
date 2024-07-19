@@ -27,10 +27,16 @@ const MainGoal = () => {
     name: '',
   })
 
+  const handleReset = () => {
+    setMainGoal({
+      name: '',
+    })
+  }
   const saveMainGoal = async () => {
     try {
       await dispatch(postMainGoal(mainGoal, token))
       await dispatch(getMainGoal(currentPage, elementsPerPage, orderElements))
+      await handleReset()
     } catch (error) {
       console.log('Errore nel salvataggio', error)
     }
@@ -59,6 +65,7 @@ const MainGoal = () => {
     try {
       await dispatch(updateMainGoal(idMainGoal, mainGoal, token))
       await dispatch(getMainGoal(currentPage, elementsPerPage, orderElements))
+      await handleReset()
     } catch (error) {
       console.log('Errore nella modifica', error)
     }
@@ -126,6 +133,7 @@ const MainGoal = () => {
                   <button
                     type="reset"
                     className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                    onClick={handleReset}
                   >
                     Svuota
                   </button>

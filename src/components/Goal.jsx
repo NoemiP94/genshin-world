@@ -36,6 +36,14 @@ const Goal = () => {
     mainGoal_id: id,
   })
 
+  const handleReset = () => {
+    setGoal({
+      name: '',
+      description: '',
+      mainGoal_id: id,
+    })
+  }
+
   const handleSave = async (e) => {
     e.preventDefault()
     try {
@@ -48,6 +56,7 @@ const Goal = () => {
         )
       )
       await dispatch(getSingleMainGoal(singleMainGoal.id))
+      await handleReset()
     } catch (error) {
       console.log('Errore creazione place: ', error)
     }
@@ -80,6 +89,7 @@ const Goal = () => {
         )
       )
       await dispatch(getSingleMainGoal(singleMainGoal.id))
+      await handleReset()
     } catch (error) {
       console.log('Errore nella modifica', error)
     }
@@ -175,6 +185,7 @@ const Goal = () => {
                       <button
                         type="reset"
                         className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                        onClick={handleReset}
                       >
                         Svuota
                       </button>
