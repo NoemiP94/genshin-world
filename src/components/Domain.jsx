@@ -349,10 +349,10 @@ const Domain = () => {
                           {handleDisplayData(domain.domainType)}{' '}
                         </span>
                       </p>
-                      <p>
+                      {/* <p>
                         - Regione:{' '}
                         <span className="italic"> {domain.regionId.name} </span>
-                      </p>
+                      </p> */}
                       <div className="mt-2">
                         <div className="flex">
                           <p>- Materiali: </p>
