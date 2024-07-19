@@ -57,6 +57,13 @@ const Constellation = () => {
     character_id: '',
   })
 
+  const handleReset = () => {
+    setConstellation({
+      name: '',
+      character_id: '',
+    })
+  }
+
   const handleSave = async (e) => {
     e.preventDefault()
     try {
@@ -75,6 +82,7 @@ const Constellation = () => {
           orderElementsConstellation
         )
       )
+      await handleReset()
     } catch (error) {
       console.log('Errore creazione place: ', error)
     }
@@ -130,6 +138,7 @@ const Constellation = () => {
           orderElementsCharacter
         )
       )
+      await handleReset()
       console.log('Modificato con successo')
     } catch (error) {
       console.log('Errore nella modifica', error)
@@ -299,6 +308,7 @@ const Constellation = () => {
                 <button
                   type="reset"
                   className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                  onClick={handleReset}
                 >
                   Svuota
                 </button>

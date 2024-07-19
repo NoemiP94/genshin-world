@@ -38,6 +38,15 @@ const Degree = ({
     constellation_id: '',
   })
 
+  const handleReset = () => {
+    setDegree({
+      name: '',
+      level: '',
+      description: '',
+      constellation_id: '',
+    })
+  }
+
   const handleSave = async (e) => {
     e.preventDefault()
     try {
@@ -50,6 +59,7 @@ const Degree = ({
           orderElementsConstellation
         )
       )
+      await handleReset()
     } catch (error) {
       console.log('Errore creazione place: ', error)
     }
@@ -74,7 +84,7 @@ const Degree = ({
           orderElementsConstellation
         )
       )
-
+      await handleReset()
       console.log('degree: ', degree)
     } catch (error) {
       console.log('Errore nella modifica: ', error)
@@ -204,6 +214,7 @@ const Degree = ({
               <button
                 type="reset"
                 className="text-sm font-semibold bg-purple-400 px-3 py-2 rounded-md"
+                onClick={handleReset}
               >
                 Svuota
               </button>
