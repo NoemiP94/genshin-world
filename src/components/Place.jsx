@@ -13,6 +13,7 @@ const Place = ({
   currentPage,
   elementsPerPage,
   orderElements,
+  selectedRegionPlace,
 }) => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
@@ -50,49 +51,31 @@ const Place = ({
     try {
       await dispatch(postPlace(place, token))
       await handleReset()
-      await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
-
       await dispatch(
         getPlace(currentPagePlace, elementsPerPagePlace, orderElementsPlace)
       )
+
+      await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
     } catch (error) {
       console.log('Errore creazione place: ', error)
     }
   }
 
-  //UPDATE PLACE
-  // const [newPlace, setNewPlace] = useState(null)
-  // const [idPlace, setIdPlace] = useState('')
+  const handleUpdate = async () => {
+    console.log('idPlace: ', idPlace)
+    try {
+      await dispatch(updatePlace(idPlace, place, token))
+      await dispatch(
+        getPlace(currentPagePlace, elementsPerPagePlace, orderElementsPlace)
+      )
+      await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
 
-  // const handleUpdateButton = async (place, selectedRegionForPlace) => {
-  //   console.log('Bottone modifica cliccato')
-  //   console.log('Place da modificare: ', place)
-  //   console.log('id region: ', selectedRegionForPlace)
-  //   setNewPlace(place)
-  //   setIdPlace(place.id)
-  //   console.log('idPlace: ', idPlace)
-  //   setPlace((prevPlace) => ({
-  //     ...prevPlace,
-  //     name: place.name,
-  //     description: place.description,
-  //     id: place.id,
-  //     region_id: place.region_id,
-  //   }))
-  // }
-
-  // const handleUpdate = async () => {
-  //   try {
-  //     await dispatch(updatePlace(idPlace, place, token))
-  //     await dispatch(
-  //       getPlace(currentPagePlace, elementsPerPagePlace, orderElementsPlace)
-  //     )
-  //     await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
-  //     await handleReset()
-  //     console.log('place: ', place)
-  //   } catch (error) {
-  //     console.log('Errore nella modifica: ', error)
-  //   }
-  // }
+      console.log('place: ', place)
+      await handleReset()
+    } catch (error) {
+      console.log('Errore nella modifica: ', error)
+    }
+  }
 
   //MODALE IMG
   const [showImgModal, setShowImgModal] = useState(false)
@@ -157,7 +140,7 @@ const Place = ({
                   autoComplete="vision-name"
                   required
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                  //value={place.region}
+                  value={selectedRegionPlace}
                   onChange={(e) => {
                     setPlace({
                       ...place,
@@ -210,7 +193,10 @@ const Place = ({
               <button
                 type="submit"
                 className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                onClick={handleSave}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleSave()
+                }}
               >
                 Salva
               </button>

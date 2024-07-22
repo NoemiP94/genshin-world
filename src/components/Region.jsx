@@ -139,11 +139,28 @@ const Region = () => {
   }
 
   //UPDATE PLACE
-  //qua devo mandare a Place l'intero place il suo id della regione
-  //la modifica verrà fatta poi nel componente Place
-  // const handleUpdateButton = async (place, selectedRegionForPlace) => {
+  const [place, setPlace] = useState(null)
+  const [newPlace, setNewPlace] = useState(null)
+  const [idPlace, setIdPlace] = useState('')
+  const [selectedRegionPlace, setSelectedRegionPlace] = useState(null)
 
-  // }
+  const handleUpdateButton = async (place, region) => {
+    console.log('Bottone modifica cliccato')
+    console.log('Place da modificare: ', place)
+    //console.log('id region: ', region)
+    setSelectedRegionPlace(region)
+    console.log('selected region:', selectedRegionPlace)
+    setNewPlace(place)
+    setIdPlace(place.id)
+    console.log('idPlace: ', idPlace)
+    setPlace((prevPlace) => ({
+      ...prevPlace,
+      name: place.name,
+      description: place.description,
+      id: place.id,
+      region_id: region.id,
+    }))
+  }
 
   //DELETE PLACE
   const handleDeletePlace = async (placeId) => {
@@ -452,7 +469,7 @@ const Region = () => {
                               }
                             />
                           </MenuButton>
-                          {region.placeList.length > 0
+                          {region.placeList && region.placeList.length > 0
                             ? region.placeList.map((place) => (
                                 <Transition
                                   enter="transition ease-out duration-100"
@@ -518,7 +535,7 @@ const Region = () => {
                               }
                             />
                           </MenuButton>
-                          {region.domainList.length > 0
+                          {region.domainList && region.domainList.length > 0
                             ? region.domainList.map((domain) => (
                                 <Transition
                                   enter="transition ease-out duration-100"
@@ -656,6 +673,7 @@ const Region = () => {
           currentPagePlace={currentPagePlace}
           elementsPerPagePlace={elementsPerPagePlace}
           orderElementsPlace={orderElementsPlace}
+          selectedRegionPlace={selectedRegionPlace}
         />
       </div>
     </div>
