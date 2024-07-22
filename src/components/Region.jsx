@@ -11,6 +11,7 @@ import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import { deletePlace, getPlace } from '../redux/action/places'
 import Place from './Place'
 import ModalRegionImg from './modals/ModalRegionImg'
+import ModalPlaceImg from './modals/ModalPlaceImg'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -22,19 +23,11 @@ const Region = () => {
 
   //PAGINATION REGION
   const [currentPage, setCurrentPage] = useState(0)
-  const elementsPerPage = 3
+  const elementsPerPage = 2
   const orderElements = 'name'
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber)
-  }
-
-  const [selectedRegionForPlace, setSelectedRegionForPlace] = useState(null)
-
-  const handlePlusButtonPlace = async (idRegion) => {
-    console.log('idRegion ricevuto: ', idRegion)
-    await setSelectedRegionForPlace(idRegion)
-    console.log('Regione selezionata: ', selectedRegionForPlace)
   }
 
   //PAGINATION PLACE
@@ -80,7 +73,6 @@ const Region = () => {
     dispatch(getRegion(currentPage, elementsPerPage, orderElements))
   }, [dispatch, currentPage, elementsPerPage, orderElements])
 
-  const [showModal, setShowModal] = useState(false)
   const data = useSelector((state) => state.region.list)
   const [updtRegion, setUpdtRegion] = useState(null)
   const [idRegion, setIdRegion] = useState('')
@@ -138,30 +130,6 @@ const Region = () => {
     }
   }
 
-  //UPDATE PLACE
-  const [place, setPlace] = useState(null)
-  const [newPlace, setNewPlace] = useState(null)
-  const [idPlace, setIdPlace] = useState('')
-  const [selectedRegionPlace, setSelectedRegionPlace] = useState(null)
-
-  const handleUpdateButton = async (place, region) => {
-    console.log('Bottone modifica cliccato')
-    console.log('Place da modificare: ', place)
-    //console.log('id region: ', region)
-    setSelectedRegionPlace(region)
-    console.log('selected region:', selectedRegionPlace)
-    setNewPlace(place)
-    setIdPlace(place.id)
-    console.log('idPlace: ', idPlace)
-    setPlace((prevPlace) => ({
-      ...prevPlace,
-      name: place.name,
-      description: place.description,
-      id: place.id,
-      region_id: region.id,
-    }))
-  }
-
   //DELETE PLACE
   const handleDeletePlace = async (placeId) => {
     console.log('place id delete', placeId)
@@ -177,13 +145,26 @@ const Region = () => {
     }
   }
 
-  //IMG MODAL
+  //IMG MODAL REGION
   const [showRegionImgModal, setShowRegionImgModal] = useState(false)
   const [selectedRegion, setSelectedRegion] = useState(null)
 
   const showRegionModal = (idRegion) => {
     setSelectedRegion(idRegion)
     setShowRegionImgModal(true)
+  }
+
+  //IMG MODAL PLACE
+  const [showImgModal, setShowImgModal] = useState(false)
+  const [selectedPlace, setSelectedPlace] = useState(null)
+
+  const showModalImg = (idPlace) => {
+    console.log('Id place ricevuto :', idPlace)
+    setSelectedPlace(idPlace)
+    setShowImgModal(true)
+
+    console.log('Luogo cliccato')
+    console.log('Luogo selezionato', selectedPlace)
   }
 
   return (
@@ -414,268 +395,273 @@ const Region = () => {
         </div>
         {/* FINE CREA REGIONE */}
         {/* INIZIO LISTA REGIONI */}
-        <div>
-          <p className="text-white text-lg">Lista regioni</p>
-          <ul
-            role="list"
-            className="divide-y divide-gray-100 ms-5 px-5 overflow-y-scroll h-3/4"
-          >
-            {data.content &&
-              data.content.map((region) => (
-                <li key={region.id} className="my-3 text-left px-5">
-                  <div className="flex justify-between	">
-                    <div>
-                      <p className="pt-2">
-                        Nome: <span className="italic">{region.name}</span>
-                      </p>
-                      <p className="overflow-y-scroll h-20">
-                        Descrizione:{' '}
-                        <span className="italic">{region.description}</span>
-                      </p>
-                      <p className="py-2">
-                        Tipo di visione:{' '}
-                        <span className="italic">{region.visionType}</span>
-                      </p>
-                      {region.ideal !== null ? (
+        <div className="flex">
+          <div className="w-1/2">
+            <p className="text-white text-lg">Lista regioni</p>
+            <ul
+              role="list"
+              className="divide-y divide-gray-100 ms-5 px-5 overflow-y-scroll h-3/4"
+            >
+              {data.content &&
+                data.content.map((region) => (
+                  <li key={region.id} className="my-3 text-left px-5">
+                    <div className="flex justify-between	">
+                      <div>
                         <p className="pt-2">
-                          Ideale: <span className="italic">{region.ideal}</span>
+                          Nome: <span className="italic">{region.name}</span>
                         </p>
-                      ) : null}
-                      {region.capital !== null ? (
-                        <p className="pt-2">
-                          Capitale:{' '}
-                          <span className="italic">{region.capital}</span>
+                        <p className="overflow-y-scroll h-20">
+                          Descrizione:{' '}
+                          <span className="italic">{region.description}</span>
                         </p>
-                      ) : null}
-                      {region.festival !== null ? (
-                        <p className="pt-2">
-                          Festival:{' '}
-                          <span className="italic">{region.festival}</span>
+                        <p className="py-2">
+                          Tipo di visione:{' '}
+                          <span className="italic">{region.visionType}</span>
                         </p>
-                      ) : null}
+                        {region.ideal !== null ? (
+                          <p className="pt-2">
+                            Ideale:{' '}
+                            <span className="italic">{region.ideal}</span>
+                          </p>
+                        ) : null}
+                        {region.capital !== null ? (
+                          <p className="pt-2">
+                            Capitale:{' '}
+                            <span className="italic">{region.capital}</span>
+                          </p>
+                        ) : null}
+                        {region.festival !== null ? (
+                          <p className="pt-2">
+                            Festival:{' '}
+                            <span className="italic">{region.festival}</span>
+                          </p>
+                        ) : null}
 
-                      <div className="my-2">
-                        <Menu
-                          as="div"
-                          className="relative inline-block text-left"
-                        >
-                          <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                            Lista località
-                            <ChevronDownIcon
-                              className="-mr-1 h-5 w-5 text-gray-400"
-                              aria-hidden="true"
-                              onClick={() =>
-                                console.log('cliccato', region.name)
-                              }
-                            />
-                          </MenuButton>
-                          {region.placeList && region.placeList.length > 0
-                            ? region.placeList.map((place) => (
-                                <Transition
-                                  enter="transition ease-out duration-100"
-                                  enterFrom="transform opacity-0 scale-95"
-                                  enterTo="transform opacity-100 scale-100"
-                                  leave="transition ease-in duration-75"
-                                  leaveFrom="transform opacity-100 scale-100"
-                                  leaveTo="transform opacity-0 scale-95"
-                                  key={place.id}
-                                >
-                                  <MenuItem className="flex">
-                                    <a className="italic py-2">
-                                      <div className="flex justify-between">
-                                        <div className="pe-5">{place.name}</div>
+                        <div className="my-2">
+                          <Menu
+                            as="div"
+                            className="relative inline-block text-left"
+                          >
+                            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                              Lista località
+                              <ChevronDownIcon
+                                className="-mr-1 h-5 w-5 text-gray-400"
+                                aria-hidden="true"
+                                onClick={() =>
+                                  console.log('cliccato', region.name)
+                                }
+                              />
+                            </MenuButton>
+                            {region.placeList && region.placeList.length > 0
+                              ? region.placeList.map((place) => (
+                                  <Transition
+                                    enter="transition ease-out duration-100"
+                                    enterFrom="transform opacity-0 scale-95"
+                                    enterTo="transform opacity-100 scale-100"
+                                    leave="transition ease-in duration-75"
+                                    leaveFrom="transform opacity-100 scale-100"
+                                    leaveTo="transform opacity-0 scale-95"
+                                    key={place.id}
+                                  >
+                                    <MenuItem className="flex">
+                                      <a className="italic py-2">
+                                        <div className="flex justify-between">
+                                          <div className="pe-5">
+                                            {place.name}
+                                          </div>
+                                          <div className="flex">
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              fill="#15803d"
+                                              viewBox="0 0 24 24"
+                                              strokeWidth={1.5}
+                                              stroke="currentColor"
+                                              className="size-8 mx-2"
+                                              onClick={() =>
+                                                showModalImg(place.id)
+                                              }
+                                            >
+                                              <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                                              />
+                                            </svg>
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              viewBox="0 0 24 24"
+                                              fill="#dc2626"
+                                              className="size-6 me-1"
+                                              onClick={() =>
+                                                handleDeletePlace(place.id)
+                                              }
+                                            >
+                                              <path
+                                                fillRule="evenodd"
+                                                d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                                                clipRule="evenodd"
+                                              />
+                                            </svg>
+                                          </div>
+                                        </div>
+                                      </a>
+                                    </MenuItem>
+                                  </Transition>
+                                ))
+                              : null}
+                          </Menu>
+                        </div>
+                        <div className="my-2">
+                          <Menu
+                            as="div"
+                            className="relative inline-block text-left"
+                          >
+                            <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                              Lista domini
+                              <ChevronDownIcon
+                                className="-mr-1 h-5 w-5 text-gray-400"
+                                aria-hidden="true"
+                                onClick={() =>
+                                  console.log('cliccato', region.name)
+                                }
+                              />
+                            </MenuButton>
+                            {region.domainList && region.domainList.length > 0
+                              ? region.domainList.map((domain) => (
+                                  <Transition
+                                    enter="transition ease-out duration-100"
+                                    enterFrom="transform opacity-0 scale-95"
+                                    enterTo="transform opacity-100 scale-100"
+                                    leave="transition ease-in duration-75"
+                                    leaveFrom="transform opacity-100 scale-100"
+                                    leaveTo="transform opacity-0 scale-95"
+                                    key={domain.id}
+                                  >
+                                    <MenuItem className="flex">
+                                      <a className="italic py-2">
                                         <div className="flex">
-                                          <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                            fill="#facc15"
-                                            className="size-6 me-1"
-                                            // onClick={() =>
-                                            //   handleUpdateButton(place, selectedRegionForPlace)
-                                            // }
-                                          >
-                                            <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
-                                          </svg>
-                                          <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                            fill="#dc2626"
-                                            className="size-6 me-1"
-                                            onClick={() =>
-                                              handleDeletePlace(place.id)
-                                            }
-                                          >
-                                            <path
-                                              fillRule="evenodd"
-                                              d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
-                                              clipRule="evenodd"
-                                            />
-                                          </svg>
+                                          <div className="pe-5">
+                                            {domain.name}
+                                          </div>
                                         </div>
-                                      </div>
-                                    </a>
-                                  </MenuItem>
-                                </Transition>
-                              ))
-                            : null}
-                        </Menu>
-                      </div>
-                      <div className="my-2">
-                        <Menu
-                          as="div"
-                          className="relative inline-block text-left"
-                        >
-                          <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                            Lista domini
-                            <ChevronDownIcon
-                              className="-mr-1 h-5 w-5 text-gray-400"
-                              aria-hidden="true"
-                              onClick={() =>
-                                console.log('cliccato', region.name)
-                              }
-                            />
-                          </MenuButton>
-                          {region.domainList && region.domainList.length > 0
-                            ? region.domainList.map((domain) => (
-                                <Transition
-                                  enter="transition ease-out duration-100"
-                                  enterFrom="transform opacity-0 scale-95"
-                                  enterTo="transform opacity-100 scale-100"
-                                  leave="transition ease-in duration-75"
-                                  leaveFrom="transform opacity-100 scale-100"
-                                  leaveTo="transform opacity-0 scale-95"
-                                  key={domain.id}
-                                >
-                                  <MenuItem className="flex">
-                                    <a className="italic py-2">
-                                      <div className="flex">
-                                        <div className="pe-5">
-                                          {domain.name}
-                                        </div>
-                                      </div>
-                                    </a>
-                                  </MenuItem>
-                                </Transition>
-                              ))
-                            : null}
-                        </Menu>
-                      </div>
-                    </div>
-                    <div className="m-2 ">
-                      <div className="flex flex-col my-1 items-center">
-                        <div className="flex mb-2">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="#15803d"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="size-8 mx-2"
-                            onClick={() => showRegionModal(region.id)}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                            />{' '}
-                          </svg>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="#15803d"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="#15803d"
-                            className="size-6 mx-2"
-                            onClick={() => handlePlusButtonPlace(region.id)}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M12 4.5v15m7.5-7.5h-15"
-                            />
-                          </svg>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="#facc15"
-                            className="size-6 me-1"
-                            onClick={() => handlePencilUpdate(region)}
-                          >
-                            <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
-                          </svg>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="#dc2626"
-                            className="size-6 me-1"
-                            onClick={() => {
-                              handleDelete(region)
-                            }}
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
+                                      </a>
+                                    </MenuItem>
+                                  </Transition>
+                                ))
+                              : null}
+                          </Menu>
                         </div>
-                        <div>
-                          {region.image !== null ? (
-                            <img
-                              src={region.image}
-                              className="border mx-2 w-14 border-yellow-600"
-                            />
-                          ) : null}
+                      </div>
+                      <div className="m-2 ">
+                        <div className="flex flex-col my-1 items-center">
+                          <div className="flex mb-2">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="#15803d"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="size-8 mx-2"
+                              onClick={() => showRegionModal(region.id)}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                              />{' '}
+                            </svg>
+
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="#facc15"
+                              className="size-6 me-1"
+                              onClick={() => handlePencilUpdate(region)}
+                            >
+                              <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
+                            </svg>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="#dc2626"
+                              className="size-6 me-1"
+                              onClick={() => {
+                                handleDelete(region)
+                              }}
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </div>
+                          <div>
+                            {region.image !== null ? (
+                              <img
+                                src={region.image}
+                                className="border mx-2 w-14 border-yellow-600"
+                              />
+                            ) : null}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  {showRegionImgModal && selectedRegion && (
-                    <ModalRegionImg
-                      showImgModal={showRegionImgModal}
-                      setShowImgModal={setShowRegionImgModal}
-                      regionId={selectedRegion}
-                      currentPage={currentPage}
-                      elementsPerPage={elementsPerPage}
-                      orderElements={orderElements}
-                    />
-                  )}
-                </li>
-              ))}
-          </ul>
-          <div className="flex justify-center mt-4 text-white">
-            {data && (
-              <div className="justify-content-center custom-page">
-                {[...Array(data.totalPages).keys()].map((number) => (
-                  <button
-                    key={number}
-                    onClick={() => handlePageChange(number)}
-                    className={`custom-item border p-4 ${
-                      number === currentPage - 1 ? 'active' : ''
-                    }`}
-                  >
-                    {number + 1}
-                  </button>
+                    {showRegionImgModal && selectedRegion && (
+                      <ModalRegionImg
+                        showImgModal={showRegionImgModal}
+                        setShowImgModal={setShowRegionImgModal}
+                        regionId={selectedRegion}
+                        currentPage={currentPage}
+                        elementsPerPage={elementsPerPage}
+                        orderElements={orderElements}
+                      />
+                    )}
+                    {showImgModal && selectedPlace && (
+                      <ModalPlaceImg
+                        showImgModal={showImgModal}
+                        setShowImgModal={setShowImgModal}
+                        placeId={selectedPlace}
+                        currentPagePlace={currentPagePlace}
+                        elementsPerPagePlace={elementsPerPagePlace}
+                        orderElementsPlace={orderElementsPlace}
+                      />
+                    )}
+                  </li>
                 ))}
-              </div>
-            )}
+            </ul>
+            <div className="flex justify-center mt-4 text-white">
+              {data && (
+                <div className="justify-content-center custom-page">
+                  {[...Array(data.totalPages).keys()].map((number) => (
+                    <button
+                      key={number}
+                      onClick={() => handlePageChange(number)}
+                      className={`custom-item border p-4 ${
+                        number === currentPage - 1 ? 'active' : ''
+                      }`}
+                    >
+                      {number + 1}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="container w-1/2">
+            <Place
+              currentPage={currentPage}
+              elementsPerPage={elementsPerPage}
+              orderElements={orderElements}
+              handlePageChangePlace={handlePageChangePlace}
+              currentPagePlace={currentPagePlace}
+              elementsPerPagePlace={elementsPerPagePlace}
+              orderElementsPlace={orderElementsPlace}
+            />
           </div>
         </div>{' '}
         {/* FINE REGION */}{' '}
       </div>{' '}
-      <div className="container">
-        <Place
-          selectedRegionForPlace={selectedRegionForPlace}
-          currentPage={currentPage}
-          elementsPerPage={elementsPerPage}
-          orderElements={orderElements}
-          handlePageChangePlace={handlePageChangePlace}
-          currentPagePlace={currentPagePlace}
-          elementsPerPagePlace={elementsPerPagePlace}
-          orderElementsPlace={orderElementsPlace}
-          selectedRegionPlace={selectedRegionPlace}
-        />
-      </div>
     </div>
   )
 }

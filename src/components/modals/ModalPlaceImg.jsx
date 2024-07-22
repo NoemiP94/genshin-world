@@ -6,7 +6,7 @@ import {
 } from '../../redux/action/places'
 import { useState } from 'react'
 
-const ModalImg = ({
+const ModalPlaceImg = ({
   showImgModal,
   setShowImgModal,
   placeId,
@@ -107,4 +107,4 @@ const ModalImg = ({
   )
 }
 
-export default ModalImg
+export default ModalPlaceImg
