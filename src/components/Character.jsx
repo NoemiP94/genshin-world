@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getRegion } from '../redux/action/regions'
+import { getAllRegions, getRegion } from '../redux/action/regions'
 import {
   deleteCharacter,
   getCharacter,
@@ -14,8 +14,6 @@ const Character = () => {
   const token = localStorage.getItem('token')
 
   //PAGINATION REGION
-  const [currentPageRegion, setCurrentPageRegion] = useState(0)
-  const elementsPerPageRegion = 10
   const orderElementsRegion = 'name'
 
   //PAGINATION CHARACTER
@@ -28,12 +26,10 @@ const Character = () => {
   }
 
   //GET REGION
-  const regionData = useSelector((state) => state.region.list)
+  const regionData = useSelector((state) => state.region.allList)
   useEffect(() => {
-    dispatch(
-      getRegion(currentPageRegion, elementsPerPageRegion, orderElementsRegion)
-    )
-  }, [dispatch, currentPageRegion, elementsPerPageRegion, orderElementsRegion])
+    dispatch(getAllRegions(orderElementsRegion))
+  }, [dispatch, orderElementsRegion])
 
   //GET CHARACTER
   const characterData = useSelector((state) => state.character.list)
@@ -193,7 +189,7 @@ const Character = () => {
                       id="name"
                       autoComplete="name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //value={character.name}
+                      value={character.name}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -217,7 +213,7 @@ const Character = () => {
                       id="title"
                       autoComplete="title"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //value={character.title}
+                      value={character.title}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -241,7 +237,7 @@ const Character = () => {
                       id="engVoice"
                       autoComplete="engVoice"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //value={character.voice}
+                      value={character.engVoice}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -265,7 +261,7 @@ const Character = () => {
                       id="japVoice"
                       autoComplete="japVoice"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //value={character.japVoice}
+                      value={character.japVoice}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -289,7 +285,7 @@ const Character = () => {
                       id="chinVoice"
                       autoComplete="chinVoice"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //value={character.chinVoice}
+                      value={character.chinVoice}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -313,7 +309,7 @@ const Character = () => {
                       id="corVoice"
                       autoComplete="corVoice"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //value={character.voice}
+                      value={character.corVoice}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -337,7 +333,7 @@ const Character = () => {
                       id="birthday"
                       autoComplete="birthday"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //value={character.birthday}
+                      value={character.birthday}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -361,7 +357,7 @@ const Character = () => {
                       id="affiliate"
                       autoComplete="birthday"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //value={character.affiliate}
+                      value={character.affiliate}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -384,7 +380,7 @@ const Character = () => {
                       name="stars"
                       autoComplete="stars-name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      //value={character.stars}
+                      value={character.stars}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -411,7 +407,7 @@ const Character = () => {
                       name="vision"
                       autoComplete="vision-name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      //value={character.visionType}
+                      value={character.visionType}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -444,7 +440,7 @@ const Character = () => {
                       name="weaponType"
                       autoComplete="weaponType-name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      //value={character.weaponType}
+                      value={character.weaponType}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -463,18 +459,18 @@ const Character = () => {
                 </div>
                 <div className="sm:col-span-3 pt-5">
                   <label
-                    htmlFor="vision"
+                    htmlFor="region"
                     className="block text-sm font-medium leading-6 text-left"
                   >
                     Regione
                   </label>
                   <div className="mt-2">
                     <select
-                      id="vision"
-                      name="vision"
-                      autoComplete="vision-name"
+                      id="region"
+                      name="region"
+                      autoComplete="region-name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      //value={character.region_id.name}
+                      value={character.region_id}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -506,7 +502,7 @@ const Character = () => {
                       name="about"
                       rows={5}
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 "
-                      //value={character.description}
+                      value={character.description}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -530,7 +526,7 @@ const Character = () => {
                       id="specialDish"
                       autoComplete="specialDish"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //value={character.specialDish}
+                      value={character.specialDish}
                       onChange={(e) => {
                         setCharacter({
                           ...character,
@@ -554,7 +550,7 @@ const Character = () => {
                       id="releaseVersion"
                       autoComplete="releaseVersion"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //value={character.releaseVersion}
+                      value={character.releaseVersion}
                       onChange={(e) => {
                         setCharacter({
                           ...character,

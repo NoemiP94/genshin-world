@@ -15,6 +15,7 @@ const ModalDegreeImg = ({
   currentPageConstellation,
   elementsPerPageConstellation,
   orderElementsConstellation,
+  orderDegree,
 }) => {
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
@@ -56,7 +57,7 @@ const ModalDegreeImg = ({
 
   const handleSave = async (id) => {
     await handleUploadImage(id)
-    await dispatch(getDegree())
+    await dispatch(getDegree(orderDegree))
     await dispatch(
       getConstellation(
         currentPageConstellation,

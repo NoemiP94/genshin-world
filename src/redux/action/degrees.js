@@ -33,10 +33,12 @@ export const postDegree = (degree, token) => {
 }
 
 //ordinare per grado (da 1 a 6)
-export const getDegree = () => {
+export const getDegree = (orderBy) => {
   return async (dispatch) => {
     try {
-      const res = await fetch(`http://localhost:3001/degree/getall`)
+      const res = await fetch(
+        `http://localhost:3001/degree/getall?orderBy=${orderBy}`
+      )
       console.log('res', res)
       if (res.ok) {
         const data = await res.json()

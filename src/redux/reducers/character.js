@@ -3,6 +3,7 @@ import {
   ADD_MATERIAL,
   ADD_WEAPON,
   DELETE_CHARACTER,
+  GET_ALL_CHARACTERS,
   GET_CHARACTER,
   GET_POST_CHARACTER_IMG,
   POST_CHARACTER,
@@ -19,6 +20,7 @@ const initialState = {
   singleCharacter: null,
   postImage: null,
   update: '',
+  allList: [],
 }
 
 const characterReducer = (state = initialState, action) => {
@@ -32,6 +34,11 @@ const characterReducer = (state = initialState, action) => {
       return {
         ...state,
         list: action.payload,
+      }
+    case GET_ALL_CHARACTERS:
+      return {
+        ...state,
+        allList: action.payload,
       }
     case SINGLE_CHARACTER:
       return {

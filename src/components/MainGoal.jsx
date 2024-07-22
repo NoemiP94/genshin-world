@@ -53,12 +53,13 @@ const MainGoal = () => {
   const [idMainGoal, setIdMainGoal] = useState('')
 
   const handlePencilUpdate = (maingoal) => {
+    console.log('Matita cliccata')
     setUpdtMainGoal(maingoal)
     setIdMainGoal(maingoal.id)
     setMainGoal({
-      name: mainGoal.name,
+      name: maingoal.name,
     })
-    console.log('Matita cliccata')
+    console.log('maingoal: ', maingoal)
   }
 
   const handleUpdate = async () => {

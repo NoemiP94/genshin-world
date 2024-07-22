@@ -1,5 +1,6 @@
 export const POST_CHARACTER = 'POST_CHARACTER'
 export const GET_CHARACTER = 'GET_CHARACTER'
+export const GET_ALL_CHARACTERS = 'GET_ALL_CHARACTERS'
 export const SINGLE_CHARACTER = 'SINGLE_CHARACTER'
 export const GET_POST_CHARACTER_IMG = 'GET_POST_CHARACTER_IMG'
 export const PUT_CHARACTER = 'PUT_CHARACTER'
@@ -54,6 +55,31 @@ export const getCharacter = (page, size, orderBy) => {
           payload: data,
         })
         console.log('List character loaded')
+      } else {
+        throw new Error('Loading of list is failed')
+      }
+    } catch (error) {
+      console.log('Error', error)
+      throw error
+    }
+  }
+}
+
+export const getAllCharacters = (orderBy) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/character/getall?orderBy=${orderBy}`
+      )
+      console.log('res', res)
+      if (res.ok) {
+        const data = await res.json()
+        console.log('fetch', data)
+        dispatch({
+          type: GET_ALL_CHARACTERS,
+          payload: data,
+        })
+        console.log('List loaded')
       } else {
         throw new Error('Loading of list is failed')
       }

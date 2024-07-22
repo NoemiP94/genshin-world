@@ -37,13 +37,8 @@ const Piece = ({ idPiece, pieceOb }) => {
     })
   }
 
-  const [newPiece, setNewPiece] = useState({
-    name: piece.name,
-    description: piece.description,
-    id: idPiece,
-    pieceType: piece.pieceType,
-    artifactSet_id: piece.artifactSet_id,
-  })
+  //const [newPiece, setNewPiece] = useState(null)
+
   const handleSave = async (e) => {
     e.preventDefault()
 
@@ -87,62 +82,62 @@ const Piece = ({ idPiece, pieceOb }) => {
             </h2>
 
             <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-3 ">
+              <div className="sm:col-span-3">
                 <label
-                  htmlFor="set"
+                  htmlFor="name"
                   className="block text-sm font-medium leading-6 text-left"
                 >
-                  Set *
+                  Nome *
                 </label>
                 <div className="mt-2">
-                  <select
-                    id="set"
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
                     required
-                    name="set"
-                    autoComplete="set-name"
-                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    //value={newPiece.artifactSet_id}
+                    autoComplete="name"
+                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    value={piece.name}
                     onChange={(e) => {
                       setPiece({
                         ...piece,
-                        artifactSet_id: e.target.value,
+                        name: e.target.value,
                       })
                     }}
-                  >
-                    <option>Seleziona una set</option>
-                    {artifactData.content &&
-                      artifactData.content.map((artifact) => (
-                        <option key={artifact.id} value={artifact.id}>
-                          {artifact.name}
-                        </option>
-                      ))}
-                  </select>
+                  />
                 </div>
               </div>
             </div>
-            <div className="sm:col-span-3 mt-2">
+            <div className="sm:col-span-3 ">
               <label
-                htmlFor="name"
-                className="block text-sm font-medium leading-6 text-left"
+                htmlFor="set"
+                className="block text-sm font-medium leading-6 text-left mt-2"
               >
-                Nome *
+                Set *
               </label>
               <div className="mt-2">
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
+                <select
+                  id="set"
                   required
-                  autoComplete="name"
-                  className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  //value={newPiece.name}
+                  name="set"
+                  autoComplete="set-name"
+                  className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  //value={piece.artifactSet_id}
                   onChange={(e) => {
                     setPiece({
                       ...piece,
-                      name: e.target.value,
+                      artifactSet_id: e.target.value,
                     })
                   }}
-                />
+                >
+                  <option>Seleziona una set</option>
+                  {artifactData.content &&
+                    artifactData.content.map((artifact) => (
+                      <option key={artifact.id} value={artifact.id}>
+                        {artifact.name}
+                      </option>
+                    ))}
+                </select>
               </div>
             </div>
             <div className="col-span-full pt-5">
@@ -159,7 +154,7 @@ const Piece = ({ idPiece, pieceOb }) => {
                   name="about"
                   rows={5}
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300  "
-                  //value={newPiece.description}
+                  value={piece.description}
                   onChange={(e) => {
                     setPiece({
                       ...piece,
@@ -183,7 +178,7 @@ const Piece = ({ idPiece, pieceOb }) => {
                   required
                   autoComplete="pieceType-name"
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                  //value={newPiece.pieceType}
+                  value={piece.pieceType}
                   onChange={(e) => {
                     setPiece({
                       ...piece,

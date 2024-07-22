@@ -126,10 +126,10 @@ const Artifacts = () => {
   const [piece, setPiece] = useState(null)
   const [newPiece, setNewPiece] = useState(null)
 
-  const handleUpdatePieceButton = (piece, artifact) => {
+  const handleUpdatePieceButton = (piece) => {
     console.log('Bottone modifica cliccato')
     console.log('Piece da modificare: ', piece)
-    console.log('id artifact: ', artifact)
+    //console.log('id artifact: ', artifact)
     console.log('piece.id: ', piece.id)
     setSelectedPiece(piece.id)
     setNewPiece(piece)
@@ -141,8 +141,10 @@ const Artifacts = () => {
       description: piece.description,
       id: piece.id,
       pieceType: piece.pieceType,
-      //artifactSet_id: piece.artifactSet_id,
+      artifactSet_id: piece.artifactSet_id,
     }))
+
+    console.log('piece dopo il set', piece)
   }
 
   //HANDLE DELETE
@@ -429,8 +431,8 @@ const Artifacts = () => {
                                         className="size-6 me-1"
                                         onClick={() =>
                                           handleUpdatePieceButton(
-                                            piece,
-                                            artifact.id
+                                            piece
+                                            // artifact.id
                                           )
                                         }
                                       >

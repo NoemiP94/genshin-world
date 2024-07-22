@@ -38,6 +38,9 @@ const Degree = ({
     constellation_id: '',
   })
 
+  //PAGINATION DEGREE
+  const orderDegree = 'level'
+
   const handleReset = () => {
     setDegree({
       name: '',
@@ -51,7 +54,7 @@ const Degree = ({
     e.preventDefault()
     try {
       await dispatch(postDegree(degree, token))
-      await dispatch(getDegree())
+      await dispatch(getDegree(orderDegree))
       await dispatch(
         getConstellation(
           currentPageConstellation,
@@ -68,15 +71,15 @@ const Degree = ({
   //GET DEGREE
   const degreeData = useSelector((state) => state.degree.list)
   useEffect(() => {
-    dispatch(getDegree())
-  }, [dispatch])
+    dispatch(getDegree(orderDegree))
+  }, [dispatch, orderDegree])
 
   //UPDATE DEGREE
   const handleUpdate = async () => {
     console.log('idDegree: ', idDegree)
     try {
       await dispatch(updateDegree(idDegree, degree, token))
-      await dispatch(getDegree())
+      await dispatch(getDegree(orderDegree))
       await dispatch(
         getConstellation(
           currentPageConstellation,
@@ -167,7 +170,7 @@ const Degree = ({
                   name="vision"
                   autoComplete="vision-name"
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                  //value={place.region_id}
+                  //value={degree.constellation_id}
                   onChange={(e) => {
                     setDegree({
                       ...degree,
@@ -177,9 +180,9 @@ const Degree = ({
                 >
                   <option>Seleziona una costellazione</option>
                   {constellationData.content &&
-                    constellationData.content.map((constellation) => (
-                      <option key={constellation.id} value={constellation.id}>
-                        {constellation.name}
+                    constellationData.content.map((constel) => (
+                      <option key={constel.id} value={constel.id}>
+                        {constel.name}
                       </option>
                     ))}
                 </select>

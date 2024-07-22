@@ -178,7 +178,7 @@ const Domain = () => {
                       id="name"
                       autoComplete="name"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //value={domain.name}
+                      value={domain.name}
                       onChange={(e) => {
                         setDomain({
                           ...domain,
@@ -205,7 +205,7 @@ const Domain = () => {
                       id="place"
                       autoComplete="place"
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      //value={domain.place}
+                      value={domain.place}
                       onChange={(e) => {
                         setDomain({
                           ...domain,
@@ -231,7 +231,7 @@ const Domain = () => {
                     name="domainType"
                     autoComplete="domainType-name"
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    //value={domain.domainType}
+                    value={domain.domainType}
                     onChange={(e) => {
                       setDomain({
                         ...domain,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCharacter } from '../redux/action/characters'
+import { getAllCharacters, getCharacter } from '../redux/action/characters'
 import {
   deleteConstellation,
   getConstellation,
@@ -26,30 +26,13 @@ const Constellation = () => {
   }
 
   //PAGINATION CHARACTER
-  const [currentPageCharacter, setCurrentPageCharacter] = useState(0)
-  const elementsPerPageCharacter = 10 //modificare per visualizzare tutti i personaggi oppure mettere la paginazione nel dropdown
   const orderElementsCharacter = 'name'
 
-  const handlePageChangeCharacter = (pageNumber) => {
-    setCurrentPageCharacter(pageNumber)
-  }
-
   //GET CHARACTER
-  const characterData = useSelector((state) => state.character.list)
+  const characterData = useSelector((state) => state.character.allList)
   useEffect(() => {
-    dispatch(
-      getCharacter(
-        currentPageCharacter,
-        elementsPerPageCharacter,
-        orderElementsCharacter
-      )
-    )
-  }, [
-    dispatch,
-    currentPageCharacter,
-    elementsPerPageCharacter,
-    orderElementsCharacter,
-  ])
+    dispatch(getAllCharacters(orderElementsCharacter))
+  }, [dispatch, orderElementsCharacter])
 
   //SAVE CONSTELLATION
   const [constellation, setConstellation] = useState({
@@ -68,13 +51,7 @@ const Constellation = () => {
     e.preventDefault()
     try {
       await dispatch(postConstellation(constellation, token))
-      await dispatch(
-        getCharacter(
-          currentPageCharacter,
-          elementsPerPageCharacter,
-          orderElementsCharacter
-        )
-      )
+      await dispatch(getAllCharacters(orderElementsCharacter))
       await dispatch(
         getConstellation(
           currentPageConstellation,
@@ -131,13 +108,7 @@ const Constellation = () => {
           orderElementsConstellation
         )
       )
-      await dispatch(
-        getCharacter(
-          currentPageCharacter,
-          elementsPerPageCharacter,
-          orderElementsCharacter
-        )
-      )
+      await dispatch(getAllCharacters(orderElementsCharacter))
       await handleReset()
       console.log('Modificato con successo')
     } catch (error) {
@@ -156,24 +127,21 @@ const Constellation = () => {
           orderElementsConstellation
         )
       )
-      await dispatch(
-        getCharacter(
-          currentPageCharacter,
-          elementsPerPageCharacter,
-          orderElementsCharacter
-        )
-      )
+      await dispatch(getAllCharacters(orderElementsCharacter))
       console.log('Costellazione eliminata con successo!')
     } catch (error) {
       console.log("Errore nell'eliminazione", error)
     }
   }
 
+  //PAGINATION DEGREE
+  const orderDegree = 'level'
+
   //GET DEGREE
   const degreeData = useSelector((state) => state.degree.list)
   useEffect(() => {
-    dispatch(getDegree())
-  }, [dispatch])
+    dispatch(getDegree(orderDegree))
+  }, [dispatch, orderDegree])
 
   //UPDATE DEGREE
   const [degree, setDegree] = useState(null)
@@ -209,7 +177,7 @@ const Constellation = () => {
           orderElementsConstellation
         )
       )
-      await dispatch(getDegree())
+      await dispatch(getDegree(orderDegree))
 
       console.log('Eliminato con successo!')
     } catch (error) {
@@ -286,7 +254,7 @@ const Constellation = () => {
                     name="character"
                     autoComplete="character-name"
                     className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    // value={constellation.character_id.name}
+                    //value={constellation.character_id}
                     onChange={(e) => {
                       setConstellation({
                         ...constellation,
@@ -445,6 +413,7 @@ const Constellation = () => {
                                   orderElementsConstellation={
                                     orderElementsConstellation
                                   }
+                                  orderDegree={orderDegree}
                                 />
                               )}
                             </a>
