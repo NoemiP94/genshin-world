@@ -2,16 +2,19 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   deleteArtifact,
+  GET_POST_ARTIFACT_IMG,
   getArtifact,
   postArtifact,
+  postArtifactImage,
   updateArtifact,
 } from '../redux/action/artifacts'
 import Piece from './Piece'
 import { deletePiece, getPiece } from '../redux/action/pieces'
 import ModalPieceImg from './modals/ModalPieceImg'
-import ModalArtifactImg from './modals/ModalArtifactImg'
+// import ModalArtifactImg from './modals/ModalArtifactImg'
 import { Menu, MenuButton, MenuItem, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
+import ModalImg from './modals/ModalImg'
 
 const Artifacts = () => {
   const dispatch = useDispatch()
@@ -113,6 +116,9 @@ const Artifacts = () => {
     console.log('Pezzo cliccato')
     console.log('Pezzo selezionato', selectedPiece)
   }
+
+  const [formImgPiece, setFormImgPiece] = useState(null)
+
   //IMG MODAL ARTIFACT
   const [showArtifactImgModal, setShowArtifactImgModal] = useState(false)
   const [selectedArtifact, setSelectedArtifact] = useState(null)
@@ -120,6 +126,40 @@ const Artifacts = () => {
   const showArtifactModal = (idArtifact) => {
     setSelectedArtifact(idArtifact)
     setShowArtifactImgModal(true)
+    console.log('modale aperto')
+  }
+  const [formImg, setFormImg] = useState(null)
+  const handleUploadImage = async (id) => {
+    try {
+      console.log('cliccato')
+      if (formImg) {
+        console.log('entra nell if')
+        const id_element = id ? id.toString() : null
+        console.log('id_element', id_element)
+        if (id_element) {
+          const response = await postArtifactImage(id_element, formImg, token)
+          if (response !== null) {
+            console.log('Immagine caricata correttamente', response)
+
+            dispatch({
+              type: GET_POST_ARTIFACT_IMG,
+              payload: response.url,
+            })
+            alert('Immagine caricata correttamente!')
+          } else {
+            console.log('Image upload successful, but no URL returned')
+          }
+        }
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
+  const handleSave = async (id) => {
+    await handleUploadImage(id)
+    await dispatch(getArtifact(currentPage, elementsPerPage, orderElements))
+    setShowArtifactImgModal(false)
   }
 
   //UPDATE PIECE
@@ -474,7 +514,7 @@ const Artifacts = () => {
                     orderElements={orderElements}
                   />
                 )}
-                {showArtifactImgModal && selectedArtifact && (
+                {/* {showArtifactImgModal && selectedArtifact && (
                   <ModalArtifactImg
                     showImgModal={showArtifactImgModal}
                     setShowImgModal={setShowArtifactImgModal}
@@ -482,6 +522,21 @@ const Artifacts = () => {
                     currentPage={currentPage}
                     elementsPerPage={elementsPerPage}
                     orderElements={orderElements}
+                  />
+                )} */}
+                {showArtifactImgModal && selectedArtifact && (
+                  <ModalImg
+                    //postImage={postArtifactImage}
+                    //GET_IMG={GET_POST_ARTIFACT_IMG}
+                    //getList={getArtifact()}
+                    //currentPage={currentPage}
+                    //elementsPerPage={elementsPerPage}
+                    //orderElements={orderElements}
+                    elementId={selectedArtifact}
+                    handleSave={handleSave}
+                    setShowImgModal={setShowArtifactImgModal}
+                    formImg={formImg}
+                    setFormImg={setFormImg}
                   />
                 )}
               </li>
