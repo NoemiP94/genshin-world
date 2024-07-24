@@ -1,45 +1,4 @@
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-
-const ModalImg = ({
-  setShowImgModal,
-  formImg,
-  setFormImg,
-  handleSave,
-  elementId,
-}) => {
-  const token = localStorage.getItem('token')
-  const dispatch = useDispatch()
-  // const [formImg, setFormImg] = useState(null)
-
-  //   const handleUploadImage = async (id) => {
-  //     try {
-  //       if (formImg) {
-  //         const id_element = id ? id.toString() : null
-  //         if (id_element) {
-  //           const response = await postImage(id_element, formImg, token)
-  //           if (response !== null) {
-  //             dispatch({
-  //               type: GET_IMG,
-  //               payload: response.url,
-  //             })
-  //             alert('Immagine caricata correttamente!')
-  //           } else {
-  //             console.log('Image upload successful, but no URL returned')
-  //           }
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.log('Error', error)
-  //     }
-  //   }
-
-  //   const handleSave = async (id) => {
-  //     await handleUploadImage(id)
-  //     await dispatch(getList(currentPage, elementsPerPage, orderElements))
-  //     setShowImgModal(false)
-  //   }
-
+const ModalImg = ({ setShowImgModal, setFormImg, handleSave, elementId }) => {
   return (
     <>
       <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-51 outline-none focus:outline-none">
@@ -76,10 +35,7 @@ const ModalImg = ({
               <button
                 className="text-white bg-yellow-500 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                 type="button"
-                onClick={
-                  () => handleSave(elementId)
-                  // setShowImgModal(false)
-                }
+                onClick={() => handleSave(elementId)}
               >
                 Salva
               </button>

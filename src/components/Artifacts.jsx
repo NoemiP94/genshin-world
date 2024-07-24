@@ -9,9 +9,12 @@ import {
   updateArtifact,
 } from '../redux/action/artifacts'
 import Piece from './Piece'
-import { deletePiece, getPiece } from '../redux/action/pieces'
-import ModalPieceImg from './modals/ModalPieceImg'
-// import ModalArtifactImg from './modals/ModalArtifactImg'
+import {
+  deletePiece,
+  GET_POST_PIECE_IMG,
+  getPiece,
+  postPieceImage,
+} from '../redux/action/pieces'
 import { Menu, MenuButton, MenuItem, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import ModalImg from './modals/ModalImg'
@@ -118,6 +121,39 @@ const Artifacts = () => {
   }
 
   const [formImgPiece, setFormImgPiece] = useState(null)
+  const handleUploadPieceImg = async (id) => {
+    try {
+      console.log('cliccato')
+      if (formImgPiece) {
+        console.log('entra nell if')
+        const id_piece = id ? id.toString() : null
+        console.log('id_piece', id_piece)
+        if (id_piece) {
+          const response = await postPieceImage(id_piece, formImgPiece, token)
+          if (response !== null) {
+            console.log('Immagine caricata correttamente', response)
+
+            dispatch({
+              type: GET_POST_PIECE_IMG,
+              payload: response.url,
+            })
+            alert('Immagine caricata correttamente!')
+          } else {
+            console.log('Image upload successful, but no URL returned')
+          }
+        }
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
+  const handlePieceSave = async (id) => {
+    await handleUploadPieceImg(id)
+    await dispatch(getPiece())
+    await dispatch(getArtifact(currentPage, elementsPerPage, orderElements))
+    setPieceShowImgModal(false)
+  }
 
   //IMG MODAL ARTIFACT
   const [showArtifactImgModal, setShowArtifactImgModal] = useState(false)
@@ -505,37 +541,18 @@ const Artifacts = () => {
                   </div>
                 </div>
                 {showPieceImgModal && selectedPiece && (
-                  <ModalPieceImg
-                    showImgModal={showPieceImgModal}
+                  <ModalImg
+                    elementId={selectedPiece}
+                    handleSave={handlePieceSave}
                     setShowImgModal={setPieceShowImgModal}
-                    pieceId={selectedPiece}
-                    currentPage={currentPage}
-                    elementsPerPage={elementsPerPage}
-                    orderElements={orderElements}
+                    setFormImg={setFormImgPiece}
                   />
                 )}
-                {/* {showArtifactImgModal && selectedArtifact && (
-                  <ModalArtifactImg
-                    showImgModal={showArtifactImgModal}
-                    setShowImgModal={setShowArtifactImgModal}
-                    artifactId={selectedArtifact}
-                    currentPage={currentPage}
-                    elementsPerPage={elementsPerPage}
-                    orderElements={orderElements}
-                  />
-                )} */}
                 {showArtifactImgModal && selectedArtifact && (
                   <ModalImg
-                    //postImage={postArtifactImage}
-                    //GET_IMG={GET_POST_ARTIFACT_IMG}
-                    //getList={getArtifact()}
-                    //currentPage={currentPage}
-                    //elementsPerPage={elementsPerPage}
-                    //orderElements={orderElements}
                     elementId={selectedArtifact}
                     handleSave={handleSave}
                     setShowImgModal={setShowArtifactImgModal}
-                    formImg={formImg}
                     setFormImg={setFormImg}
                   />
                 )}
