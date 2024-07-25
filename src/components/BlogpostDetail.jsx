@@ -1,22 +1,17 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
-import { getSingleBlogpost } from '../redux/action/blogposts'
-import ModalImgBlogpost from './modals/ModalImgBlogpost'
+import {
+  GET_POST_BLOG_IMG,
+  getSingleBlogpost,
+  postBlogpostImage,
+} from '../redux/action/blogposts'
+import ModalImg from './modals/ModalImg'
 
 const BlogpostDetail = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
-
-  //PAGINATION
-  const [currentPage, setCurrentPage] = useState(0)
-  const elementsPerPage = 10
-  const orderElements = 'date'
-
-  //    const handlePageChange = (pageNumber) => {
-  //      setCurrentPage(pageNumber)
-  //    }
 
   //GET SINGLE BLOGPOST
   const singleBlogpost = useSelector((state) => state.blogpost.singleBlogpost)
@@ -32,6 +27,44 @@ const BlogpostDetail = () => {
     console.log('Id blog ricevuto: ', idBlog)
     setSelectedBlog(idBlog)
     setShowBlogImgModal(true)
+  }
+
+  const [formImgBlog, setFormImgBlog] = useState(null)
+  const handleUploadImage = async (id) => {
+    try {
+      console.log('cliccato')
+      if (formImgBlog) {
+        console.log('entra nell if')
+        const id_element = id ? id.toString() : null
+        console.log('id_element', id_element)
+        if (id_element) {
+          const response = await postBlogpostImage(
+            id_element,
+            formImgBlog,
+            token
+          )
+          if (response !== null) {
+            console.log('Immagine caricata correttamente', response)
+
+            dispatch({
+              type: GET_POST_BLOG_IMG,
+              payload: response.url,
+            })
+            alert('Immagine caricata correttamente!')
+          } else {
+            console.log('Image upload successful, but no URL returned')
+          }
+        }
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
+  const handleSaveImgBlog = async (id) => {
+    await handleUploadImage(id)
+    await dispatch(getSingleBlogpost(id))
+    setShowBlogImgModal(false)
   }
 
   return (
@@ -73,13 +106,11 @@ const BlogpostDetail = () => {
             </div>
           </div>{' '}
           {showBlogImgModal && selectedBlog && (
-            <ModalImgBlogpost
-              showImgModal={showBlogImgModal}
+            <ModalImg
               setShowImgModal={setShowBlogImgModal}
-              blogId={selectedBlog}
-              currentPage={currentPage}
-              elementsPerPage={elementsPerPage}
-              orderElements={orderElements}
+              elementId={selectedBlog}
+              handleSave={handleSaveImgBlog}
+              setFormImg={setFormImgBlog}
             />
           )}
           <div className="flex ms-10 mb-5">

@@ -6,7 +6,6 @@ import {
   postBlogpost,
   updateBlogpost,
 } from '../redux/action/blogposts'
-//import ModalImgBlogpost from './modals/ModalImgBlogpost'
 import { Link } from 'react-router-dom'
 
 const Blogpost = () => {
