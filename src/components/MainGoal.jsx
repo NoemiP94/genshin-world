@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   deleteMainGoal,
+  GET_POST_MAINGOAL_IMG,
   getMainGoal,
   postMainGoal,
+  postMainGoalImage,
   updateMainGoal,
 } from '../redux/action/maingoals'
 import { Link } from 'react-router-dom'
-import ModalMainGoalImg from './modals/ModalMainGoalImg'
+import ModalImg from './modals/ModalImg'
 
 const MainGoal = () => {
   const dispatch = useDispatch()
@@ -89,6 +91,44 @@ const MainGoal = () => {
   const showMainGoalModal = (idMainGoal) => {
     setSelectedMainGoal(idMainGoal)
     setShowMainGoalImgModal(true)
+  }
+
+  const [formImgMainGoal, setFormImgMainGoal] = useState(null)
+  const handleUploadImageMainGoal = async (id) => {
+    try {
+      console.log('cliccato')
+      if (formImgMainGoal) {
+        console.log('entra nell if')
+        const id_element = id ? id.toString() : null
+        console.log('id_element', id_element)
+        if (id_element) {
+          const response = await postMainGoalImage(
+            id_element,
+            formImgMainGoal,
+            token
+          )
+          if (response !== null) {
+            console.log('Immagine caricata correttamente', response)
+
+            dispatch({
+              type: GET_POST_MAINGOAL_IMG,
+              payload: response.url,
+            })
+            alert('Immagine caricata correttamente!')
+          } else {
+            console.log('Image upload successful, but no URL returned')
+          }
+        }
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
+  const handleSaveImgMainGoal = async (id) => {
+    await handleUploadImageMainGoal(id)
+    await dispatch(getMainGoal(currentPage, elementsPerPage, orderElements))
+    setShowMainGoalImgModal(false)
   }
 
   return (
@@ -232,13 +272,11 @@ const MainGoal = () => {
                     </Link>
                   </div>
                   {showMainGoalImgModal && selectedMainGoal && (
-                    <ModalMainGoalImg
-                      showImgModal={showMainGoalImgModal}
+                    <ModalImg
                       setShowImgModal={setShowMainGoalImgModal}
-                      mainGoalId={selectedMainGoal}
-                      currentPage={currentPage}
-                      elementsPerPage={elementsPerPage}
-                      orderElements={orderElements}
+                      elementId={selectedMainGoal}
+                      handleSave={handleSaveImgMainGoal}
+                      setFormImg={setFormImgMainGoal}
                     />
                   )}
                 </li>
