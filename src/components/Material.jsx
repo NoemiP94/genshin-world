@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
-import ModalMaterialImg from './modals/ModalMaterialImg'
 import {
   deleteMaterial,
+  GET_POST_MATERIAL_IMG,
   getMaterial,
   postMaterial,
+  postMaterialImage,
   updateMaterial,
 } from '../redux/action/materials'
+import ModalImg from './modals/ModalImg'
 
 const Material = () => {
   const dispatch = useDispatch()
@@ -53,16 +54,54 @@ const Material = () => {
   }
 
   //IMG MODAL
-  const [showImgModal, setShowImgModal] = useState(false)
+  const [showImgMaterialModal, setShowImgMaterialModal] = useState(false)
   const [selectedMaterial, setSelectedMaterial] = useState(null)
 
   const showModalImg = (idMaterial) => {
     console.log('Id materiale ricevuto :', idMaterial)
     setSelectedMaterial(idMaterial)
-    setShowImgModal(true)
+    setShowImgMaterialModal(true)
 
     console.log('Materiale cliccato')
     console.log('Materiale selezionato', selectedMaterial)
+  }
+
+  const [formImgMaterial, setFormImgMaterial] = useState(null)
+  const handleUploadImageMaterial = async (id) => {
+    try {
+      console.log('cliccato')
+      if (formImgMaterial) {
+        console.log('entra nell if')
+        const id_element = id ? id.toString() : null
+        console.log('id_element', id_element)
+        if (id_element) {
+          const response = await postMaterialImage(
+            id_element,
+            formImgMaterial,
+            token
+          )
+          if (response !== null) {
+            console.log('Immagine caricata correttamente', response)
+
+            dispatch({
+              type: GET_POST_MATERIAL_IMG,
+              payload: response.url,
+            })
+            alert('Immagine caricata correttamente!')
+          } else {
+            console.log('Image upload successful, but no URL returned')
+          }
+        }
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
+  const handleSaveImgMaterial = async (id) => {
+    await handleUploadImageMaterial(id)
+    await dispatch(getMaterial(currentPage, elementsPerPage, orderElements))
+    setShowImgMaterialModal(false)
   }
 
   //DELETE MATERIAL
@@ -311,14 +350,12 @@ const Material = () => {
                       </div>
                     </div>
                   </div>
-                  {showImgModal && selectedMaterial && (
-                    <ModalMaterialImg
-                      showImgModal={showImgModal}
-                      setShowImgModal={setShowImgModal}
-                      materialId={selectedMaterial}
-                      currentPage={currentPage}
-                      elementsPerPage={elementsPerPage}
-                      orderElements={orderElements}
+                  {showImgMaterialModal && selectedMaterial && (
+                    <ModalImg
+                      setShowImgModal={setShowImgMaterialModal}
+                      elementId={selectedMaterial}
+                      handleSave={handleSaveImgMaterial}
+                      setFormImg={setFormImgMaterial}
                     />
                   )}
                 </li>
