@@ -3,14 +3,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAllCharacters, getCharacter } from '../redux/action/characters'
 import {
   deleteConstellation,
+  GET_POST_CONSTELLATION_IMG,
   getConstellation,
   postConstellation,
+  postConstellationImage,
   updateConstellation,
 } from '../redux/action/constellations'
 import { deleteDegree, getDegree } from '../redux/action/degrees'
 import Degree from './Degree'
 import ModalDegreeImg from './modals/ModalDegreeImg'
 import ModalConstellationImg from './modals/ModalConstellationImg'
+import ModalImg from './modals/ModalImg'
 
 const Constellation = () => {
   const dispatch = useDispatch()
@@ -47,11 +50,10 @@ const Constellation = () => {
     })
   }
 
-  const handleSave = async (e) => {
+  const handleSaveConstellation = async (e) => {
     e.preventDefault()
     try {
       await dispatch(postConstellation(constellation, token))
-      await dispatch(getAllCharacters(orderElementsCharacter))
       await dispatch(
         getConstellation(
           currentPageConstellation,
@@ -59,6 +61,8 @@ const Constellation = () => {
           orderElementsConstellation
         )
       )
+      await dispatch(getAllCharacters(orderElementsCharacter))
+
       await handleReset()
     } catch (error) {
       console.log('Errore creazione place: ', error)
@@ -204,6 +208,50 @@ const Constellation = () => {
     setShowConstellationImgModal(true)
   }
 
+  const [formImgConstellation, setFormImgConstellation] = useState(null)
+  const handleUploadImageConstellation = async (id) => {
+    try {
+      console.log('cliccato')
+      if (formImgConstellation) {
+        console.log('entra nell if')
+        const id_element = id ? id.toString() : null
+        console.log('id_element', id_element)
+        if (id_element) {
+          const response = await postConstellationImage(
+            id_element,
+            formImgConstellation,
+            token
+          )
+          if (response !== null) {
+            console.log('Immagine caricata correttamente', response)
+
+            dispatch({
+              type: GET_POST_CONSTELLATION_IMG,
+              payload: response.url,
+            })
+            alert('Immagine caricata correttamente!')
+          } else {
+            console.log('Image upload successful, but no URL returned')
+          }
+        }
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
+  const handleSaveImgConstellation = async (id) => {
+    await handleUploadImageConstellation(id)
+    await dispatch(
+      getConstellation(
+        currentPageConstellation,
+        elementsPerPageConstellation,
+        orderElementsConstellation
+      )
+    )
+    setShowConstellationImgModal(false)
+  }
+
   return (
     <div>
       <h4 className="mt-5 text-xl font-bold">Gestione Costellazione</h4>
@@ -283,7 +331,7 @@ const Constellation = () => {
                 <button
                   type="submit"
                   className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm"
-                  onClick={handleSave}
+                  onClick={handleSaveConstellation}
                 >
                   Salva
                 </button>
@@ -476,13 +524,11 @@ const Constellation = () => {
                   </div>
                 </div>
                 {showConstellationImgModal && selectedConstellation && (
-                  <ModalConstellationImg
-                    showImgModal={showConstellationImgModal}
+                  <ModalImg
                     setShowImgModal={setShowConstellationImgModal}
-                    constellationId={selectedConstellation}
-                    currentPageConstellation={currentPageConstellation}
-                    elementsPerPageConstellation={elementsPerPageConstellation}
-                    orderElementsConstellation={orderElementsConstellation}
+                    elementId={selectedConstellation}
+                    handleSave={handleSaveImgConstellation}
+                    setFormImg={setFormImgConstellation}
                   />
                 )}
               </li>
