@@ -1,6 +1,6 @@
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import MyNav from './components/MyNav'
+
 import AreaRiservata from './components/AreaRiservata'
 import Region from './components/Region'
 import Login from './components/Login'
@@ -41,7 +41,7 @@ function App() {
           <Route path="blog/:id" element={<BlogpostDetail />} />
           <Route path="user" element={<Users />} />
         </Route>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
       <Footer />
     </BrowserRouter>

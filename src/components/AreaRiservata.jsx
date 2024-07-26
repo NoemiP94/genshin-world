@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import SidebarLayout from './SidebarLayout'
+import Home from './Home'
 
 const AreaRiservata = () => {
   return (
@@ -10,6 +11,7 @@ const AreaRiservata = () => {
         </div>
         <div className="text-white column-11 w-4/5">
           <Outlet />
+          <Home />
         </div>
       </div>
     </>
