@@ -33,7 +33,7 @@ npm install
  ```bash
 npm run dev
 ```
-6. 5. Once the application is started, you can access it in your browers at --> [http://localhost:5173/](http://localhost:5173/)
+5. Once the application is started, you can access it in your browers at --> [http://localhost:5173/](http://localhost:5173/)
 
 ## 🖊️ Author
 
