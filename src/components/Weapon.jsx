@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   deleteWeapon,
+  GET_POST_WEAPON_IMG,
   getWeapon,
   postWeapon,
+  postWeaponImage,
   removeMaterial,
   updateWeapon,
 } from '../redux/action/weapons'
-import ModalWeaponImg from './modals/ModalWeaponImg'
 import ModalMaterial from './modals/ModalMaterial'
+import ModalImg from './modals/ModalImg'
 
 const Weapon = () => {
   const dispatch = useDispatch()
@@ -76,6 +78,44 @@ const Weapon = () => {
 
     console.log('Arma cliccata')
     console.log('Arma selezionata', selectedWeapon)
+  }
+
+  const [formImgWeapon, setFormImgWeapon] = useState(null)
+  const handleUploadImageWeapon = async (id) => {
+    try {
+      console.log('cliccato')
+      if (formImgWeapon) {
+        console.log('entra nell if')
+        const id_element = id ? id.toString() : null
+        console.log('id_element', id_element)
+        if (id_element) {
+          const response = await postWeaponImage(
+            id_element,
+            formImgWeapon,
+            token
+          )
+          if (response !== null) {
+            console.log('Immagine caricata correttamente', response)
+
+            dispatch({
+              type: GET_POST_WEAPON_IMG,
+              payload: response.url,
+            })
+            alert('Immagine caricata correttamente!')
+          } else {
+            console.log('Image upload successful, but no URL returned')
+          }
+        }
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
+  const handleSaveImgWeapon = async (id) => {
+    await handleUploadImageWeapon(id)
+    await dispatch(getWeapon(currentPage, elementsPerPage, orderElements))
+    setShowWeaponImgModal(false)
   }
 
   //DELETE WEAPON
@@ -503,13 +543,11 @@ const Weapon = () => {
                     </div>
                   </div>
                   {showWeaponImgModal && selectedWeapon && (
-                    <ModalWeaponImg
-                      showImgModal={showWeaponImgModal}
+                    <ModalImg
                       setShowImgModal={setShowWeaponImgModal}
-                      weaponId={selectedWeapon}
-                      currentPage={currentPage}
-                      elementsPerPage={elementsPerPage}
-                      orderElements={orderElements}
+                      elementId={selectedWeapon}
+                      handleSave={handleSaveImgWeapon}
+                      setFormImg={setFormImgWeapon}
                     />
                   )}
                   {showMaterialModal && selected && (
