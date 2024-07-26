@@ -12,7 +12,6 @@ import {
 import { deleteDegree, getDegree } from '../redux/action/degrees'
 import Degree from './Degree'
 import ModalDegreeImg from './modals/ModalDegreeImg'
-import ModalConstellationImg from './modals/ModalConstellationImg'
 import ModalImg from './modals/ModalImg'
 
 const Constellation = () => {
