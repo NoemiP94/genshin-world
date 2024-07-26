@@ -23,7 +23,7 @@ You can handle:
 
 This project was developed using  **React v.18.2.0** and **Vite v.5.2.0**
 
-1 Download the backend project [here](https://github.com/NoemiP94/genshin_world) and follow the instructions to install it and run it
+1. Download the backend project [here](https://github.com/NoemiP94/genshin_world) and follow the instructions to install it and run it
 
 2. Download this project from **GitHub** and clone it on your PC
    
