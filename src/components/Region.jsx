@@ -2,16 +2,22 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   deleteRegion,
+  GET_POST_REGION_IMG,
   getRegion,
   postRegion,
+  postRegionImage,
   updateRegion,
 } from '../redux/action/regions'
 import { Menu, MenuButton, MenuItem, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
-import { deletePlace, getPlace } from '../redux/action/places'
+import {
+  deletePlace,
+  GET_POST_PLACE_IMG,
+  getPlace,
+  postImage,
+} from '../redux/action/places'
 import Place from './Place'
-import ModalRegionImg from './modals/ModalRegionImg'
-import ModalPlaceImg from './modals/ModalPlaceImg'
+import ModalImg from './modals/ModalImg'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -154,6 +160,44 @@ const Region = () => {
     setShowRegionImgModal(true)
   }
 
+  const [formImgRegion, setFormImgRegion] = useState(null)
+  const handleUploadImageRegion = async (id) => {
+    try {
+      console.log('cliccato')
+      if (formImgRegion) {
+        console.log('entra nell if')
+        const id_element = id ? id.toString() : null
+        console.log('id_element', id_element)
+        if (id_element) {
+          const response = await postRegionImage(
+            id_element,
+            formImgRegion,
+            token
+          )
+          if (response !== null) {
+            console.log('Immagine caricata correttamente', response)
+
+            dispatch({
+              type: GET_POST_REGION_IMG,
+              payload: response.url,
+            })
+            alert('Immagine caricata correttamente!')
+          } else {
+            console.log('Image upload successful, but no URL returned')
+          }
+        }
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
+  const handleSaveImgRegion = async (id) => {
+    await handleUploadImageRegion(id)
+    await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
+    setShowRegionImgModal(false)
+  }
+
   //IMG MODAL PLACE
   const [showImgModal, setShowImgModal] = useState(false)
   const [selectedPlace, setSelectedPlace] = useState(null)
@@ -165,6 +209,43 @@ const Region = () => {
 
     console.log('Luogo cliccato')
     console.log('Luogo selezionato', selectedPlace)
+  }
+
+  const [formImgPlace, setFormImgPlace] = useState(null)
+  const handleUploadImagePlace = async (id) => {
+    try {
+      console.log('cliccato')
+      if (formImgPlace) {
+        console.log('entra nell if')
+        const id_element = id ? id.toString() : null
+        console.log('id_element', id_element)
+        if (id_element) {
+          const response = await postImage(id_element, formImgPlace, token)
+          if (response !== null) {
+            console.log('Immagine caricata correttamente', response)
+
+            dispatch({
+              type: GET_POST_PLACE_IMG,
+              payload: response.url,
+            })
+            alert('Immagine caricata correttamente!')
+          } else {
+            console.log('Image upload successful, but no URL returned')
+          }
+        }
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
+  const handleSaveImgPlace = async (id) => {
+    await handleUploadImagePlace(id)
+    await dispatch(
+      getPlace(currentPagePlace, elementsPerPagePlace, orderElementsPlace)
+    )
+    await dispatch(getRegion(currentPage, elementsPerPage, orderElements))
+    setShowImgModal(false)
   }
 
   return (
@@ -608,23 +689,19 @@ const Region = () => {
                       </div>
                     </div>
                     {showRegionImgModal && selectedRegion && (
-                      <ModalRegionImg
-                        showImgModal={showRegionImgModal}
+                      <ModalImg
                         setShowImgModal={setShowRegionImgModal}
-                        regionId={selectedRegion}
-                        currentPage={currentPage}
-                        elementsPerPage={elementsPerPage}
-                        orderElements={orderElements}
+                        elementId={selectedRegion}
+                        handleSave={handleSaveImgRegion}
+                        setFormImg={setFormImgRegion}
                       />
                     )}
                     {showImgModal && selectedPlace && (
-                      <ModalPlaceImg
-                        showImgModal={showImgModal}
+                      <ModalImg
                         setShowImgModal={setShowImgModal}
-                        placeId={selectedPlace}
-                        currentPagePlace={currentPagePlace}
-                        elementsPerPagePlace={elementsPerPagePlace}
-                        orderElementsPlace={orderElementsPlace}
+                        elementId={selectedPlace}
+                        handleSave={handleSaveImgPlace}
+                        setFormImg={setFormImgPlace}
                       />
                     )}
                   </li>
