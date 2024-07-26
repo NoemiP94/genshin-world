@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteUser, getAllUsers, postRegister } from '../redux/action'
-import ModalUserImg from './modals/ModalUserImg'
+import {
+  deleteUser,
+  GET_POST_USER_IMG,
+  getAllUsers,
+  postRegister,
+  postUserImage,
+} from '../redux/action'
+import ModalImg from './modals/ModalImg'
 
 const Users = () => {
   const dispatch = useDispatch()
@@ -71,6 +77,42 @@ const Users = () => {
   const showUserModal = (idUser) => {
     setSelectedUser(idUser)
     setShowUserImgModal(true)
+  }
+
+  const [formImgUser, setFormImgUser] = useState(null)
+  const handleUploadImageUser = async (id) => {
+    try {
+      console.log('cliccato')
+      if (formImgUser) {
+        console.log('entra nell if')
+        const id_element = id ? id.toString() : null
+        console.log('id_element', id_element)
+        if (id_element) {
+          const response = await postUserImage(id_element, formImgUser, token)
+          if (response !== null) {
+            console.log('Immagine caricata correttamente', response)
+
+            dispatch({
+              type: GET_POST_USER_IMG,
+              payload: response.url,
+            })
+            alert('Immagine caricata correttamente!')
+          } else {
+            console.log('Image upload successful, but no URL returned')
+          }
+        }
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
+  const handleSaveImgUser = async (id) => {
+    await handleUploadImageUser(id)
+    await dispatch(
+      getAllUsers(token, currentPage, elementsPerPage, orderElements)
+    )
+    setShowUserImgModal(false)
   }
 
   return (
@@ -288,13 +330,11 @@ const Users = () => {
                     </div>
                   </div>
                   {showUserImgModal && selectedUser && (
-                    <ModalUserImg
-                      showImgModal={showUserImgModal}
+                    <ModalImg
                       setShowImgModal={setShowUserImgModal}
-                      userId={selectedUser}
-                      currentPage={currentPage}
-                      elementsPerPage={elementsPerPage}
-                      orderElements={orderElements}
+                      elementId={selectedUser}
+                      handleSave={handleSaveImgUser}
+                      setFormImg={setFormImgUser}
                     />
                   )}
                 </li>
