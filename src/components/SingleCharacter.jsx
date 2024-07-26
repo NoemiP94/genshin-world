@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import {
+  GET_POST_CHARACTER_IMG,
   getCharacter,
   getSingleCharacter,
+  postCharacterImage,
   removeArtifactSet,
   removeMaterial,
   removeWeapon,
 } from '../redux/action/characters'
-import ModalCharacterImg from './modals/ModalCharacterImg'
 import ModalMaterialCharacter from './modals/ModalMaterialCharacter'
 import ModalArtifactSetCharacter from './modals/ModalArtifactSetCharacter'
 import ModalWeaponCharacter from './modals/ModalWeaponCharacter'
@@ -16,6 +17,7 @@ import Talent from './Talent'
 import { deleteTalent, removeMaterialTalent } from '../redux/action/talents'
 import ModalMaterialTalent from './modals/ModalMaterialTalent'
 import ModalTalentImg from './modals/ModalTalentImg'
+import ModalImg from './modals/ModalImg'
 
 const SingleCharacter = () => {
   const dispatch = useDispatch()
@@ -51,6 +53,51 @@ const SingleCharacter = () => {
 
     console.log('Personaggio cliccata')
     console.log('Personaggio selezionato', selectedCharacter)
+  }
+
+  const [formImgCharacter, setFormImgCharacter] = useState(null)
+  const handleUploadImageCharacter = async (id) => {
+    try {
+      console.log('cliccato')
+      if (formImgCharacter) {
+        console.log('entra nell if')
+        const id_element = id ? id.toString() : null
+        console.log('id_element', id_element)
+        if (id_element) {
+          const response = await postCharacterImage(
+            id_element,
+            formImgCharacter,
+            token
+          )
+          if (response !== null) {
+            console.log('Immagine caricata correttamente', response)
+
+            dispatch({
+              type: GET_POST_CHARACTER_IMG,
+              payload: response.url,
+            })
+            alert('Immagine caricata correttamente!')
+          } else {
+            console.log('Image upload successful, but no URL returned')
+          }
+        }
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
+  const handleSaveImgCharacter = async (id) => {
+    await handleUploadImageCharacter(id)
+    await dispatch(
+      getCharacter(
+        currentPageCharacter,
+        elementsPerPageCharacter,
+        orderElementsCharacter
+      )
+    )
+    await dispatch(getSingleCharacter(id))
+    setShowCharacterImgModal(false)
   }
 
   //GET MATERIALS
@@ -709,13 +756,11 @@ const SingleCharacter = () => {
           </button>
         </Link>
         {showCharacterImgModal && selectedCharacter && (
-          <ModalCharacterImg
-            showImgModal={showCharacterImgModal}
+          <ModalImg
             setShowImgModal={setShowCharacterImgModal}
-            characterId={selectedCharacter}
-            currentPageCharacter={currentPageCharacter}
-            elementsPerPageCharacter={elementsPerPageCharacter}
-            orderElementsCharacter={orderElementsCharacter}
+            elementId={selectedCharacter}
+            handleSave={handleSaveImgCharacter}
+            setFormImg={setFormImgCharacter}
           />
         )}
         {showMaterialCharacterModal && selectedCharacterMaterial && (
