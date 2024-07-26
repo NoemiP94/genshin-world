@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllCharacters, getCharacter } from '../redux/action/characters'
+import { getAllCharacters } from '../redux/action/characters'
 import {
   deleteConstellation,
   GET_POST_CONSTELLATION_IMG,
@@ -9,9 +9,13 @@ import {
   postConstellationImage,
   updateConstellation,
 } from '../redux/action/constellations'
-import { deleteDegree, getDegree } from '../redux/action/degrees'
+import {
+  deleteDegree,
+  GET_POST_DEGREE_IMG,
+  getDegree,
+  postDegreeImage,
+} from '../redux/action/degrees'
 import Degree from './Degree'
-import ModalDegreeImg from './modals/ModalDegreeImg'
 import ModalImg from './modals/ModalImg'
 
 const Constellation = () => {
@@ -195,6 +199,51 @@ const Constellation = () => {
   const showDegreeModal = (idDegree) => {
     setSelectedDegree(idDegree)
     setShowDegreeImgModal(true)
+  }
+
+  const [formImgDegree, setFormImgDegree] = useState(null)
+  const handleUploadImageDegree = async (id) => {
+    try {
+      console.log('cliccato')
+      if (formImgDegree) {
+        console.log('entra nell if')
+        const id_element = id ? id.toString() : null
+        console.log('id_element', id_element)
+        if (id_element) {
+          const response = await postDegreeImage(
+            id_element,
+            formImgDegree,
+            token
+          )
+          if (response !== null) {
+            console.log('Immagine caricata correttamente', response)
+
+            dispatch({
+              type: GET_POST_DEGREE_IMG,
+              payload: response.url,
+            })
+            alert('Immagine caricata correttamente!')
+          } else {
+            console.log('Image upload successful, but no URL returned')
+          }
+        }
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
+  const handleSaveImgDegree = async (id) => {
+    await handleUploadImageDegree(id)
+    await dispatch(getDegree(orderDegree))
+    await dispatch(
+      getConstellation(
+        currentPageConstellation,
+        elementsPerPageConstellation,
+        orderElementsConstellation
+      )
+    )
+    setShowDegreeImgModal(false)
   }
 
   //IMG MODAL CONSTELLATION
@@ -447,20 +496,11 @@ const Constellation = () => {
                                 </div>
                               </div>
                               {showDegreeImgModal && selectedDegree && (
-                                <ModalDegreeImg
-                                  showImgModal={showDegreeImgModal}
+                                <ModalImg
                                   setShowImgModal={setShowDegreeImgModal}
-                                  degreeId={selectedDegree}
-                                  currentPageConstellation={
-                                    currentPageConstellation
-                                  }
-                                  elementsPerPageConstellation={
-                                    elementsPerPageConstellation
-                                  }
-                                  orderElementsConstellation={
-                                    orderElementsConstellation
-                                  }
-                                  orderDegree={orderDegree}
+                                  elementId={selectedDegree}
+                                  handleSave={handleSaveImgDegree}
+                                  setFormImg={setFormImgDegree}
                                 />
                               )}
                             </a>
