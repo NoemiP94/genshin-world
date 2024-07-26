@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   deleteEnemy,
+  GET_POST_ENEMY_IMG,
   getEnemy,
   postEnemy,
+  postEnemyImage,
   removeMaterial,
   updateEnemy,
 } from '../redux/action/enemies'
-import ModalEnemyImg from './modals/ModalEnemyImg'
 import ModalMaterialEnemy from './modals/ModalMaterialEnemy'
+import ModalImg from './modals/ModalImg'
 
 const Enemy = () => {
   const dispatch = useDispatch()
@@ -64,6 +66,40 @@ const Enemy = () => {
   const showEnemyModal = (idEnemy) => {
     setSelectedEnemy(idEnemy)
     setShowEnemyImgModal(true)
+  }
+
+  const [formImgEnemy, setFormImgEnemy] = useState(null)
+  const handleUploadImageEnemy = async (id) => {
+    try {
+      console.log('cliccato')
+      if (formImgEnemy) {
+        console.log('entra nell if')
+        const id_element = id ? id.toString() : null
+        console.log('id_element', id_element)
+        if (id_element) {
+          const response = await postEnemyImage(id_element, formImgEnemy, token)
+          if (response !== null) {
+            console.log('Immagine caricata correttamente', response)
+
+            dispatch({
+              type: GET_POST_ENEMY_IMG,
+              payload: response.url,
+            })
+            alert('Immagine caricata correttamente!')
+          } else {
+            console.log('Image upload successful, but no URL returned')
+          }
+        }
+      }
+    } catch (error) {
+      console.log('Error', error)
+    }
+  }
+
+  const handleSaveImgEnemy = async (id) => {
+    await handleUploadImageEnemy(id)
+    await dispatch(getEnemy(currentPage, elementsPerPage, orderElements))
+    setShowEnemyImgModal(false)
   }
 
   //UPDATE ENEMY
@@ -420,13 +456,11 @@ const Enemy = () => {
                     </div>
                   </div>
                   {showEnemyImgModal && selectedEnemy && (
-                    <ModalEnemyImg
-                      showImgModal={showEnemyImgModal}
+                    <ModalImg
+                      setFormImg={setFormImgEnemy}
                       setShowImgModal={setShowEnemyImgModal}
-                      enemyId={selectedEnemy}
-                      currentPage={currentPage}
-                      elementsPerPage={elementsPerPage}
-                      orderElements={orderElements}
+                      elementId={selectedEnemy}
+                      handleSave={handleSaveImgEnemy}
                     />
                   )}
                   {showMaterialEnemyModal && selectedEnemyMaterial && (
