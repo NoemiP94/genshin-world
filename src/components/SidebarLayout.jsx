@@ -17,7 +17,7 @@ const SidebarLayout = () => {
 
   useEffect(() => {
     if (logOut) {
-      navigate('/login')
+      navigate('/')
     }
   }, [logOut, navigate])
 

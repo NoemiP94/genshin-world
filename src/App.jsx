@@ -41,7 +41,7 @@ function App() {
           <Route path="blog/:id" element={<BlogpostDetail />} />
           <Route path="user" element={<Users />} />
         </Route>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
       </Routes>
       <Footer />
     </BrowserRouter>
