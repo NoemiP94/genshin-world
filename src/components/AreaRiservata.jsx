@@ -11,7 +11,7 @@ const AreaRiservata = () => {
         </div>
         <div className="text-white column-11 w-4/5">
           <Outlet />
-          <Home />
+          {/* <Home /> */}
         </div>
       </div>
     </>
